@@ -117,14 +117,48 @@ body::before{
   color:var(--red);
   white-space:nowrap;
   pointer-events:none; user-select:none;
+  animation:ghostSettle .9s cubic-bezier(.16,1,.3,1) both;
 }
 @media(max-width:640px){ .ghost{ font-size:clamp(70px, 20vw, 120px); top:150px; } }
+
+/* hero boot-sequence: one authored entrance, not a scroll-reveal repeat */
+@keyframes ghostSettle{
+  from{ opacity:0; transform:translateX(-50%) scale(1.05); }
+  to{ opacity:1; transform:translateX(-50%) scale(1); }
+}
+@keyframes heroFade{
+  from{ opacity:0; transform:translateY(14px); }
+  to{ opacity:1; transform:none; }
+}
+@keyframes cursorBlink{
+  0%,49%{ opacity:1; }
+  50%,100%{ opacity:0; }
+}
+@keyframes signalSweep{
+  0%{ transform:translateX(-160%); opacity:0; }
+  12%{ opacity:1; }
+  88%{ opacity:1; }
+  100%{ transform:translateX(340%); opacity:0; }
+}
+.signal-sweep{
+  position:absolute; top:0; left:0; width:40%; height:100%;
+  background:linear-gradient(100deg, transparent, rgba(255,255,255,.05) 45%, rgba(255,51,85,.16) 50%, rgba(255,255,255,.05) 55%, transparent);
+  opacity:0; transform:translateX(-160%);
+  pointer-events:none; z-index:2;
+  animation:signalSweep 1.8s cubic-bezier(.4,0,.2,1) 1.1s 1 both;
+}
+.cursor{
+  display:inline-block; width:.05em; height:.8em; margin-left:.06em;
+  background:var(--red); vertical-align:-.04em;
+  animation:cursorBlink 1s step-end infinite .95s;
+}
 
 .hero-inner{ position:relative; z-index:1; max-width:1240px; margin:0 auto; width:100%; }
 
 .hero-top{
   display:flex; justify-content:space-between; align-items:flex-start;
   margin-bottom:56px; flex-wrap:wrap; gap:16px;
+  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .25s both;
 }
 .hero-role{
   display:flex; flex-direction:column; gap:2px;
@@ -150,16 +184,21 @@ h1{
   line-height:.96; letter-spacing:-.035em;
   margin-bottom:22px;
   display:flex; flex-wrap:wrap; align-items:baseline; gap:.18em;
+  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .38s both;
 }
 h1 .lede{
   font-weight:500; font-size:.26em; letter-spacing:.01em;
   color:var(--muted);
 }
-.hero-note{ max-width:42ch; color:var(--muted); font-size:16.5px; padding-bottom:6px; }
+.hero-note{
+  max-width:42ch; color:var(--muted); font-size:16.5px; padding-bottom:6px;
+  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .5s both;
+}
 
 .hero-figure-wrap{
   position:relative; display:flex; justify-content:center;
   align-self:end;
+  animation:heroFade .7s cubic-bezier(.16,1,.3,1) .42s both;
 }
 .hero-figure{
   width:100%; max-width:300px; height:auto; display:block;
@@ -167,7 +206,11 @@ h1 .lede{
 }
 @media(max-width:900px){ .hero-figure-wrap{ max-width:240px; margin:0 auto; } }
 
-.hero-stats{ display:flex; flex-direction:column; border-left:1px solid var(--line); margin-top:70px; }
+.hero-stats{
+  display:flex; flex-direction:column; border-left:1px solid var(--line); margin-top:70px;
+  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .58s both;
+}
+.hero-stats b{ font-variant-numeric:tabular-nums; }
 @media(max-width:900px){ .hero-stats{ margin-top:0; } }
 .hero-stats div{ padding:14px 0 14px 22px; border-top:1px solid var(--line); }
 .hero-stats div:first-child{ border-top:none; }
@@ -397,6 +440,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 <!-- ===== HERO ===== -->
 <section class="hero">
+  <div class="signal-sweep" aria-hidden="true"></div>
   <div class="hero-inner">
     <span class="ghost" aria-hidden="true">PORTFOLIO</span>
 
@@ -410,7 +454,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
     <div class="hero-main">
       <div class="hero-copy">
-        <h1><span class="lede">Hi, I'm</span>Ikhwanuddin</h1>
+        <h1><span class="lede">Hi, I'm</span><span class="name">Ikhwanuddin<span class="cursor" aria-hidden="true"></span></span></h1>
         <p class="hero-note">
           Final-year <strong>Information Technology (Game Technology)</strong> student
           at UTeM. I build systems that connect games, Mixed Reality/VR, and
@@ -445,9 +489,9 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       </div>
 
       <div class="hero-stats">
-        <div><b class="data">03</b><span>Projects shipped</span></div>
-        <div><b class="data">3.62</b><span>CGPA</span></div>
-        <div><b class="data">01</b><span>Award</span></div>
+        <div><b class="data" data-count="3" data-pad="2">03</b><span>Projects shipped</span></div>
+        <div><b class="data" data-count="3.62">3.62</b><span>CGPA</span></div>
+        <div><b class="data" data-count="1" data-pad="2">01</b><span>Award</span></div>
       </div>
     </div>
   </div>
@@ -720,6 +764,28 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 </footer>
 
 <script>
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// hero stat count-up — a small "data" flourish matching the mono/stat identity
+if (!reduceMotion) {
+  document.querySelectorAll('.hero-stats [data-count]').forEach((el, i)=>{
+    const target = parseFloat(el.dataset.count);
+    const decimals = el.dataset.count.includes('.') ? 2 : 0;
+    const pad = el.dataset.pad ? Number(el.dataset.pad) : 0;
+    const duration = 900;
+    const start = performance.now() + 550 + i * 120;
+    function tick(now){
+      const p = Math.min(Math.max((now - start) / duration, 0), 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      let text = (target * eased).toFixed(decimals);
+      if (pad) text = text.padStart(pad, '0');
+      el.textContent = text;
+      if (now < start + duration) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
 // fade sections in as they enter the viewport
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
@@ -727,7 +793,6 @@ const io = new IntersectionObserver((entries)=>{
 document.querySelectorAll('.rise').forEach(el=>io.observe(el));
 
 // project card video preview — play on hover, stop on leave
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (!reduceMotion) {
   document.querySelectorAll('.pcard-video').forEach(v=>{
     const card = v.closest('.pcard');
