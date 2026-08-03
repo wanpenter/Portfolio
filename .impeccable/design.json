@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-03T00:00:00.000Z",
+  "title": "Design System: Ikhwanuddin Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "signal-red": {
+        "role": "primary",
+        "displayName": "Signal Red",
+        "canonical": "#FF3355",
+        "tonalRamp": ["#3D0812", "#5C0C1B", "#8A1229", "#B8183A", "#E01F49", "#FF3355", "#FF6B85", "#FFB0BE"]
+      },
+      "void-black": {
+        "role": "neutral",
+        "displayName": "Void Black",
+        "canonical": "#0B0B10",
+        "tonalRamp": ["#0B0B10", "#131318", "#1B1B21", "#232329", "#2E2E35", "#45454D", "#6E6E77", "#A6A6AE"]
+      },
+      "panel-charcoal": {
+        "role": "neutral",
+        "displayName": "Panel Charcoal",
+        "canonical": "#15161C",
+        "tonalRamp": ["#0B0B10", "#15161C", "#1D1E25", "#26272F", "#33343D", "#4B4C56", "#75767F", "#AEAFB6"]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#24252C",
+        "tonalRamp": ["#0F0F13", "#181920", "#24252C", "#2E2F37", "#3C3D46", "#57585F", "#83848B", "#B7B8BD"]
+      },
+      "off-white-ink": {
+        "role": "neutral",
+        "displayName": "Off-White Ink",
+        "canonical": "#F4F4F6",
+        "tonalRamp": ["#3A3A3D", "#5C5C60", "#84848A", "#A8A8AE", "#C6C6CB", "#DEDEE1", "#EDEDEF", "#F4F4F6"]
+      },
+      "slate-muted": {
+        "role": "neutral",
+        "displayName": "Slate Muted",
+        "canonical": "#8C8D97",
+        "tonalRamp": ["#2A2A2F", "#3F3F46", "#55555E", "#6C6C76", "#8C8D97", "#A6A7AF", "#C2C2C9", "#DFDFE3"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero name/headline (h1) only." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings; scaled up for the Contact section." },
+      "title": { "displayName": "Title", "purpose": "Project card titles and education entry titles." },
+      "body": { "displayName": "Body", "purpose": "Reading copy: about text, project descriptions, notes." },
+      "label": { "displayName": "Label", "purpose": "Monospace metadata: nav, tags, stats, roles, footer." }
+    },
+    "shadows": [
+      { "name": "emblem-glow", "value": "0 24px 60px -22px rgba(255,51,85,.45), inset 0 1px 0 rgba(255,255,255,.05)", "purpose": "Permanent soft red aura under the hero emblem, plus a faint inner glass highlight." },
+      { "name": "card-rest", "value": "0 30px 60px -40px rgba(0,0,0,.7)", "purpose": "Barely-perceptible neutral shadow separating project cards from the void background at rest." },
+      { "name": "card-hover-glow", "value": "0 34px 70px -32px rgba(255,51,85,.28)", "purpose": "Replaces card-rest on hover; shifts ambient light to red alongside a -4px lift and red border." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "0.2s ease", "purpose": "Default transition for color/border-color state changes (nav links, pills)." },
+      { "name": "ease-lift", "value": "0.25s ease", "purpose": "Card hover transform/shadow/border transitions." },
+      { "name": "ease-media", "value": "0.4s ease", "purpose": "Project card media zoom on hover." },
+      { "name": "reveal", "value": "opacity .6s, transform .6s", "purpose": "Scroll-triggered fade-up for each section (IntersectionObserver, threshold 0.12)." },
+      { "name": "ring-spin", "value": "spin 50s linear infinite", "purpose": "Slow continuous rotation of the hero emblem ring." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "760px" },
+      { "name": "lg", "value": "900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "card-project",
+      "description": "Project grid item: media area, status badge, title, role, description, feature pills, award line, and a 'go' affordance.",
+      "html": "<a class=\"ds-pcard\" href=\"#\"><div class=\"ds-pcard-media\"><span class=\"ds-pstatus\">Completed</span></div><div class=\"ds-pcard-body\"><span class=\"ds-pnum\">01</span><h3 class=\"ds-pcard-title\">Project Title</h3><p class=\"ds-prole\">Role · Stack · Language</p><p class=\"ds-pdesc\">One to two sentence description of the project and what it does.</p><div class=\"ds-pfeatures\"><span>Feature one</span><span>Feature two</span></div><span class=\"ds-go\">Lihat detail</span></div></a>",
+      "css": ".ds-pcard { display: flex; flex-direction: column; border: 1px solid #24252C; border-radius: 6px; overflow: hidden; background: #15161C; text-decoration: none; box-shadow: 0 30px 60px -40px rgba(0,0,0,.7); transition: border-color .25s, transform .25s, box-shadow .25s; } .ds-pcard:hover { border-color: #FF3355; transform: translateY(-4px); box-shadow: 0 34px 70px -32px rgba(255,51,85,.28); } .ds-pcard-media { position: relative; aspect-ratio: 4/3; background: linear-gradient(155deg,#1B1C22,#101116); border-bottom: 1px solid #24252C; } .ds-pstatus { position: absolute; top: 10px; left: 10px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid #FF3355; color: #FF3355; background: rgba(11,11,16,.85); } .ds-pcard-body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 10px; } .ds-pnum { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; color: #FF3355; } .ds-pcard-title { font-family: 'Archivo', system-ui, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -.02em; color: #F4F4F6; } .ds-prole { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11.5px; color: #8C8D97; } .ds-pdesc { color: #8C8D97; font-size: 14.5px; } .ds-pfeatures { display: flex; flex-wrap: wrap; gap: 6px; } .ds-pfeatures span { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; color: #F4F4F6; background: rgba(255,255,255,.04); border: 1px solid #24252C; padding: 3px 9px; border-radius: 20px; } .ds-go { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #8C8D97; display: inline-flex; align-items: center; gap: 4px; } .ds-go::after { content: '→'; transition: transform .25s ease; } .ds-pcard:hover .ds-go { color: #FF3355; } .ds-pcard:hover .ds-go::after { transform: translateX(4px); }"
+    },
+    {
+      "name": "Skill Pill",
+      "kind": "chip",
+      "refersTo": "pill-tag",
+      "description": "Rounded metadata chip used for skills/tools lists.",
+      "html": "<span class=\"ds-pill\">C++</span>",
+      "css": ".ds-pill { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12.5px; color: #F4F4F6; border: 1px solid #24252C; padding: 7px 14px; border-radius: 20px; background: #15161C; transition: border-color .2s, color .2s, background .2s; display: inline-block; } .ds-pill:hover { border-color: #FF3355; color: #FF3355; background: rgba(255,51,85,.08); }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "button-nav-link",
+      "description": "Topbar navigation link with animated underline on hover.",
+      "html": "<a class=\"ds-navlink\" href=\"#\">Projek</a>",
+      "css": ".ds-navlink { position: relative; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; text-decoration: none; color: #8C8D97; transition: color .2s; padding-bottom: 3px; display: inline-block; } .ds-navlink::after { content: ''; position: absolute; left: 0; bottom: 0; height: 1px; width: 0; background: #FF3355; transition: width .25s ease; } .ds-navlink:hover { color: #F4F4F6; } .ds-navlink:hover::after { width: 100%; } .ds-navlink:focus-visible { outline: 2px solid #FF3355; outline-offset: 3px; }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "custom",
+      "description": "Small overlay chip marking a project's status, sits on card media.",
+      "html": "<span class=\"ds-badge\">Completed</span>",
+      "css": ".ds-badge { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid #FF3355; color: #FF3355; background: rgba(11,11,16,.85); display: inline-block; }"
+    },
+    {
+      "name": "Contact Link",
+      "kind": "custom",
+      "description": "Icon + text link row used in the contact list (email, phone, GitHub).",
+      "html": "<a class=\"ds-contact-link\" href=\"mailto:you@example.com\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M3 7l9 6 9-6\"/></svg>you@example.com</a>",
+      "css": ".ds-contact-link { display: flex; align-items: center; gap: 12px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 15px; color: #F4F4F6; text-decoration: none; transition: color .2s, transform .2s; } .ds-contact-link:hover { color: #FF3355; transform: translateX(4px); } .ds-contact-link svg { width: 17px; height: 17px; flex-shrink: 0; stroke: #FF3355; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Signal Terminal",
+    "overview": "The site reads as a dark technical console rather than a conventional marketing page: a near-black surface, oversized ghost typography watermarking the hero, and monospace labels that behave like system readouts (STATUS, tag numbers, coordinates-style stat labels). Signal Red is the one live wire in an otherwise restrained, engineered palette — it marks status, hover state, and the numbers that matter, the way a status light or a highlighted diagnostic line would on a terminal screen.\n\nThe system is confident but economical: one accent color, one neutral ramp, three type roles (display, body, mono-label), and a consistent hairline-border vocabulary that does the structural work shadows would do elsewhere. Motion is subdued — scroll-triggered fade-ups, short hover transitions, a slow-spinning emblem ring — never decorative for its own sake, and it fully respects prefers-reduced-motion.",
+    "keyCharacteristics": [
+      "Near-black void background with a single desaturated-neutral panel tone for raised surfaces",
+      "One accent (Signal Red) used sparingly against a five-step neutral scale",
+      "Mixed type system: heavy display sans for headings, humanist sans for reading copy, monospace for all labels/meta/system text",
+      "Structure conveyed by 1px hairlines more than by shadows or fills",
+      "Soft, wide, red-tinted ambient glow (not hard material shadow) on the emblem and on card hover"
+    ],
+    "rules": [
+      { "name": "The One Signal Rule", "body": "Signal Red appears only as accent — text, thin stroke/border, dot, or glow — never as a background fill larger than a status pill. Its rarity is what makes it register as a signal rather than decoration.", "section": "colors" },
+      { "name": "The Hairline Structure Rule", "body": "Structure (topbar, section breaks, card edges, stat dividers, list dividers) is drawn with a single 1px --line color, not with shadows or background blocks. Depth is reserved for the small set of elements in Elevation & Depth.", "section": "colors" },
+      { "name": "The Mono-Means-Metadata Rule", "body": "Monospace type is reserved for labels, meta, and system-style text (tags, roles, stats, nav, footer) — never for body prose or headings. If it's monospace, it's not the main content.", "section": "typography" },
+      { "name": "The Ambient-Not-Material Rule", "body": "Where depth exists, it reads as glow (wide blur, low opacity, often color-tinted) rather than a crisp material shadow. Hairlines carry structure; glow carries the rare moment of emphasis.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep Signal Red to a single accent role — text, thin border/stroke, dot, or glow.",
+      "Do build structure with 1px hairline borders/dividers before reaching for a shadow or background block.",
+      "Do reserve monospace type for labels and metadata, never for headings or body prose.",
+      "Do keep shadows soft, wide, and low-opacity — glow, not material lift.",
+      "Do respect prefers-reduced-motion for every transition, animation, and the scroll-reveal system."
+    ],
+    "donts": [
+      "Don't use Signal Red as a large fill or background color anywhere.",
+      "Don't introduce a second accent color; the system is deliberately single-accent.",
+      "Don't apply the 20px pill radius to structural containers (cards, panels) — it's reserved for tag/chip-like elements only.",
+      "Don't add hard, dark, high-opacity drop shadows; they break the ambient-glow depth language.",
+      "Don't set body copy or headings in the mono font family."
+    ]
+  }
+}
