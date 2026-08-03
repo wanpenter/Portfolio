@@ -1,31 +1,55 @@
-# Portfolio
+# Portfolio — Ikhwanuddin
 
-Portfolio peribadi untuk pelajar Game Technology — memaparkan gameplay programming,
-3D asset, dan prototaip game dalam satu halaman single-page.
+Personal portfolio site for a Game Technology student. Built and maintained from scratch.
 
-## Tech Stack
+**Live:** [ikhwanuddin.online](https://ikhwanuddin.online)
 
-- **Plain HTML/CSS/JS** — tiada framework, tiada build step
-- Semua CSS dan JS ditulis inline dalam `index (1).html` (guna tag `<style>` dan `<script>`)
-- **Google Fonts** (Archivo, IBM Plex Sans, IBM Plex Mono) dimuatkan terus dari CDN
-- Tiada dependency, tiada `package.json`, tiada langkah `npm install` / `build`
+---
 
-## Struktur Fail
+## About
+
+A single-page portfolio designed around a game engine viewport aesthetic — perspective
+grid floor, rotating wireframe object, and a HUD-style scroll readout. The visual language
+borrows from the tools of the trade rather than generic portfolio templates.
+
+Sections: About, Projects, Skills, Journey, Education, Contact.
+
+## Tech stack
+
+- Plain HTML, CSS, and JavaScript — no framework, no build step
+- CSS custom properties for theming (all colours defined in one `:root` block)
+- `IntersectionObserver` for scroll-triggered reveals
+- Google Fonts: Archivo, IBM Plex Sans, IBM Plex Mono
+
+Everything lives in a single `index.html` file — styles and scripts included.
+
+## Structure
 
 ```
-Portfolio/
-├── index (1).html   # Seluruh laman — markup, styling, dan logic dalam satu fail
-├── clip.mp4          # Video/klip dirujuk dalam bahagian showcase
+.
+├── index.html    # entire site: markup, styles, scripts
 └── README.md
 ```
 
-## Deploy (Netlify)
+## Development
 
-Repo ini di-deploy secara auto ke Netlify setiap kali ada push ke branch `main`:
+No dependencies to install. Open `index.html` in a browser to preview locally.
 
-1. Sambungkan repo GitHub ni ke Netlify (New site from Git → pilih repo `Portfolio`)
-2. Build command: kosongkan (tiada build step)
-3. Publish directory: `.` (root repo)
-4. Setiap push ke `main` akan trigger deploy baru secara automatik
+To edit the theme, change the variables at the top of the `<style>` block:
 
-Tiada konfigurasi `netlify.toml` diperlukan buat masa ini kerana laman ini statik sepenuhnya.
+```css
+:root {
+  --bg:   #121620;   /* background */
+  --z:    #4DA3FF;   /* accent — Z axis blue */
+  --x:    #FF4D6D;   /* accent — X axis red */
+}
+```
+
+## Deployment
+
+Hosted on Netlify with a custom domain. Pushes to `main` deploy automatically —
+no build command, publish directory is the repository root.
+
+## License
+
+Code is free to reference. Content, copy, and project descriptions are not.
