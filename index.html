@@ -1,31 +1,32 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ============================================
-     TUKAR BENDA NI DULU (SEO / tab title)
-     ============================================ -->
-<title>Ikhwanuddin — Game Technology Student</title>
-<meta name="description" content="Portfolio pelajar Game Technology. Gameplay programming, 3D asset, dan prototaip game.">
+<title>Ikhwanuddin — Game, XR &amp; Web Developer</title>
+<meta name="description" content="Portfolio of Muhamad Ikhwanuddin — final-year Information Technology (Game Technology) student at UTeM. Gameplay programming, Mixed Reality/VR, and full-stack web development.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================
-   1. WARNA & FONT  — tukar sini kalau nak tema lain
+   1. COLOR & TYPE
    ============================================ */
 :root{
-  --bg:      #121620;   /* biru-kelabu gelap (bukan hitam pekat) */
-  --panel:   #1A1F2C;
-  --line:    #2A3243;
-  --ink:     #EDEFF5;
-  --muted:   #7E879C;
-  --z:       #4DA3FF;   /* biru — warna paksi Z dalam engine */
-  --x:       #FF4D6D;   /* merah — warna paksi X */
+  --void:    #0B0B10;
+  --panel:   #15161C;
+  --panel-2: #1B1C22;
+  --line:    #24252C;
+  --ink:     #F4F4F6;
+  --muted:   #8C8D97;
+
+  --red:      #FF3355;
+  --red-deep: #C4123A;
+  --red-field:#B4102F;
+  --on-red-muted: #FFC7CE;
 
   --display: 'Archivo', system-ui, sans-serif;
   --body:    'IBM Plex Sans', system-ui, sans-serif;
@@ -35,11 +36,9 @@
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
-
 html{ scroll-behavior:smooth; }
-
 body{
-  background:var(--bg);
+  background:var(--void);
   color:var(--ink);
   font-family:var(--body);
   font-size:16px;
@@ -47,21 +46,27 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
-
 a{ color:inherit; }
+:focus-visible{ outline:2px solid var(--red); outline-offset:3px; }
 
-:focus-visible{
-  outline:2px solid var(--z);
-  outline-offset:3px;
+/* subtle grain over the whole page */
+body::before{
+  content:'';
+  position:fixed; inset:0; z-index:2; pointer-events:none;
+  opacity:.035; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
-/* label kecik gaya mono — dipakai banyak tempat */
-.tag{
-  font-family:var(--mono);
+.caption{
+  font-family:var(--body);
   font-size:11px;
+  font-weight:500;
   letter-spacing:.14em;
   text-transform:uppercase;
   color:var(--muted);
+}
+.data{
+  font-family:var(--mono);
 }
 
 /* ============================================
@@ -71,327 +76,338 @@ a{ color:inherit; }
   position:fixed; top:0; left:0; right:0; z-index:50;
   display:flex; align-items:center; gap:20px;
   padding:14px var(--pad);
-  background:rgba(18,22,32,.82);
+  background:rgba(11,11,16,.82);
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);
 }
-.topbar .mark{
-  font-family:var(--display); font-weight:800;
-  letter-spacing:-.02em; font-size:15px;
-}
-.status{
-  display:flex; align-items:center; gap:7px;
-  font-family:var(--mono); font-size:11px; color:var(--muted);
-}
-.status .dot{
-  width:7px; height:7px; border-radius:50%;
-  background:var(--x);
-  box-shadow:0 0 0 0 rgba(255,77,109,.6);
-  animation:ping 2.4s ease-out infinite;
-}
-@keyframes ping{
-  0%   { box-shadow:0 0 0 0 rgba(255,77,109,.55); }
-  70%  { box-shadow:0 0 0 8px rgba(255,77,109,0); }
-  100% { box-shadow:0 0 0 0 rgba(255,77,109,0); }
-}
-.navlinks{ margin-left:auto; display:flex; gap:16px; }
+.topbar .mark{ font-family:var(--display); font-weight:800; letter-spacing:-.02em; font-size:15px; }
+.navlinks{ margin-left:auto; display:flex; gap:26px; }
 .navlinks a{
-  font-family:var(--mono); font-size:12px;
+  position:relative;
+  font-family:var(--body); font-size:12.5px; font-weight:500; letter-spacing:.04em;
   text-decoration:none; color:var(--muted);
-  transition:color .2s;
+  transition:color .2s; padding-bottom:3px;
+}
+.navlinks a::after{
+  content:''; position:absolute; left:0; bottom:0; height:1px; width:100%;
+  background:var(--red); transform:scaleX(0); transform-origin:left;
+  transition:transform .25s ease;
 }
 .navlinks a:hover{ color:var(--ink); }
+.navlinks a:hover::after{ transform:scaleX(1); }
 @media(max-width:900px){ .navlinks{ display:none; } }
 
 /* ============================================
-   3. HERO — viewport dengan grid lantai
+   3. HERO
    ============================================ */
 .hero{
   position:relative;
   min-height:100svh;
-  padding:120px var(--pad) 0;
+  padding:130px var(--pad) 70px;
   display:flex; flex-direction:column; justify-content:center;
   overflow:hidden;
 }
 
-/* grid lantai yang menjunam ke ufuk */
-.floor{
-  position:absolute; left:-25%; right:-25%; bottom:0; height:46vh;
-  background-image:
-    linear-gradient(to right,  var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size:64px 64px;
-  transform:perspective(340px) rotateX(66deg);
-  transform-origin:bottom center;
-  opacity:.5;
-  -webkit-mask-image:linear-gradient(to top, #000 5%, transparent 85%);
-          mask-image:linear-gradient(to top, #000 5%, transparent 85%);
-  pointer-events:none;
+.ghost{
+  position:absolute; top:128px; left:50%; transform:translateX(-50%);
+  z-index:-1;
+  font-family:var(--display); font-weight:900;
+  font-size:clamp(80px, 11vw, 155px);
+  line-height:1; letter-spacing:-.045em;
+  color:var(--red);
+  white-space:nowrap;
+  pointer-events:none; user-select:none;
+  animation:ghostSettle .9s cubic-bezier(.16,1,.3,1) both;
+}
+@media(max-width:640px){ .ghost{ font-size:clamp(70px, 20vw, 120px); top:150px; } }
+
+/* hero boot-sequence: one authored entrance, not a scroll-reveal repeat */
+@keyframes ghostSettle{
+  from{ opacity:0; transform:translateX(-50%) scale(1.05); }
+  to{ opacity:1; transform:translateX(-50%) scale(1); }
+}
+@keyframes heroFade{
+  from{ opacity:0; transform:translateY(14px); }
+  to{ opacity:1; transform:none; }
+}
+@keyframes cursorBlink{
+  0%,49%{ opacity:1; }
+  50%,100%{ opacity:0; }
+}
+@keyframes signalSweep{
+  0%{ transform:translateX(-160%); opacity:0; }
+  12%{ opacity:1; }
+  88%{ opacity:1; }
+  100%{ transform:translateX(340%); opacity:0; }
+}
+.signal-sweep{
+  position:absolute; top:0; left:0; width:40%; height:100%;
+  background:linear-gradient(100deg, transparent, rgba(255,255,255,.05) 45%, rgba(255,51,85,.16) 50%, rgba(255,255,255,.05) 55%, transparent);
+  opacity:0; transform:translateX(-160%);
+  pointer-events:none; z-index:2;
+  animation:signalSweep 1.8s cubic-bezier(.4,0,.2,1) 1.1s 1 both;
+}
+.cursor{
+  display:inline-block; width:.05em; height:.8em; margin-left:.06em;
+  background:var(--red); vertical-align:-.04em;
+  animation:cursorBlink 1s step-end infinite .95s;
 }
 
-.hero-grid{
-  position:relative; z-index:2;
-  display:grid; grid-template-columns:1.35fr .65fr;
-  gap:40px; align-items:center;
-  max-width:1200px; width:100%; margin:0 auto;
-}
-@media(max-width:840px){
-  .hero-grid{ grid-template-columns:1fr; gap:24px; }
-}
+.hero-inner{ position:relative; z-index:1; max-width:1240px; margin:0 auto; width:100%; }
 
-.eyebrow{
-  display:inline-block;
-  border:1px solid var(--line);
-  border-radius:3px;
-  padding:5px 10px;
-  margin-bottom:24px;
+.hero-top{
+  display:flex; justify-content:space-between; align-items:flex-start;
+  margin-bottom:56px; flex-wrap:wrap; gap:16px;
+  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .25s both;
 }
+.hero-role{
+  display:flex; flex-direction:column; gap:2px;
+  font-family:var(--body); font-size:11.5px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--red);
+}
+.hero-status{
+  display:flex; align-items:center; gap:7px;
+  color:var(--muted);
+}
+.hero-status .dot{ width:6px; height:6px; border-radius:50%; background:var(--red); box-shadow:0 0 0 3px rgba(255,51,85,.18); }
+
+.hero-main{
+  position:relative;
+  display:grid; grid-template-columns:1.15fr .8fr .45fr;
+  gap:32px; align-items:end;
+}
+@media(max-width:900px){ .hero-main{ grid-template-columns:1fr; gap:36px; } }
 
 h1{
-  font-family:var(--display);
-  font-weight:800;
-  font-size:clamp(44px, 8.5vw, 108px);
-  line-height:.94;
-  letter-spacing:-.035em;
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(44px, 7.4vw, 92px);
+  line-height:.96; letter-spacing:-.035em;
   margin-bottom:22px;
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:.18em;
+  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .38s both;
 }
-h1 .thin{
-  display:block;
-  font-weight:400;
-  font-size:clamp(18px, 2.6vw, 30px);
-  letter-spacing:-.01em;
+h1 .lede{
+  font-weight:500; font-size:.26em; letter-spacing:.01em;
   color:var(--muted);
-  margin-top:14px;
-  line-height:1.3;
 }
-h1 .thin b{ color:var(--z); font-weight:600; }
-
 .hero-note{
-  max-width:46ch; color:var(--muted); font-size:17px;
+  max-width:42ch; color:var(--muted); font-size:16.5px; padding-bottom:6px;
+  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .5s both;
 }
 
-/* objek wireframe — signature page ni */
-.wire{ width:100%; max-width:300px; justify-self:center; }
-.wire ellipse, .wire circle{ fill:none; stroke:var(--z); stroke-width:1; }
-.wire .spin{ transform-origin:150px 150px; animation:spin 26s linear infinite; }
-.wire .vtx{ fill:var(--x); stroke:none; }
-@keyframes spin{ to{ transform:rotate(360deg); } }
-@media(max-width:840px){ .wire{ max-width:190px; opacity:.7; } }
+.hero-figure-wrap{
+  position:relative; display:flex; justify-content:center;
+  align-self:end;
+  animation:heroFade .7s cubic-bezier(.16,1,.3,1) .42s both;
+}
+.hero-figure{
+  width:100%; max-width:300px; height:auto; display:block;
+  filter:drop-shadow(0 30px 60px rgba(0,0,0,.55));
+}
+@media(max-width:900px){ .hero-figure-wrap{ max-width:240px; margin:0 auto; } }
 
-/* HUD stats bawah hero — macam overlay debug dalam engine */
-.hud{
-  position:relative; z-index:2;
-  max-width:1200px; width:100%; margin:56px auto 40px;
-  display:grid; grid-template-columns:repeat(4, 1fr);
-  border:1px solid var(--line);
-  border-radius:4px;
-  background:rgba(26,31,44,.6);
+.hero-stats{
+  display:flex; flex-direction:column; border-left:1px solid var(--line); margin-top:70px;
+  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .58s both;
 }
-.hud div{ padding:14px 18px; border-right:1px solid var(--line); }
-.hud div:last-child{ border-right:none; }
-.hud b{
-  display:block; font-family:var(--mono); font-weight:500;
-  font-size:14px; color:var(--ink); margin-top:5px;
-}
-@media(max-width:700px){
-  .hud{ grid-template-columns:repeat(2,1fr); }
-  .hud div:nth-child(2){ border-right:none; }
-  .hud div:nth-child(1),.hud div:nth-child(2){ border-bottom:1px solid var(--line); }
+.hero-stats b{ font-variant-numeric:tabular-nums; }
+@media(max-width:900px){ .hero-stats{ margin-top:0; } }
+.hero-stats div{ padding:14px 0 14px 22px; border-top:1px solid var(--line); }
+.hero-stats div:first-child{ border-top:none; }
+.hero-stats b{ font-family:var(--display); font-weight:800; font-size:30px; color:var(--red); display:block; }
+.hero-stats span{ font-family:var(--body); font-size:11px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+@media(max-width:900px){
+  .hero-stats{ flex-direction:row; border-left:none; border-top:1px solid var(--line); flex-wrap:wrap; }
+  .hero-stats div{ flex:1 1 33%; padding:14px 16px; border-top:none; border-right:1px solid var(--line); }
+  .hero-stats div:last-child{ border-right:none; }
 }
 
 /* ============================================
-   4. SEKSYEN AM
+   4. GENERAL SECTIONS
    ============================================ */
-.sec{
-  max-width:1200px; margin:0 auto;
-  padding:100px var(--pad);
-  border-top:1px solid var(--line);
-}
-.sec-head{
-  display:flex; align-items:baseline; gap:14px; margin-bottom:44px;
-}
-.sec-head h2{
-  font-family:var(--display); font-weight:800;
-  font-size:clamp(26px,4vw,40px); letter-spacing:-.03em;
-}
+.sec{ max-width:1240px; margin:0 auto; padding:104px var(--pad); border-top:1px solid var(--line); }
+.sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:48px; }
+.sec-head .idx{ font-family:var(--mono); font-size:13px; color:var(--red); }
+.sec-head h2{ font-family:var(--display); font-weight:800; font-size:clamp(30px,4.4vw,46px); letter-spacing:-.03em; }
 
-.about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:48px; }
-.about-grid p{ color:var(--muted); margin-bottom:16px; font-size:17px; }
+.about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:52px; }
+.about-grid p{ color:var(--muted); margin-bottom:16px; font-size:17px; max-width:60ch; }
 .about-grid p strong{ color:var(--ink); font-weight:500; }
 @media(max-width:760px){ .about-grid{ grid-template-columns:1fr; gap:24px; } }
 
 /* ============================================
-   5. KAD PROJEK
+   5. PROJECT CARDS
    ============================================ */
-.projects{ display:grid; gap:18px; }
-.card{
-  display:grid; grid-template-columns:176px 1fr auto;
-  gap:26px; align-items:center;
-  padding:22px;
-  border:1px solid var(--line);
-  border-radius:5px;
-  background:var(--panel);
-  text-decoration:none;
-  transition:border-color .2s, transform .2s;
-}
-.card:hover{ border-color:var(--z); transform:translateY(-2px); }
+.pgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+@media(max-width:900px){ .pgrid{ grid-template-columns:1fr; } }
 
-.card-media{
-  position:relative;
-  width:176px; height:106px;
-  border-radius:4px;
-  overflow:hidden;
-  background:linear-gradient(155deg, #1E2433, #161B27);
-  border:1px solid var(--line);
+.pcard{
+  display:flex; flex-direction:column;
+  border:1px solid var(--line); border-radius:8px; overflow:hidden;
+  background:var(--panel); text-decoration:none;
+  box-shadow:0 30px 60px -40px rgba(0,0,0,.7);
+  transition:border-color .25s, transform .25s, box-shadow .25s;
 }
-.card-video{ width:100%; height:100%; object-fit:cover; display:block; }
-.card-media-ph{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
-.card-media-ph span{ font-family:var(--mono); font-size:11px; color:var(--muted); opacity:.6; letter-spacing:.06em; }
-.card-status{
-  position:absolute; top:8px; left:8px; z-index:1;
-  font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase;
-  padding:3px 7px; border-radius:2px;
-  background:rgba(18,22,32,.85);
-  border:1px solid var(--z);
-  color:var(--z);
-  backdrop-filter:blur(4px);
-}
-.card-status.dev{ border-color:var(--x); color:var(--x); }
-
-.card .num{ font-family:var(--mono); font-size:12px; color:var(--z); }
-.card h3{
-  font-family:var(--display); font-weight:600;
-  font-size:21px; letter-spacing:-.02em; margin:6px 0 8px;
-}
-.card p{ color:var(--muted); font-size:15px; max-width:60ch; }
-.meta{ display:flex; flex-wrap:wrap; gap:16px; margin-top:16px; }
-.meta span{ font-family:var(--mono); font-size:11px; color:var(--muted); }
-.meta span i{ color:var(--ink); font-style:normal; }
-.card .arrow{ font-family:var(--mono); color:var(--muted); font-size:18px; }
-@media(max-width:760px){
-  .card{ grid-template-columns:1fr; gap:14px; }
-  .card-media{ width:100%; height:180px; }
-  .card .arrow{ display:none; }
+.pcard:hover{
+  border-color:var(--red); transform:translateY(-4px);
+  box-shadow:0 34px 70px -32px rgba(255,51,85,.3);
 }
 
-/* ============================================
-   6. SKIL
-   ============================================ */
-.skills{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }
-.skills h4{
-  font-family:var(--mono); font-size:11px; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--z);
-  padding-bottom:10px; margin-bottom:14px;
+.pcard-media{
+  position:relative; aspect-ratio:4/3; overflow:hidden;
+  background:linear-gradient(155deg,#1B1C22,#101116);
+  display:flex; align-items:center; justify-content:center;
   border-bottom:1px solid var(--line);
 }
-.skills li{ list-style:none; padding:5px 0; color:var(--muted); font-size:15px; }
-@media(max-width:760px){ .skills{ grid-template-columns:1fr; gap:28px; } }
+.pcard-motif{ position:absolute; inset:0; width:100%; height:100%; transition:transform .4s ease; }
+.pcard:hover .pcard-motif{ transform:scale(1.05); }
+.pcard-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.pstatus{
+  position:absolute; top:12px; left:12px;
+  font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase;
+  padding:3px 8px; border-radius:2px;
+  border:1px solid var(--red); color:var(--red);
+  background:rgba(11,11,16,.85);
+}
+
+.pcard-body{ padding:22px 22px 26px; display:flex; flex-direction:column; gap:10px; flex:1; }
+.pnum{ font-family:var(--mono); font-size:11px; color:var(--red); }
+.pcard h3{ font-family:var(--display); font-weight:700; font-size:22px; letter-spacing:-.02em; }
+.prole{ font-family:var(--mono); font-size:11.5px; color:var(--muted); }
+.pdesc{ color:var(--muted); font-size:14.5px; }
+.pfeatures{ display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
+.pfeatures span{
+  font-family:var(--mono); font-size:10px; letter-spacing:.03em; color:var(--ink);
+  background:rgba(255,255,255,.04); border:1px solid var(--line);
+  padding:3px 9px; border-radius:20px;
+}
+.award-line{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11px; color:var(--red); }
+.award-line svg{ width:13px; height:13px; flex-shrink:0; stroke:var(--red); fill:none; }
+.pcard .go{
+  margin-top:auto; padding-top:6px;
+  font-family:var(--body); font-size:12.5px; font-weight:500; color:var(--muted);
+  display:inline-flex; align-items:center; gap:4px;
+}
+.pcard .go::after{ content:'→'; display:inline-block; transition:transform .25s ease; }
+.pcard:hover .go{ color:var(--red); }
+.pcard:hover .go::after{ transform:translateX(4px); }
 
 /* ============================================
-   7. PERJALANAN — gaya "changelog"
+   6. SKILLS — pill layout
    ============================================ */
-.log{ position:relative; max-width:760px; }
-.log-entry{ display:grid; grid-template-columns:20px 1fr; gap:20px; padding-bottom:34px; }
-.log-entry:last-child{ padding-bottom:0; }
-.log-rail{ position:relative; display:flex; justify-content:center; }
-.log-rail::before{
-  content:''; position:absolute; top:0; bottom:-34px; left:50%;
-  width:1px; background:var(--line); transform:translateX(-50%);
+.skillset{ display:flex; flex-direction:column; gap:36px; }
+.skill-group{ display:flex; gap:24px; align-items:baseline; flex-wrap:wrap; }
+.skill-group h4{
+  font-family:var(--mono); font-size:11px; color:var(--red);
+  flex:0 0 180px;
 }
-.log-entry:last-child .log-rail::before{ display:none; }
-.log-dot{
-  position:relative; z-index:1; margin-top:5px;
-  width:9px; height:9px; border-radius:2px;
-  background:var(--z); box-shadow:0 0 0 4px var(--bg);
+.pills{ display:flex; flex-wrap:wrap; gap:10px; flex:1; }
+.pills span{
+  font-family:var(--mono); font-size:12.5px; color:var(--ink);
+  border:1px solid var(--line); padding:7px 14px; border-radius:20px;
+  background:var(--panel);
+  transition:border-color .2s, color .2s, background .2s;
 }
-.log-entry.award .log-dot{ background:var(--x); }
-.log-date{ font-family:var(--mono); font-size:11px; color:var(--muted); margin-right:10px; }
-.log-tag{
-  display:inline-block; font-family:var(--mono); font-size:10px;
-  letter-spacing:.08em; text-transform:uppercase;
-  padding:2px 7px; border-radius:2px;
-  border:1px solid var(--z); color:var(--z);
-}
-.log-entry.award .log-tag{ border-color:var(--x); color:var(--x); }
-.log-body h3{
-  font-family:var(--display); font-weight:600; font-size:18px;
-  letter-spacing:-.01em; margin:8px 0 6px;
-}
-.log-body p{ color:var(--muted); font-size:15px; max-width:60ch; }
+.pills span:hover{ border-color:var(--red); color:var(--red); background:rgba(255,51,85,.08); }
+@media(max-width:700px){ .skill-group{ flex-direction:column; gap:12px; } .skill-group h4{ flex-basis:auto; } }
 
 /* ============================================
-   8. PENDIDIKAN — gaya "level track"
+   7. EDUCATION — list
    ============================================ */
-.edu-track{ display:flex; flex-wrap:wrap; gap:0; }
-.edu-node{
-  flex:1 1 220px;
-  padding:22px 24px 0 0;
-  border-top:3px solid var(--z);
+.edu-list{ display:flex; flex-direction:column; }
+.edu-item{
+  display:flex; justify-content:space-between; align-items:flex-start; gap:24px;
+  padding:26px 0; border-top:1px solid var(--line); flex-wrap:wrap;
 }
-.edu-node.current{ border-top-color:var(--x); }
-.edu-level{
-  display:block; font-family:var(--mono); font-size:11px;
-  letter-spacing:.1em; color:var(--z); margin-bottom:10px;
-}
-.edu-node.current .edu-level{ color:var(--x); }
-.edu-level em{ font-style:normal; color:var(--muted); }
-.edu-node h3{
-  font-family:var(--display); font-weight:600; font-size:19px;
-  letter-spacing:-.01em; margin-bottom:4px;
-}
-.edu-sub{ font-family:var(--mono); font-size:12px; color:var(--muted); margin-bottom:10px; }
-.edu-detail{ color:var(--muted); font-size:14.5px; max-width:34ch; }
-@media(max-width:760px){ .edu-node{ flex:1 1 100%; padding-right:0; } }
+.edu-list .edu-item:first-child{ border-top:none; padding-top:0; }
+.edu-item h3{ font-family:var(--display); font-weight:700; font-size:20px; letter-spacing:-.01em; margin-bottom:4px; }
+.edu-item p{ color:var(--muted); font-size:14.5px; }
+.edu-result{ font-family:var(--mono); font-size:13px; color:var(--red); white-space:nowrap; }
 
 /* ============================================
-   9. HUBUNGI
+   8. CONTACT — full red field
    ============================================ */
+.contact{
+  background:var(--red-field);
+  border-top:1px solid rgba(0,0,0,.25);
+  position:relative;
+  overflow:hidden;
+}
+.sec.contact{ max-width:none; margin:0; padding:104px 0; }
+.contact::before{
+  content:'';
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(120% 90% at 100% 0%, rgba(0,0,0,.28), transparent 60%);
+}
+.contact-inner{ position:relative; z-index:1; max-width:1240px; margin:0 auto; padding:0 var(--pad); }
+.contact-grid{ display:grid; grid-template-columns:1fr .9fr; gap:56px; align-items:center; }
+@media(max-width:860px){ .contact-grid{ grid-template-columns:1fr; gap:48px; } }
+
+.contact .sec-head{ margin-bottom:20px; }
+.contact .idx{ font-family:var(--mono); font-size:12px; color:rgba(255,255,255,.6); }
 .contact h2{
-  font-family:var(--display); font-weight:800;
-  font-size:clamp(32px,6vw,64px); letter-spacing:-.035em;
-  line-height:1.05; margin:18px 0 28px;
+  font-family:var(--display); font-weight:800; color:#fff;
+  font-size:clamp(34px,5.6vw,60px); letter-spacing:-.03em;
+  line-height:1.03; margin:0 0 20px;
 }
-.contact .mail{
-  display:inline-block;
-  font-family:var(--mono); font-size:clamp(15px,2.6vw,22px);
-  color:var(--z); text-decoration:none;
-  border-bottom:1px solid var(--line); padding-bottom:4px;
-  transition:border-color .2s;
+.contact-note{ color:rgba(255,255,255,.78); font-size:16px; max-width:42ch; }
+.contact-list{ display:flex; flex-direction:column; gap:16px; margin-top:24px; }
+.contact-list a{
+  display:flex; align-items:center; gap:12px;
+  font-family:var(--mono); font-size:15px; color:#fff;
+  text-decoration:none; transition:color .2s, transform .2s;
 }
-.contact .mail:hover{ border-color:var(--z); }
-.socials{ display:flex; flex-wrap:wrap; gap:24px; margin-top:34px; }
-.socials a{
-  font-family:var(--mono); font-size:13px; color:var(--muted);
-  text-decoration:none; transition:color .2s;
+.contact-list a:hover{ transform:translateX(4px); }
+.contact-list svg{ width:17px; height:17px; flex-shrink:0; stroke:#fff; transition:stroke .2s; }
+
+/* device mockup — CSS/SVG only, not a real photo */
+.device{ display:flex; justify-content:center; }
+.device-frame{
+  width:min(420px, 100%);
+  background:#0B0B10;
+  border-radius:10px 10px 4px 4px;
+  padding:10px 10px 0;
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.55);
 }
-.socials a:hover{ color:var(--ink); }
+.device-dots{ display:flex; gap:5px; padding:0 4px 8px; }
+.device-dots span{ width:6px; height:6px; border-radius:50%; background:var(--line); }
+.device-screen{
+  aspect-ratio:16/10.5;
+  background:var(--void);
+  border-radius:3px 3px 0 0;
+  overflow:hidden;
+  position:relative;
+  padding:14px 16px;
+  display:flex; flex-direction:column; gap:8px;
+}
+.device-screen .mini-ghost{
+  position:absolute; top:-6px; left:8px;
+  font-family:var(--display); font-weight:900; font-size:46px; letter-spacing:-.04em;
+  color:var(--red); opacity:.9;
+}
+.device-screen .mini-line{ height:6px; border-radius:2px; background:var(--line); }
+.device-screen .mini-line.w60{ width:60%; }
+.device-screen .mini-line.w40{ width:40%; }
+.device-screen .mini-cta{
+  margin-top:auto; width:34%; height:16px; border-radius:20px; background:var(--red);
+}
+.device-base{
+  height:12px;
+  background:linear-gradient(#1B1C22,#0B0B10);
+  clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);
+}
 
 footer{
-  padding:26px var(--pad);
-  border-top:1px solid var(--line);
+  position:relative; z-index:1;
+  padding:26px var(--pad); border-top:1px solid rgba(0,0,0,.2);
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
 }
+footer .caption{ color:rgba(255,255,255,.6); }
 
-/* ============================================
-   10. HUD readout melekat kat bawah kiri
-   ============================================ */
-.readout{
-  position:fixed; left:16px; bottom:16px; z-index:40;
-  font-family:var(--mono); font-size:10.5px; color:var(--muted);
-  background:rgba(18,22,32,.8);
-  border:1px solid var(--line); border-radius:3px;
-  padding:7px 11px;
-  backdrop-filter:blur(6px);
-  pointer-events:none;
-}
-.readout em{ color:var(--z); font-style:normal; }
-@media(max-width:640px){ .readout{ display:none; } }
-
-/* muncul bila scroll */
-.rise{ opacity:0; transform:translateY(16px); transition:opacity .6s, transform .6s; }
+/* fade up into view on scroll */
+.rise{ opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
 .rise.on{ opacity:1; transform:none; }
 
-/* hormat setting "reduce motion" pengguna */
 @media(prefers-reduced-motion:reduce){
   *{ animation:none !important; transition:none !important; }
   .rise{ opacity:1; transform:none; }
@@ -401,323 +417,385 @@ footer{
 </head>
 
 <body>
+<!--
+THESIS: A dev portfolio proves the mechanism, not the mood — the giant red wordmark and a faceted (not fake-photo) figure carry the same "engineered signal" the person builds with; content stays real, imagery stays honest about being a placeholder.
+OWN-WORLD: Committed red field (solid, not gradient) against void-black; Archivo 800/900 display, IBM Plex Sans body, IBM Plex Mono reserved for data (stats, stack, dates); hairline structure; one full-bleed red section as the page's color crescendo.
+STORY: A visitor lands, reads "Ikhwanuddin" and the two-discipline byline in one glance, sees 3 real projects with real outcomes, then reaches contact info inside a red field that closes the page with intent.
+FIRST VIEWPORT: Oversized solid-red "PORTFOLIO" watermark spans the width behind a left-aligned name block; a low-poly silhouette placeholder stands bottom-aligned right-of-center in front of it; a vertical stat strip (03 / 3.62 / 01) closes the row.
+FORM: Pinned by the user's own reference image (inspo website.jpg) — user- and brief-pinned, so the direction roll was skipped per policy.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md.
+-->
 
 <!-- ===== TOPBAR ===== -->
 <header class="topbar">
   <span class="mark">IKHWANUDDIN</span>
-  <span class="status"><span class="dot"></span>TERBUKA UNTUK INTERNSHIP</span>
   <nav class="navlinks">
-    <a href="#tentang">Tentang</a>
-    <a href="#projek">Projek</a>
-    <a href="#skil">Skil</a>
-    <a href="#perjalanan">Perjalanan</a>
-    <a href="#pendidikan">Pendidikan</a>
-    <a href="#hubungi">Hubungi</a>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
   </nav>
 </header>
 
 <!-- ===== HERO ===== -->
 <section class="hero">
-  <div class="floor"></div>
+  <div class="signal-sweep" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <span class="ghost" aria-hidden="true">PORTFOLIO</span>
 
-  <div class="hero-grid">
-    <div>
-      <!-- TUKAR: letak bandar kau -->
-      <span class="eyebrow tag">Malaysia · Sem 5</span>
-      <h1>
-        Ikhwan<br>uddin
-        <span class="thin">Pelajar <b>Game Technology</b> — gameplay programming &amp; prototaip.</span>
-      </h1>
-      <p class="hero-note">
-        Aku bina sistem yang buat game rasa sedap dimain: pergerakan, kamera, dan
-        gelung gameplay. Sekarang cari tempat internship untuk sesi hadapan.
-      </p>
+    <div class="hero-top">
+      <div class="hero-role">
+        <span>Game &amp; XR Developer</span>
+        <span>Web Developer</span>
+      </div>
+      <span class="hero-status caption"><span class="dot"></span>Personal showcase</span>
     </div>
 
-    <!-- objek wireframe berpusing -->
-    <svg class="wire" viewBox="0 0 300 300" aria-hidden="true">
-      <g class="spin">
-        <circle cx="150" cy="150" r="96"/>
-        <ellipse cx="150" cy="150" rx="96" ry="34"/>
-        <ellipse cx="150" cy="150" rx="96" ry="66"/>
-        <ellipse cx="150" cy="150" rx="34" ry="96"/>
-        <ellipse cx="150" cy="150" rx="66" ry="96"/>
-        <circle class="vtx" cx="150" cy="54"  r="3.5"/>
-        <circle class="vtx" cx="150" cy="246" r="3.5"/>
-        <circle class="vtx" cx="54"  cy="150" r="3.5"/>
-        <circle class="vtx" cx="246" cy="150" r="3.5"/>
-      </g>
-    </svg>
-  </div>
+    <div class="hero-main">
+      <div class="hero-copy">
+        <h1><span class="lede">Hi, I'm</span><span class="name">Ikhwanuddin<span class="cursor" aria-hidden="true"></span></span></h1>
+        <p class="hero-note">
+          Final-year <strong>Information Technology (Game Technology)</strong> student
+          at UTeM. I build systems that connect games, Mixed Reality/VR, and
+          full-stack web apps.
+        </p>
+      </div>
 
-  <div class="hud">
-    <div><span class="tag">Semester</span><b>5 / 8</b></div>
-    <div><span class="tag">Projek siap</span><b>06</b></div>
-    <div><span class="tag">Engine</span><b>Unity · Unreal</b></div>
-    <div><span class="tag">Status</span><b>Cari internship</b></div>
+      <!-- No real profile photo yet — this low-poly figure is a deliberate placeholder,
+           not an attempt to fake a photo. Swap in a real portrait once one exists. -->
+      <div class="hero-figure-wrap" aria-hidden="true">
+        <svg class="hero-figure" viewBox="0 0 240 380" fill="none">
+          <defs>
+            <linearGradient id="faceGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#1E1F27"/>
+              <stop offset="1" stop-color="#101116"/>
+            </linearGradient>
+          </defs>
+          <!-- shoulders -->
+          <polygon points="20,380 -10,240 95,150 95,380" fill="var(--panel-2)"/>
+          <polygon points="220,380 250,240 145,150 145,380" fill="url(#faceGrad)"/>
+          <polygon points="95,150 145,150 145,380 95,380" fill="#181920"/>
+          <polygon points="145,150 250,240 250,300 155,190" fill="var(--red)" opacity=".55"/>
+          <!-- neck -->
+          <polygon points="102,150 138,150 142,120 98,120" fill="#14151b"/>
+          <!-- head (low-poly) -->
+          <polygon points="120,10 165,45 158,95 120,122 82,95 75,45" fill="url(#faceGrad)"/>
+          <polygon points="120,10 165,45 158,95 120,60" fill="var(--panel-2)"/>
+          <polygon points="158,95 165,45 145,70" fill="var(--red)" opacity=".6"/>
+          <polygon points="120,10 75,45 82,95 120,60" fill="#14151b"/>
+          <line x1="120" y1="10" x2="120" y2="122" stroke="#0B0B10" stroke-width="1" opacity=".5"/>
+        </svg>
+      </div>
+
+      <div class="hero-stats">
+        <div><b class="data" data-count="3" data-pad="2">03</b><span>Projects shipped</span></div>
+        <div><b class="data" data-count="3.62">3.62</b><span>CGPA</span></div>
+        <div><b class="data" data-count="1" data-pad="2">01</b><span>Award</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ===== TENTANG ===== -->
-<section class="sec rise" id="tentang">
-  <div class="sec-head"><span class="tag">01</span><h2>Tentang aku</h2></div>
+<!-- ===== ABOUT ===== -->
+<section class="sec rise" id="about">
+  <div class="sec-head"><span class="idx">01</span><h2>About me</h2></div>
   <div class="about-grid">
     <div>
       <p>
-        Aku pelajar <strong>Diploma Game Technology</strong> yang lebih suka duduk kat
-        bahagian sistem — controller, state machine, dan benda yang orang tak perasan
-        tapi terus rasa kalau tak kena.
+        I'm a final-year <strong>Bachelor of Information Technology (Game
+        Technology)</strong> student at Universiti Teknikal Malaysia Melaka (UTeM),
+        with a CGPA of 3.62 so far.
       </p>
       <p>
-        Mula belajar sebab nak faham kenapa lompatan dalam sesetengah game rasa berat
-        dan sesetengah rasa ringan. Sampai sekarang tu masih soalan kegemaran aku.
+        My work spans <strong>gameplay programming</strong>,
+        <strong>Mixed Reality &amp; Virtual Reality</strong>, and
+        <strong>full-stack web development</strong> — not just one lane.
       </p>
     </div>
     <div>
       <p>
-        Selain coding, aku pegang <strong>3D asset dan level blockout</strong> untuk
-        projek kumpulan — cukup untuk bina prototaip sendiri tanpa tunggu orang lain.
+        I like projects that combine technical systems with real user
+        experience — from full-body tracking in Mixed Reality to diegetic UI
+        in industrial training simulations.
       </p>
       <p>
-        Sedang cari internship dalam <strong>gameplay programming</strong> atau
-        <strong>technical art</strong>. Boleh mula bila-bila lepas semester ni habis.
+        This portfolio is where I collect the projects I've actually built —
+        a personal showcase for now.
       </p>
     </div>
   </div>
 </section>
 
-<!-- ===== PROJEK =====
-     Salin satu blok <a class="card"> untuk tambah projek baru -->
-<section class="sec rise" id="projek">
-  <div class="sec-head"><span class="tag">02</span><h2>Projek</h2></div>
+<!-- ===== PROJECTS =====
+     Copy one <a class="pcard"> block to add a new project -->
+<section class="sec rise" id="projects">
+  <div class="sec-head"><span class="idx">02</span><h2>Projects</h2></div>
 
-  <div class="projects">
+  <div class="pgrid">
 
-    <a class="card" href="#">
-      <div class="card-media">
-        <!-- TUKAR: bila ada clip gameplay, ganti div bawah ni dengan:
-             <video class="card-video" muted loop playsinline poster="thumbnail.jpg">
+    <a class="pcard" href="#">
+      <div class="pcard-media">
+        <!-- REPLACE: once a real clip/screenshot exists, swap the .pcard-motif svg below for:
+             <video class="pcard-video" muted loop playsinline poster="thumbnail.jpg">
                <source src="clip.mp4" type="video/mp4">
-             </video>
-             (letak fail video/thumbnail dalam folder sama macam index.html) -->
-        <div class="card-media-ph"><span>PREVIEW</span></div>
-        <span class="card-status">Completed</span>
+             </video> -->
+        <svg class="pcard-motif" viewBox="0 0 300 225" aria-hidden="true">
+          <line x1="0" y1="200" x2="300" y2="20" stroke="rgba(255,51,85,.35)" stroke-width="1"/>
+          <line x1="0" y1="140" x2="300" y2="-20" stroke="rgba(255,51,85,.2)" stroke-width="1"/>
+          <line x1="-20" y1="260" x2="260" y2="-10" stroke="rgba(255,51,85,.15)" stroke-width="1"/>
+          <line x1="40" y1="260" x2="320" y2="-10" stroke="rgba(255,51,85,.25)" stroke-width="1"/>
+          <circle cx="70" cy="150" r="3" fill="#FF3355"/>
+          <circle cx="210" cy="70" r="3" fill="#FF3355"/>
+          <circle cx="150" cy="110" r="2.4" fill="#FF3355" opacity=".8"/>
+        </svg>
+        <span class="pstatus">Completed</span>
       </div>
-      <div class="card-body">
-        <span class="num">PRJ_01</span>
-        <h3>Sungai Dalam</h3>
-        <p>Game platformer 2.5D berlatar kampung air. Aku tulis sistem pergerakan
-           pemain dengan coyote time dan jump buffering supaya kawalan rasa adil.</p>
-        <div class="meta">
-          <span>ROLE <i>Gameplay Programmer</i></span>
-          <span>ENGINE <i>Unity · C#</i></span>
-          <span>TAHUN <i>2025</i></span>
+      <div class="pcard-body">
+        <span class="pnum">01</span>
+        <h3>VaultBreak MR</h3>
+        <p class="prole">XR Developer · Unreal Engine 5.6.1 · C++</p>
+        <p class="pdesc">A Mixed Reality stealth game for Meta Quest 3S. Players
+          infiltrate a vault, dodge a laser security system using full-body
+          tracking, disable laser control boxes, and steal a valuable pearl
+          to complete the mission.</p>
+        <div class="pfeatures">
+          <span>Full-body tracking</span>
+          <span>Random laser system</span>
+          <span>Health &amp; damage</span>
         </div>
+        <span class="go">View details</span>
       </div>
-      <span class="arrow">→</span>
     </a>
 
-    <a class="card" href="#">
-      <div class="card-media">
-        <div class="card-media-ph"><span>PREVIEW</span></div>
-        <span class="card-status dev">In Dev</span>
+    <a class="pcard" href="#">
+      <div class="pcard-media">
+        <svg class="pcard-motif" viewBox="0 0 300 225" aria-hidden="true">
+          <g transform="translate(150 112.5)">
+            <circle r="76" fill="none" stroke="rgba(255,51,85,.3)" stroke-width="1"/>
+            <circle r="52" fill="none" stroke="rgba(255,51,85,.5)" stroke-width="1"/>
+            <circle r="10" fill="none" stroke="rgba(255,51,85,.6)" stroke-width="1.4"/>
+            <circle cx="76" cy="0" r="3" fill="#FF3355"/>
+            <circle cx="53.7" cy="53.7" r="3" fill="#FF3355"/>
+            <circle cx="0" cy="76" r="3" fill="#FF3355"/>
+            <circle cx="-53.7" cy="53.7" r="3" fill="#FF3355"/>
+            <circle cx="-76" cy="0" r="3" fill="#FF3355"/>
+            <circle cx="-53.7" cy="-53.7" r="3" fill="#FF3355"/>
+            <circle cx="0" cy="-76" r="3" fill="#FF3355"/>
+            <circle cx="53.7" cy="-53.7" r="3" fill="#FF3355"/>
+          </g>
+        </svg>
+        <span class="pstatus">Completed</span>
       </div>
-      <div class="card-body">
-        <span class="num">PRJ_02</span>
-        <h3>Relay Point</h3>
-        <p>Prototaip co-op dua pemain untuk game jam 48 jam. Fokus pada sistem
-           interaksi objek dan sinkronisasi input dua pad pada satu skrin.</p>
-        <div class="meta">
-          <span>ROLE <i>Programmer · Level Design</i></span>
-          <span>ENGINE <i>Unreal · Blueprint</i></span>
-          <span>TAHUN <i>2025</i></span>
+      <div class="pcard-body">
+        <span class="pnum">02</span>
+        <h3>iPETRO — Zero Leak Challenge</h3>
+        <p class="prole">VR Developer · Unity 2022 LTS · C#</p>
+        <p class="pdesc">An industrial Virtual Reality training simulation for a
+          Flange Management System (FMS), teaching flange assembly and bolt
+          tightening procedure to the ASME PCC-1 standard in a safe virtual
+          environment.</p>
+        <div class="pfeatures">
+          <span>Diegetic UI</span>
+          <span>Bolt tightening sequence</span>
+          <span>Industrial safety</span>
         </div>
+        <div class="award-line">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4a1 1 0 0 0-1 1v1a4 4 0 0 0 4 4M17 5h3a1 1 0 0 1 1 1v1a4 4 0 0 1-4 4"/></svg>
+          Gold Award — FTMK Workshop II Innovation Competition
+        </div>
+        <span class="go">View details</span>
       </div>
-      <span class="arrow">→</span>
     </a>
 
-    <a class="card" href="#">
-      <div class="card-media">
-        <div class="card-media-ph"><span>PREVIEW</span></div>
-        <span class="card-status">Completed</span>
+    <a class="pcard" href="#">
+      <div class="pcard-media">
+        <svg class="pcard-motif" viewBox="0 0 300 225" aria-hidden="true">
+          <rect x="40" y="40" width="220" height="150" rx="8" fill="none" stroke="rgba(255,51,85,.3)" stroke-width="1.2"/>
+          <circle cx="56" cy="56" r="3" fill="rgba(255,51,85,.6)"/>
+          <circle cx="68" cy="56" r="3" fill="rgba(255,51,85,.4)"/>
+          <circle cx="80" cy="56" r="3" fill="rgba(255,51,85,.25)"/>
+          <line x1="40" y1="70" x2="260" y2="70" stroke="rgba(255,51,85,.25)" stroke-width="1"/>
+          <rect x="56" y="86" width="188" height="16" rx="3" fill="none" stroke="rgba(255,51,85,.25)" stroke-width="1"/>
+          <rect x="56" y="112" width="188" height="16" rx="3" fill="#FF3355" fill-opacity=".18" stroke="#FF3355" stroke-width="1"/>
+          <rect x="56" y="138" width="188" height="16" rx="3" fill="none" stroke="rgba(255,51,85,.25)" stroke-width="1"/>
+          <rect x="56" y="164" width="120" height="16" rx="3" fill="none" stroke="rgba(255,51,85,.25)" stroke-width="1"/>
+        </svg>
+        <span class="pstatus">Completed</span>
       </div>
-      <div class="card-body">
-        <span class="num">PRJ_03</span>
-        <h3>Warung Sim</h3>
-        <p>Game pengurusan warung mudah. Sistem tempahan pelanggan, inventori bahan,
-           dan pengiraan untung harian — semua guna ScriptableObject.</p>
-        <div class="meta">
-          <span>ROLE <i>Solo</i></span>
-          <span>ENGINE <i>Unity · C#</i></span>
-          <span>TAHUN <i>2024</i></span>
+      <div class="pcard-body">
+        <span class="pnum">03</span>
+        <h3>Car Workshop Appointment System</h3>
+        <p class="prole">Full Stack Developer · React · Next.js · Node.js · MySQL</p>
+        <p class="pdesc">A web-based appointment management system — customers
+          can book vehicle servicing online, while admins manage bookings,
+          customer records, and service schedules efficiently.</p>
+        <div class="pfeatures">
+          <span>Online booking</span>
+          <span>Admin dashboard</span>
+          <span>Customer management</span>
         </div>
+        <span class="go">View details</span>
       </div>
-      <span class="arrow">→</span>
     </a>
 
   </div>
 </section>
 
-<!-- ===== SKIL ===== -->
-<section class="sec rise" id="skil">
-  <div class="sec-head"><span class="tag">03</span><h2>Skil &amp; tools</h2></div>
-  <div class="skills">
-    <div>
+<!-- ===== SKILLS ===== -->
+<section class="sec rise" id="skills">
+  <div class="sec-head"><span class="idx">03</span><h2>Skills &amp; tools</h2></div>
+  <div class="skillset">
+    <div class="skill-group">
       <h4>Programming</h4>
-      <ul>
-        <li>C# (Unity)</li>
-        <li>C++ asas (Unreal)</li>
-        <li>Blueprint visual scripting</li>
-        <li>Git &amp; GitHub</li>
-      </ul>
-    </div>
-    <div>
-      <h4>Engine &amp; sistem</h4>
-      <ul>
-        <li>Unity — URP, Cinemachine, Input System</li>
-        <li>Unreal Engine 5</li>
-        <li>State machine &amp; AI asas</li>
-        <li>UI / HUD implementation</li>
-      </ul>
-    </div>
-    <div>
-      <h4>Art pipeline</h4>
-      <ul>
-        <li>Blender — modeling &amp; UV</li>
-        <li>Substance Painter asas</li>
-        <li>Level blockout</li>
-        <li>Figma untuk UI mockup</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ===== PERJALANAN =====
-     Salin satu blok .log-entry untuk tambah entri baru.
-     Guna class "award" pada .log-entry untuk anugerah (merah),
-     tanpa class tu untuk pengalaman/aktiviti (biru). -->
-<section class="sec rise" id="perjalanan">
-  <div class="sec-head"><span class="tag">04</span><h2>Perjalanan</h2></div>
-
-  <div class="log">
-
-    <div class="log-entry award">
-      <div class="log-rail"><span class="log-dot"></span></div>
-      <div class="log-body">
-        <span class="log-date">2026.02</span>
-        <span class="log-tag">Anugerah</span>
-        <h3>Nama anugerah / pertandingan</h3>
-        <p>Deskripsi ringkas pasal anugerah ni — apa projek, apa peranan kau, kenapa menang.</p>
+      <div class="pills">
+        <span>C++</span><span>C#</span><span>Java</span><span>JavaScript</span><span>SQL</span>
       </div>
     </div>
-
-    <div class="log-entry">
-      <div class="log-rail"><span class="log-dot"></span></div>
-      <div class="log-body">
-        <span class="log-date">2025.11</span>
-        <span class="log-tag">Pengalaman</span>
-        <h3>Nama pengalaman / peranan</h3>
-        <p>Contoh: fasilitator bengkel, ahli kelab, atau kerja sambilan berkaitan teknologi.</p>
+    <div class="skill-group">
+      <h4>Game &amp; XR Dev</h4>
+      <div class="pills">
+        <span>Unreal Engine 5</span><span>Unity</span><span>Mixed Reality (MR)</span>
+        <span>Virtual Reality (VR)</span><span>Meta Quest Development</span>
+        <span>Sony Mocopi Full-Body Tracking</span><span>XR Interaction</span>
       </div>
     </div>
-
-    <div class="log-entry award">
-      <div class="log-rail"><span class="log-dot"></span></div>
-      <div class="log-body">
-        <span class="log-date">2025.06</span>
-        <span class="log-tag">Anugerah</span>
-        <h3>Nama anugerah / game jam</h3>
-        <p>Deskripsi ringkas pasal pencapaian ni.</p>
+    <div class="skill-group">
+      <h4>Web &amp; Database</h4>
+      <div class="pills">
+        <span>React</span><span>Next.js</span><span>Node.js</span>
+        <span>HTML</span><span>CSS</span><span>MySQL</span>
       </div>
     </div>
+    <div class="skill-group">
+      <h4>Tools</h4>
+      <div class="pills">
+        <span>Visual Studio</span><span>VS Code</span><span>Git</span><span>Blender (basic)</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>Soft Skills</h4>
+      <div class="pills">
+        <span>Problem Solving</span><span>Team Collaboration</span>
+        <span>Communication</span><span>Fast Learner</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EDUCATION =====
+     Edit/add .edu-item entries to match your own academic history. -->
+<section class="sec rise" id="education">
+  <div class="sec-head"><span class="idx">04</span><h2>Education</h2></div>
+
+  <div class="edu-list">
+
+    <div class="edu-item">
+      <div>
+        <h3>Universiti Teknikal Malaysia Melaka (UTeM)</h3>
+        <p>Bachelor of Information Technology (Game Technology) · Final-year student</p>
+      </div>
+      <span class="edu-result">CGPA 3.62</span>
+    </div>
+
+    <div class="edu-item">
+      <div>
+        <h3>UiTM Dengkil</h3>
+        <p>Foundation in Engineering</p>
+      </div>
+      <span class="edu-result">CGPA 3.33</span>
+    </div>
+
+    <div class="edu-item">
+      <div>
+        <h3>SM Sains Sembrong</h3>
+        <p>Malaysian Certificate of Education (SPM)</p>
+      </div>
+      <span class="edu-result">7A2B</span>
+    </div>
 
   </div>
 </section>
 
-<!-- ===== PENDIDIKAN =====
-     Tukar 3 blok .edu-node ni ikut perjalanan akademik kau sendiri.
-     Letak class "current" pada peringkat yang sedang kau duduki. -->
-<section class="sec rise" id="pendidikan">
-  <div class="sec-head"><span class="tag">05</span><h2>Pendidikan</h2></div>
+<!-- ===== CONTACT ===== -->
+<section class="sec contact rise" id="contact">
+  <div class="contact-inner">
+    <div class="contact-grid">
+      <div>
+        <div class="sec-head"><span class="idx">05</span><h2>Got an idea<br>to share? Let's talk.</h2></div>
+        <p class="contact-note">Open to project collabs, casual teamwork, or
+          just chatting about games &amp; XR.</p>
+        <div class="contact-list">
+          <a href="mailto:ikhwanuddinworks@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            ikhwanuddinworks@gmail.com
+          </a>
+          <a href="tel:+60164178744">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            016-417 8744
+          </a>
+          <a href="https://github.com/wanpenter" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+            github.com/wanpenter
+          </a>
+        </div>
+      </div>
 
-  <div class="edu-track">
-
-    <div class="edu-node">
-      <span class="edu-level">LVL 01</span>
-      <h3>SM Sains Sembrong</h3>
-      <p class="edu-sub">SPM · tahun</p>
-      <p class="edu-detail">Keputusan atau aliran ringkas, kalau nak sertakan.</p>
+      <!-- Device mockup built with CSS/SVG only — not a real image/photo -->
+      <div class="device" aria-hidden="true">
+        <div class="device-frame">
+          <div class="device-dots"><span></span><span></span><span></span></div>
+          <div class="device-screen">
+            <span class="mini-ghost">PORT</span>
+            <div class="mini-line w60" style="margin-top:38px"></div>
+            <div class="mini-line w40"></div>
+            <div class="mini-cta"></div>
+          </div>
+          <div class="device-base"></div>
+        </div>
+      </div>
     </div>
-
-    <div class="edu-node">
-      <span class="edu-level">LVL 02</span>
-      <h3>Nama matrikulasi / asasi</h3>
-      <p class="edu-sub">Jurusan · tahun</p>
-      <p class="edu-detail">CGPA atau pencapaian ringkas, kalau nak sertakan.</p>
-    </div>
-
-    <div class="edu-node current">
-      <span class="edu-level">LVL 03 <em>— sekarang</em></span>
-      <h3>Nama universiti / kolej</h3>
-      <p class="edu-sub">Diploma Game Technology · tahun–sekarang</p>
-      <p class="edu-detail">CGPA semasa atau pencapaian yang nak ditonjolkan.</p>
-    </div>
-
   </div>
 </section>
 
-<!-- ===== HUBUNGI ===== -->
-<section class="sec contact rise" id="hubungi">
-  <span class="tag">06 — Hubungi</span>
-  <h2>Ada slot internship?<br>Jom cakap.</h2>
-  <!-- TUKAR: guna email yang kau betul-betul check -->
-  <a class="mail" href="mailto:hello@ikhwanuddin.online">hello@ikhwanuddin.online</a>
-  <div class="socials">
-    <a href="#">GitHub ↗</a>
-    <a href="#">itch.io ↗</a>
-    <a href="#">LinkedIn ↗</a>
-    <a href="#">Resume (PDF) ↗</a>
-  </div>
-</section>
-
-<footer>
-  <span class="tag">© 2026 Ikhwanuddin</span>
-  <span class="tag">Dibina sendiri</span>
+<footer class="contact">
+  <span class="caption">© 2026 Ikhwanuddin</span>
+  <span class="caption">Built solo</span>
 </footer>
 
-<!-- HUD readout -->
-<div class="readout">POS_Y <em id="posy">0000</em> · SEC <em id="secname">HERO</em></div>
-
 <script>
-// papar kedudukan scroll + seksyen semasa dalam HUD
-const posy = document.getElementById('posy');
-const secname = document.getElementById('secname');
-const secs = [...document.querySelectorAll('section[id]')];
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function updateHUD(){
-  posy.textContent = String(Math.round(window.scrollY)).padStart(4,'0');
-  let current = 'HERO';
-  for (const s of secs){
-    if (s.getBoundingClientRect().top <= window.innerHeight * 0.4) {
-      current = s.id.toUpperCase();
+// hero stat count-up — a small "data" flourish matching the mono/stat identity
+if (!reduceMotion) {
+  document.querySelectorAll('.hero-stats [data-count]').forEach((el, i)=>{
+    const target = parseFloat(el.dataset.count);
+    const decimals = el.dataset.count.includes('.') ? 2 : 0;
+    const pad = el.dataset.pad ? Number(el.dataset.pad) : 0;
+    const duration = 900;
+    const start = performance.now() + 550 + i * 120;
+    function tick(now){
+      const p = Math.min(Math.max((now - start) / duration, 0), 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      let text = (target * eased).toFixed(decimals);
+      if (pad) text = text.padStart(pad, '0');
+      el.textContent = text;
+      if (now < start + duration) requestAnimationFrame(tick);
     }
-  }
-  secname.textContent = current;
+    requestAnimationFrame(tick);
+  });
 }
-window.addEventListener('scroll', updateHUD, {passive:true});
-updateHUD();
 
-// fade-in bila seksyen masuk skrin
+// fade sections in as they enter the viewport
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
 }, {threshold:0.12});
 document.querySelectorAll('.rise').forEach(el=>io.observe(el));
 
-// video preview kad projek — main bila hover, berhenti bila keluar
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// project card video preview — play on hover, stop on leave
 if (!reduceMotion) {
-  document.querySelectorAll('.card-video').forEach(v=>{
-    const card = v.closest('.card');
+  document.querySelectorAll('.pcard-video').forEach(v=>{
+    const card = v.closest('.pcard');
     card.addEventListener('mouseenter', ()=>{ v.play().catch(()=>{}); });
     card.addEventListener('mouseleave', ()=>{ v.pause(); v.currentTime = 0; });
   });

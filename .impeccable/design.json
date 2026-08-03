@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-03T00:00:00.000Z",
+  "generatedAt": "2026-08-04T00:00:00.000Z",
   "title": "Design System: Ikhwanuddin Portfolio",
   "extensions": {
     "colorMeta": {
@@ -9,6 +9,12 @@
         "displayName": "Signal Red",
         "canonical": "#FF3355",
         "tonalRamp": ["#3D0812", "#5C0C1B", "#8A1229", "#B8183A", "#E01F49", "#FF3355", "#FF6B85", "#FFB0BE"]
+      },
+      "red-field": {
+        "role": "secondary",
+        "displayName": "Red Field",
+        "canonical": "#B4102F",
+        "tonalRamp": ["#2E0810", "#4A0B18", "#711022", "#961528", "#B4102F", "#D42A48", "#E8607A", "#F5A0B2"]
       },
       "void-black": {
         "role": "neutral",
@@ -21,6 +27,12 @@
         "displayName": "Panel Charcoal",
         "canonical": "#15161C",
         "tonalRamp": ["#0B0B10", "#15161C", "#1D1E25", "#26272F", "#33343D", "#4B4C56", "#75767F", "#AEAFB6"]
+      },
+      "panel-raised": {
+        "role": "neutral",
+        "displayName": "Panel Raised",
+        "canonical": "#1B1C22",
+        "tonalRamp": ["#0F0F13", "#1B1C22", "#24252C", "#2E2F37", "#3C3D46", "#57585F", "#83848B", "#B7B8BD"]
       },
       "hairline": {
         "role": "neutral",
@@ -39,31 +51,41 @@
         "displayName": "Slate Muted",
         "canonical": "#8C8D97",
         "tonalRamp": ["#2A2A2F", "#3F3F46", "#55555E", "#6C6C76", "#8C8D97", "#A6A7AF", "#C2C2C9", "#DFDFE3"]
+      },
+      "on-red-muted": {
+        "role": "neutral",
+        "displayName": "On-Red Muted",
+        "canonical": "#FFC7CE",
+        "tonalRamp": ["#5C1420", "#7A1A2A", "#A32438", "#C93750", "#E36A80", "#F19AAA", "#FFC7CE", "#FFE4E8"]
       }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Hero name/headline (h1) only." },
-      "headline": { "displayName": "Headline", "purpose": "Section headings; scaled up for the Contact section." },
-      "title": { "displayName": "Title", "purpose": "Project card titles and education entry titles." },
-      "body": { "displayName": "Body", "purpose": "Reading copy: about text, project descriptions, notes." },
-      "label": { "displayName": "Label", "purpose": "Monospace metadata: nav, tags, stats, roles, footer." }
+      "ghost": { "displayName": "Ghost", "purpose": "Oversized watermark wordmark behind the hero. Graphic device, not reading copy." },
+      "display": { "displayName": "Display", "purpose": "Hero name only." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings, inline with their numeric index." },
+      "title": { "displayName": "Title", "purpose": "Project card and education entry titles." },
+      "body": { "displayName": "Body", "purpose": "Reading copy." },
+      "label": { "displayName": "Label", "purpose": "Monospace: stats, tech stack, dates, tag pills. Data only, never a costume." }
     },
     "shadows": [
-      { "name": "emblem-glow", "value": "0 24px 60px -22px rgba(255,51,85,.45), inset 0 1px 0 rgba(255,255,255,.05)", "purpose": "Permanent soft red aura under the hero emblem, plus a faint inner glass highlight." },
-      { "name": "card-rest", "value": "0 30px 60px -40px rgba(0,0,0,.7)", "purpose": "Barely-perceptible neutral shadow separating project cards from the void background at rest." },
-      { "name": "card-hover-glow", "value": "0 34px 70px -32px rgba(255,51,85,.28)", "purpose": "Replaces card-rest on hover; shifts ambient light to red alongside a -4px lift and red border." }
+      { "name": "figure-glow", "value": "drop-shadow(0 30px 60px rgba(0,0,0,.55))", "purpose": "Soft contact shadow grounding the hero silhouette." },
+      { "name": "card-rest", "value": "0 30px 60px -40px rgba(0,0,0,.7)", "purpose": "Barely-perceptible neutral shadow under project cards at rest." },
+      { "name": "card-hover-glow", "value": "0 34px 70px -32px rgba(255,51,85,.3)", "purpose": "Red ambient glow replacing card-rest on hover." },
+      { "name": "contact-wash", "value": "radial-gradient(120% 90% at 100% 0%, rgba(0,0,0,.28), transparent 60%)", "purpose": "Top-right darkening wash on the Contact red field so it reads as lit surface, not a flat sticker." },
+      { "name": "device-shadow", "value": "0 40px 80px -30px rgba(0,0,0,.55)", "purpose": "Grounding shadow under the CSS/SVG device mockup." }
     ],
     "motion": [
-      { "name": "ease-standard", "value": "0.2s ease", "purpose": "Default transition for color/border-color state changes (nav links, pills)." },
+      { "name": "ease-standard", "value": "0.2s ease", "purpose": "Default transition for color/border-color state changes." },
       { "name": "ease-lift", "value": "0.25s ease", "purpose": "Card hover transform/shadow/border transitions." },
       { "name": "ease-media", "value": "0.4s ease", "purpose": "Project card media zoom on hover." },
-      { "name": "reveal", "value": "opacity .6s, transform .6s", "purpose": "Scroll-triggered fade-up for each section (IntersectionObserver, threshold 0.12)." },
-      { "name": "ring-spin", "value": "spin 50s linear infinite", "purpose": "Slow continuous rotation of the hero emblem ring." }
+      { "name": "reveal", "value": "opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1)", "purpose": "Scroll-triggered fade-up for each section, exponential ease-out from an already-visible default." },
+      { "name": "contact-link-nudge", "value": "0.2s ease transform", "purpose": "translateX(4px) nudge on contact link hover inside the red field." }
     ],
     "breakpoints": [
       { "name": "sm", "value": "640px" },
       { "name": "md", "value": "760px" },
-      { "name": "lg", "value": "900px" }
+      { "name": "lg", "value": "860px" },
+      { "name": "xl", "value": "900px" }
     ]
   },
   "components": [
@@ -73,7 +95,7 @@
       "refersTo": "card-project",
       "description": "Project grid item: media area, status badge, title, role, description, feature pills, award line, and a 'go' affordance.",
       "html": "<a class=\"ds-pcard\" href=\"#\"><div class=\"ds-pcard-media\"><span class=\"ds-pstatus\">Completed</span></div><div class=\"ds-pcard-body\"><span class=\"ds-pnum\">01</span><h3 class=\"ds-pcard-title\">Project Title</h3><p class=\"ds-prole\">Role · Stack · Language</p><p class=\"ds-pdesc\">One to two sentence description of the project and what it does.</p><div class=\"ds-pfeatures\"><span>Feature one</span><span>Feature two</span></div><span class=\"ds-go\">Lihat detail</span></div></a>",
-      "css": ".ds-pcard { display: flex; flex-direction: column; border: 1px solid #24252C; border-radius: 6px; overflow: hidden; background: #15161C; text-decoration: none; box-shadow: 0 30px 60px -40px rgba(0,0,0,.7); transition: border-color .25s, transform .25s, box-shadow .25s; } .ds-pcard:hover { border-color: #FF3355; transform: translateY(-4px); box-shadow: 0 34px 70px -32px rgba(255,51,85,.28); } .ds-pcard-media { position: relative; aspect-ratio: 4/3; background: linear-gradient(155deg,#1B1C22,#101116); border-bottom: 1px solid #24252C; } .ds-pstatus { position: absolute; top: 10px; left: 10px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid #FF3355; color: #FF3355; background: rgba(11,11,16,.85); } .ds-pcard-body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 10px; } .ds-pnum { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; color: #FF3355; } .ds-pcard-title { font-family: 'Archivo', system-ui, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -.02em; color: #F4F4F6; } .ds-prole { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11.5px; color: #8C8D97; } .ds-pdesc { color: #8C8D97; font-size: 14.5px; } .ds-pfeatures { display: flex; flex-wrap: wrap; gap: 6px; } .ds-pfeatures span { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; color: #F4F4F6; background: rgba(255,255,255,.04); border: 1px solid #24252C; padding: 3px 9px; border-radius: 20px; } .ds-go { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #8C8D97; display: inline-flex; align-items: center; gap: 4px; } .ds-go::after { content: '→'; transition: transform .25s ease; } .ds-pcard:hover .ds-go { color: #FF3355; } .ds-pcard:hover .ds-go::after { transform: translateX(4px); }"
+      "css": ".ds-pcard { display: flex; flex-direction: column; border: 1px solid #24252C; border-radius: 8px; overflow: hidden; background: #15161C; text-decoration: none; box-shadow: 0 30px 60px -40px rgba(0,0,0,.7); transition: border-color .25s, transform .25s, box-shadow .25s; } .ds-pcard:hover { border-color: #FF3355; transform: translateY(-4px); box-shadow: 0 34px 70px -32px rgba(255,51,85,.3); } .ds-pcard-media { position: relative; aspect-ratio: 4/3; background: linear-gradient(155deg,#1B1C22,#101116); border-bottom: 1px solid #24252C; } .ds-pstatus { position: absolute; top: 12px; left: 12px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid #FF3355; color: #FF3355; background: rgba(11,11,16,.85); } .ds-pcard-body { padding: 22px 22px 26px; display: flex; flex-direction: column; gap: 10px; } .ds-pnum { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; color: #FF3355; } .ds-pcard-title { font-family: 'Archivo', system-ui, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -.02em; color: #F4F4F6; } .ds-prole { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11.5px; color: #8C8D97; } .ds-pdesc { color: #8C8D97; font-size: 14.5px; } .ds-pfeatures { display: flex; flex-wrap: wrap; gap: 6px; } .ds-pfeatures span { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; color: #F4F4F6; background: rgba(255,255,255,.04); border: 1px solid #24252C; padding: 3px 9px; border-radius: 20px; } .ds-go { font-family: 'IBM Plex Sans', system-ui, sans-serif; font-weight: 500; font-size: 12.5px; color: #8C8D97; display: inline-flex; align-items: center; gap: 4px; } .ds-go::after { content: '→'; transition: transform .25s ease; } .ds-pcard:hover .ds-go { color: #FF3355; } .ds-pcard:hover .ds-go::after { transform: translateX(4px); }"
     },
     {
       "name": "Skill Pill",
@@ -89,52 +111,52 @@
       "refersTo": "button-nav-link",
       "description": "Topbar navigation link with animated underline on hover.",
       "html": "<a class=\"ds-navlink\" href=\"#\">Projek</a>",
-      "css": ".ds-navlink { position: relative; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; text-decoration: none; color: #8C8D97; transition: color .2s; padding-bottom: 3px; display: inline-block; } .ds-navlink::after { content: ''; position: absolute; left: 0; bottom: 0; height: 1px; width: 0; background: #FF3355; transition: width .25s ease; } .ds-navlink:hover { color: #F4F4F6; } .ds-navlink:hover::after { width: 100%; } .ds-navlink:focus-visible { outline: 2px solid #FF3355; outline-offset: 3px; }"
+      "css": ".ds-navlink { position: relative; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-weight: 500; font-size: 12.5px; letter-spacing: .04em; text-decoration: none; color: #8C8D97; transition: color .2s; padding-bottom: 3px; display: inline-block; } .ds-navlink::after { content: ''; position: absolute; left: 0; bottom: 0; height: 1px; width: 0; background: #FF3355; transition: width .25s ease; } .ds-navlink:hover { color: #F4F4F6; } .ds-navlink:hover::after { width: 100%; } .ds-navlink:focus-visible { outline: 2px solid #FF3355; outline-offset: 3px; }"
     },
     {
-      "name": "Status Badge",
+      "name": "Contact Link (on red field)",
       "kind": "custom",
-      "description": "Small overlay chip marking a project's status, sits on card media.",
-      "html": "<span class=\"ds-badge\">Completed</span>",
-      "css": ".ds-badge { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid #FF3355; color: #FF3355; background: rgba(11,11,16,.85); display: inline-block; }"
-    },
-    {
-      "name": "Contact Link",
-      "kind": "custom",
-      "description": "Icon + text link row used in the contact list (email, phone, GitHub).",
+      "description": "Icon + text link row used in the Contact section's full-bleed red field. White on red, never dark-on-red.",
       "html": "<a class=\"ds-contact-link\" href=\"mailto:you@example.com\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M3 7l9 6 9-6\"/></svg>you@example.com</a>",
-      "css": ".ds-contact-link { display: flex; align-items: center; gap: 12px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 15px; color: #F4F4F6; text-decoration: none; transition: color .2s, transform .2s; } .ds-contact-link:hover { color: #FF3355; transform: translateX(4px); } .ds-contact-link svg { width: 17px; height: 17px; flex-shrink: 0; stroke: #FF3355; }"
+      "css": ".ds-contact-link { display: flex; align-items: center; gap: 12px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 15px; color: #fff; text-decoration: none; transition: transform .2s; } .ds-contact-link:hover { transform: translateX(4px); } .ds-contact-link svg { width: 17px; height: 17px; flex-shrink: 0; stroke: #fff; }"
+    },
+    {
+      "name": "Device Mockup",
+      "kind": "custom",
+      "description": "Pure CSS/SVG laptop frame with a miniature illustrated site preview inside — an honest stand-in for photographic device mockups when no real screenshot exists.",
+      "html": "<div class=\"ds-device-frame\"><div class=\"ds-device-dots\"><span></span><span></span><span></span></div><div class=\"ds-device-screen\"><span class=\"ds-mini-ghost\">PORT</span><div class=\"ds-mini-line\" style=\"width:60%;margin-top:38px\"></div><div class=\"ds-mini-line\" style=\"width:40%\"></div><div class=\"ds-mini-cta\"></div></div><div class=\"ds-device-base\"></div></div>",
+      "css": ".ds-device-frame { width: min(420px,100%); background: #0B0B10; border-radius: 10px 10px 4px 4px; padding: 10px 10px 0; box-shadow: 0 40px 80px -30px rgba(0,0,0,.55); } .ds-device-dots { display: flex; gap: 5px; padding: 0 4px 8px; } .ds-device-dots span { width: 6px; height: 6px; border-radius: 50%; background: #24252C; } .ds-device-screen { aspect-ratio: 16/10.5; background: #0B0B10; border-radius: 3px 3px 0 0; overflow: hidden; position: relative; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; } .ds-mini-ghost { position: absolute; top: -6px; left: 8px; font-family: 'Archivo', system-ui, sans-serif; font-weight: 900; font-size: 46px; letter-spacing: -.04em; color: #FF3355; opacity: .9; } .ds-mini-line { height: 6px; border-radius: 2px; background: #24252C; } .ds-mini-cta { margin-top: auto; width: 34%; height: 16px; border-radius: 20px; background: #FF3355; } .ds-device-base { height: 12px; background: linear-gradient(#1B1C22,#0B0B10); clip-path: polygon(8% 0,92% 0,100% 100%,0 100%); }"
     }
   ],
   "narrative": {
-    "northStar": "The Signal Terminal",
-    "overview": "The site reads as a dark technical console rather than a conventional marketing page: a near-black surface, oversized ghost typography watermarking the hero, and monospace labels that behave like system readouts (STATUS, tag numbers, coordinates-style stat labels). Signal Red is the one live wire in an otherwise restrained, engineered palette — it marks status, hover state, and the numbers that matter, the way a status light or a highlighted diagnostic line would on a terminal screen.\n\nThe system is confident but economical: one accent color, one neutral ramp, three type roles (display, body, mono-label), and a consistent hairline-border vocabulary that does the structural work shadows would do elsewhere. Motion is subdued — scroll-triggered fade-ups, short hover transitions, a slow-spinning emblem ring — never decorative for its own sake, and it fully respects prefers-reduced-motion.",
+    "northStar": "The Signal Field",
+    "overview": "This is a redesign, not a refinement — the incumbent \"Signal Terminal\" world (restrained red accent on hairline structure) is superseded. The new system commits red at page scale: an oversized solid wordmark spans the hero as a graphic device, not a decoration, and the closing Contact section flips to a full-bleed red field rather than treating red as a rare accent. The rest of the page stays disciplined — void-black, hairline dividers, one accent — so the two committed red moments (the ghost wordmark, the contact field) read as intentional crescendos rather than the palette losing control.\n\nThe direction was pinned directly by the user's own reference image (inspo website.jpg): dark ground, oversized red display type, a portrait-led hero, a stat strip, a project grid, and a device-mockup contact close. Two adaptations were made deliberately rather than copied literally: the hero photograph is replaced with an honest low-poly silhouette placeholder (no real portrait exists yet), and the inspo's agency \"work process\" section was dropped rather than fabricated, since it doesn't describe how a student developer actually works.",
     "keyCharacteristics": [
-      "Near-black void background with a single desaturated-neutral panel tone for raised surfaces",
-      "One accent (Signal Red) used sparingly against a five-step neutral scale",
-      "Mixed type system: heavy display sans for headings, humanist sans for reading copy, monospace for all labels/meta/system text",
-      "Structure conveyed by 1px hairlines more than by shadows or fills",
-      "Soft, wide, red-tinted ambient glow (not hard material shadow) on the emblem and on card hover"
+      "One oversized solid-red wordmark (\"PORTFOLIO\") as a graphic watermark behind the hero name and figure — not a decoration, a scale statement",
+      "A single full-bleed red field (Contact) as the page's only other saturated-color region — color commits at page scale in exactly two places, never scattered as accent elsewhere",
+      "A low-poly geometric silhouette stands in for the missing profile photo — deliberately non-photorealistic so it reads as a placeholder, not a fabricated portrait",
+      "Structure still carried by 1px hairlines everywhere outside the two committed-red zones",
+      "No stacked kicker/eyebrow labels above headings; a greeting like \"Hai, saya\" sits inline with the name it introduces, never on its own line above it"
     ],
     "rules": [
-      { "name": "The One Signal Rule", "body": "Signal Red appears only as accent — text, thin stroke/border, dot, or glow — never as a background fill larger than a status pill. Its rarity is what makes it register as a signal rather than decoration.", "section": "colors" },
-      { "name": "The Hairline Structure Rule", "body": "Structure (topbar, section breaks, card edges, stat dividers, list dividers) is drawn with a single 1px --line color, not with shadows or background blocks. Depth is reserved for the small set of elements in Elevation & Depth.", "section": "colors" },
-      { "name": "The Mono-Means-Metadata Rule", "body": "Monospace type is reserved for labels, meta, and system-style text (tags, roles, stats, nav, footer) — never for body prose or headings. If it's monospace, it's not the main content.", "section": "typography" },
-      { "name": "The Ambient-Not-Material Rule", "body": "Where depth exists, it reads as glow (wide blur, low opacity, often color-tinted) rather than a crisp material shadow. Hairlines carry structure; glow carries the rare moment of emphasis.", "section": "elevation" }
+      { "name": "The Two-Field Rule", "body": "Saturated red owns exactly two regions at full commitment — the hero ghost wordmark and the Contact section's background — and nowhere else. Every other red usage in the system is a thin accent (text, stroke, dot), never a fill.", "section": "colors" },
+      { "name": "The No-Red-On-Red Rule", "body": "Signal Red accent text must never sit where it overlaps the ghost wordmark's fill; foreground text crossing the wordmark is always off-white, never red, or the wordmark is positioned clear of it.", "section": "colors" },
+      { "name": "The Light-on-Red Rule", "body": "Inside the Contact field, primary text is white and secondary text is white at reduced opacity (tinted by the red it sits on). Dark text on Red Field fails contrast and is never used, however close it reads to the field's own hue.", "section": "colors" },
+      { "name": "The No-Stacked-Kicker Rule", "body": "No small label sits alone on its own line directly above a heading. A greeting, category, or index either joins the heading's own line (baseline-aligned, same element) or is dropped. This is an absolute rule, not a default — it holds even though the pinned inspo reference itself uses stacked micro-labels above its hero name.", "section": "typography" },
+      { "name": "The Ambient-Not-Material Rule", "body": "Depth reads as glow or wash, never a crisp material shadow.", "section": "elevation" }
     ],
     "dos": [
-      "Do keep Signal Red to a single accent role — text, thin border/stroke, dot, or glow.",
-      "Do build structure with 1px hairline borders/dividers before reaching for a shadow or background block.",
-      "Do reserve monospace type for labels and metadata, never for headings or body prose.",
-      "Do keep shadows soft, wide, and low-opacity — glow, not material lift.",
-      "Do respect prefers-reduced-motion for every transition, animation, and the scroll-reveal system."
+      "Do keep saturated red confined to exactly two full-commitment zones (ghost wordmark, Contact field); everywhere else it is a thin accent.",
+      "Do use white/off-white for any text that crosses the ghost wordmark or sits inside the Contact field.",
+      "Do join a greeting or index label to its heading's own baseline rather than stacking it above as a separate line.",
+      "Do label placeholder imagery (the silhouette, the device-mockup preview) as clearly synthetic in source comments — never let a stand-in read as real photography."
     ],
     "donts": [
-      "Don't use Signal Red as a large fill or background color anywhere.",
-      "Don't introduce a second accent color; the system is deliberately single-accent.",
-      "Don't apply the 20px pill radius to structural containers (cards, panels) — it's reserved for tag/chip-like elements only.",
-      "Don't add hard, dark, high-opacity drop shadows; they break the ambient-glow depth language.",
-      "Don't set body copy or headings in the mono font family."
+      "Don't let Signal Red accent text overlap the ghost wordmark's fill.",
+      "Don't use dark/near-black text on the Red Field background, regardless of how close it reads to the field's own hue.",
+      "Don't add a third saturated-red region; the Two-Field Rule caps it at two.",
+      "Don't stack a small label directly above an h1/h2 on its own line, even when a reference image does.",
+      "Don't invent a \"work process\" or agency-style section that doesn't reflect how the subject actually works, just because a reference image includes one."
     ]
   }
 }
