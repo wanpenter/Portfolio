@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============================================
+     TUKAR BENDA NI DULU (SEO / tab title)
+     ============================================ -->
+<title>Ikhwanuddin — Game Technology Student</title>
+<meta name="description" content="Portfolio pelajar Game Technology. Gameplay programming, 3D asset, dan prototaip game.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================
+   1. WARNA & FONT  — tukar sini kalau nak tema lain
+   ============================================ */
+:root{
+  --bg:      #121620;   /* biru-kelabu gelap (bukan hitam pekat) */
+  --panel:   #1A1F2C;
+  --line:    #2A3243;
+  --ink:     #EDEFF5;
+  --muted:   #7E879C;
+  --z:       #4DA3FF;   /* biru — warna paksi Z dalam engine */
+  --x:       #FF4D6D;   /* merah — warna paksi X */
+
+  --display: 'Archivo', system-ui, sans-serif;
+  --body:    'IBM Plex Sans', system-ui, sans-serif;
+  --mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  --pad: clamp(20px, 5vw, 72px);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+a{ color:inherit; }
+
+:focus-visible{
+  outline:2px solid var(--z);
+  outline-offset:3px;
+}
+
+/* label kecik gaya mono — dipakai banyak tempat */
+.tag{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ============================================
+   2. TOPBAR
+   ============================================ */
+.topbar{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  display:flex; align-items:center; gap:20px;
+  padding:14px var(--pad);
+  background:rgba(18,22,32,.82);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .mark{
+  font-family:var(--display); font-weight:800;
+  letter-spacing:-.02em; font-size:15px;
+}
+.status{
+  display:flex; align-items:center; gap:7px;
+  font-family:var(--mono); font-size:11px; color:var(--muted);
+}
+.status .dot{
+  width:7px; height:7px; border-radius:50%;
+  background:var(--x);
+  box-shadow:0 0 0 0 rgba(255,77,109,.6);
+  animation:ping 2.4s ease-out infinite;
+}
+@keyframes ping{
+  0%   { box-shadow:0 0 0 0 rgba(255,77,109,.55); }
+  70%  { box-shadow:0 0 0 8px rgba(255,77,109,0); }
+  100% { box-shadow:0 0 0 0 rgba(255,77,109,0); }
+}
+.navlinks{ margin-left:auto; display:flex; gap:16px; }
+.navlinks a{
+  font-family:var(--mono); font-size:12px;
+  text-decoration:none; color:var(--muted);
+  transition:color .2s;
+}
+.navlinks a:hover{ color:var(--ink); }
+@media(max-width:900px){ .navlinks{ display:none; } }
+
+/* ============================================
+   3. HERO — viewport dengan grid lantai
+   ============================================ */
+.hero{
+  position:relative;
+  min-height:100svh;
+  padding:120px var(--pad) 0;
+  display:flex; flex-direction:column; justify-content:center;
+  overflow:hidden;
+}
+
+/* grid lantai yang menjunam ke ufuk */
+.floor{
+  position:absolute; left:-25%; right:-25%; bottom:0; height:46vh;
+  background-image:
+    linear-gradient(to right,  var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size:64px 64px;
+  transform:perspective(340px) rotateX(66deg);
+  transform-origin:bottom center;
+  opacity:.5;
+  -webkit-mask-image:linear-gradient(to top, #000 5%, transparent 85%);
+          mask-image:linear-gradient(to top, #000 5%, transparent 85%);
+  pointer-events:none;
+}
+
+.hero-grid{
+  position:relative; z-index:2;
+  display:grid; grid-template-columns:1.35fr .65fr;
+  gap:40px; align-items:center;
+  max-width:1200px; width:100%; margin:0 auto;
+}
+@media(max-width:840px){
+  .hero-grid{ grid-template-columns:1fr; gap:24px; }
+}
+
+.eyebrow{
+  display:inline-block;
+  border:1px solid var(--line);
+  border-radius:3px;
+  padding:5px 10px;
+  margin-bottom:24px;
+}
+
+h1{
+  font-family:var(--display);
+  font-weight:800;
+  font-size:clamp(44px, 8.5vw, 108px);
+  line-height:.94;
+  letter-spacing:-.035em;
+  margin-bottom:22px;
+}
+h1 .thin{
+  display:block;
+  font-weight:400;
+  font-size:clamp(18px, 2.6vw, 30px);
+  letter-spacing:-.01em;
+  color:var(--muted);
+  margin-top:14px;
+  line-height:1.3;
+}
+h1 .thin b{ color:var(--z); font-weight:600; }
+
+.hero-note{
+  max-width:46ch; color:var(--muted); font-size:17px;
+}
+
+/* objek wireframe — signature page ni */
+.wire{ width:100%; max-width:300px; justify-self:center; }
+.wire ellipse, .wire circle{ fill:none; stroke:var(--z); stroke-width:1; }
+.wire .spin{ transform-origin:150px 150px; animation:spin 26s linear infinite; }
+.wire .vtx{ fill:var(--x); stroke:none; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+@media(max-width:840px){ .wire{ max-width:190px; opacity:.7; } }
+
+/* HUD stats bawah hero — macam overlay debug dalam engine */
+.hud{
+  position:relative; z-index:2;
+  max-width:1200px; width:100%; margin:56px auto 40px;
+  display:grid; grid-template-columns:repeat(4, 1fr);
+  border:1px solid var(--line);
+  border-radius:4px;
+  background:rgba(26,31,44,.6);
+}
+.hud div{ padding:14px 18px; border-right:1px solid var(--line); }
+.hud div:last-child{ border-right:none; }
+.hud b{
+  display:block; font-family:var(--mono); font-weight:500;
+  font-size:14px; color:var(--ink); margin-top:5px;
+}
+@media(max-width:700px){
+  .hud{ grid-template-columns:repeat(2,1fr); }
+  .hud div:nth-child(2){ border-right:none; }
+  .hud div:nth-child(1),.hud div:nth-child(2){ border-bottom:1px solid var(--line); }
+}
+
+/* ============================================
+   4. SEKSYEN AM
+   ============================================ */
+.sec{
+  max-width:1200px; margin:0 auto;
+  padding:100px var(--pad);
+  border-top:1px solid var(--line);
+}
+.sec-head{
+  display:flex; align-items:baseline; gap:14px; margin-bottom:44px;
+}
+.sec-head h2{
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(26px,4vw,40px); letter-spacing:-.03em;
+}
+
+.about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+.about-grid p{ color:var(--muted); margin-bottom:16px; font-size:17px; }
+.about-grid p strong{ color:var(--ink); font-weight:500; }
+@media(max-width:760px){ .about-grid{ grid-template-columns:1fr; gap:24px; } }
+
+/* ============================================
+   5. KAD PROJEK
+   ============================================ */
+.projects{ display:grid; gap:18px; }
+.card{
+  display:grid; grid-template-columns:176px 1fr auto;
+  gap:26px; align-items:center;
+  padding:22px;
+  border:1px solid var(--line);
+  border-radius:5px;
+  background:var(--panel);
+  text-decoration:none;
+  transition:border-color .2s, transform .2s;
+}
+.card:hover{ border-color:var(--z); transform:translateY(-2px); }
+
+.card-media{
+  position:relative;
+  width:176px; height:106px;
+  border-radius:4px;
+  overflow:hidden;
+  background:linear-gradient(155deg, #1E2433, #161B27);
+  border:1px solid var(--line);
+}
+.card-video{ width:100%; height:100%; object-fit:cover; display:block; }
+.card-media-ph{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+.card-media-ph span{ font-family:var(--mono); font-size:11px; color:var(--muted); opacity:.6; letter-spacing:.06em; }
+.card-status{
+  position:absolute; top:8px; left:8px; z-index:1;
+  font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase;
+  padding:3px 7px; border-radius:2px;
+  background:rgba(18,22,32,.85);
+  border:1px solid var(--z);
+  color:var(--z);
+  backdrop-filter:blur(4px);
+}
+.card-status.dev{ border-color:var(--x); color:var(--x); }
+
+.card .num{ font-family:var(--mono); font-size:12px; color:var(--z); }
+.card h3{
+  font-family:var(--display); font-weight:600;
+  font-size:21px; letter-spacing:-.02em; margin:6px 0 8px;
+}
+.card p{ color:var(--muted); font-size:15px; max-width:60ch; }
+.meta{ display:flex; flex-wrap:wrap; gap:16px; margin-top:16px; }
+.meta span{ font-family:var(--mono); font-size:11px; color:var(--muted); }
+.meta span i{ color:var(--ink); font-style:normal; }
+.card .arrow{ font-family:var(--mono); color:var(--muted); font-size:18px; }
+@media(max-width:760px){
+  .card{ grid-template-columns:1fr; gap:14px; }
+  .card-media{ width:100%; height:180px; }
+  .card .arrow{ display:none; }
+}
+
+/* ============================================
+   6. SKIL
+   ============================================ */
+.skills{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }
+.skills h4{
+  font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--z);
+  padding-bottom:10px; margin-bottom:14px;
+  border-bottom:1px solid var(--line);
+}
+.skills li{ list-style:none; padding:5px 0; color:var(--muted); font-size:15px; }
+@media(max-width:760px){ .skills{ grid-template-columns:1fr; gap:28px; } }
+
+/* ============================================
+   7. PERJALANAN — gaya "changelog"
+   ============================================ */
+.log{ position:relative; max-width:760px; }
+.log-entry{ display:grid; grid-template-columns:20px 1fr; gap:20px; padding-bottom:34px; }
+.log-entry:last-child{ padding-bottom:0; }
+.log-rail{ position:relative; display:flex; justify-content:center; }
+.log-rail::before{
+  content:''; position:absolute; top:0; bottom:-34px; left:50%;
+  width:1px; background:var(--line); transform:translateX(-50%);
+}
+.log-entry:last-child .log-rail::before{ display:none; }
+.log-dot{
+  position:relative; z-index:1; margin-top:5px;
+  width:9px; height:9px; border-radius:2px;
+  background:var(--z); box-shadow:0 0 0 4px var(--bg);
+}
+.log-entry.award .log-dot{ background:var(--x); }
+.log-date{ font-family:var(--mono); font-size:11px; color:var(--muted); margin-right:10px; }
+.log-tag{
+  display:inline-block; font-family:var(--mono); font-size:10px;
+  letter-spacing:.08em; text-transform:uppercase;
+  padding:2px 7px; border-radius:2px;
+  border:1px solid var(--z); color:var(--z);
+}
+.log-entry.award .log-tag{ border-color:var(--x); color:var(--x); }
+.log-body h3{
+  font-family:var(--display); font-weight:600; font-size:18px;
+  letter-spacing:-.01em; margin:8px 0 6px;
+}
+.log-body p{ color:var(--muted); font-size:15px; max-width:60ch; }
+
+/* ============================================
+   8. PENDIDIKAN — gaya "level track"
+   ============================================ */
+.edu-track{ display:flex; flex-wrap:wrap; gap:0; }
+.edu-node{
+  flex:1 1 220px;
+  padding:22px 24px 0 0;
+  border-top:3px solid var(--z);
+}
+.edu-node.current{ border-top-color:var(--x); }
+.edu-level{
+  display:block; font-family:var(--mono); font-size:11px;
+  letter-spacing:.1em; color:var(--z); margin-bottom:10px;
+}
+.edu-node.current .edu-level{ color:var(--x); }
+.edu-level em{ font-style:normal; color:var(--muted); }
+.edu-node h3{
+  font-family:var(--display); font-weight:600; font-size:19px;
+  letter-spacing:-.01em; margin-bottom:4px;
+}
+.edu-sub{ font-family:var(--mono); font-size:12px; color:var(--muted); margin-bottom:10px; }
+.edu-detail{ color:var(--muted); font-size:14.5px; max-width:34ch; }
+@media(max-width:760px){ .edu-node{ flex:1 1 100%; padding-right:0; } }
+
+/* ============================================
+   9. HUBUNGI
+   ============================================ */
+.contact h2{
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(32px,6vw,64px); letter-spacing:-.035em;
+  line-height:1.05; margin:18px 0 28px;
+}
+.contact .mail{
+  display:inline-block;
+  font-family:var(--mono); font-size:clamp(15px,2.6vw,22px);
+  color:var(--z); text-decoration:none;
+  border-bottom:1px solid var(--line); padding-bottom:4px;
+  transition:border-color .2s;
+}
+.contact .mail:hover{ border-color:var(--z); }
+.socials{ display:flex; flex-wrap:wrap; gap:24px; margin-top:34px; }
+.socials a{
+  font-family:var(--mono); font-size:13px; color:var(--muted);
+  text-decoration:none; transition:color .2s;
+}
+.socials a:hover{ color:var(--ink); }
+
+footer{
+  padding:26px var(--pad);
+  border-top:1px solid var(--line);
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+}
+
+/* ============================================
+   10. HUD readout melekat kat bawah kiri
+   ============================================ */
+.readout{
+  position:fixed; left:16px; bottom:16px; z-index:40;
+  font-family:var(--mono); font-size:10.5px; color:var(--muted);
+  background:rgba(18,22,32,.8);
+  border:1px solid var(--line); border-radius:3px;
+  padding:7px 11px;
+  backdrop-filter:blur(6px);
+  pointer-events:none;
+}
+.readout em{ color:var(--z); font-style:normal; }
+@media(max-width:640px){ .readout{ display:none; } }
+
+/* muncul bila scroll */
+.rise{ opacity:0; transform:translateY(16px); transition:opacity .6s, transform .6s; }
+.rise.on{ opacity:1; transform:none; }
+
+/* hormat setting "reduce motion" pengguna */
+@media(prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+  .rise{ opacity:1; transform:none; }
+  html{ scroll-behavior:auto; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== TOPBAR ===== -->
+<header class="topbar">
+  <span class="mark">IKHWANUDDIN</span>
+  <span class="status"><span class="dot"></span>TERBUKA UNTUK INTERNSHIP</span>
+  <nav class="navlinks">
+    <a href="#tentang">Tentang</a>
+    <a href="#projek">Projek</a>
+    <a href="#skil">Skil</a>
+    <a href="#perjalanan">Perjalanan</a>
+    <a href="#pendidikan">Pendidikan</a>
+    <a href="#hubungi">Hubungi</a>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="floor"></div>
+
+  <div class="hero-grid">
+    <div>
+      <!-- TUKAR: letak bandar kau -->
+      <span class="eyebrow tag">Malaysia · Sem 5</span>
+      <h1>
+        Ikhwan<br>uddin
+        <span class="thin">Pelajar <b>Game Technology</b> — gameplay programming &amp; prototaip.</span>
+      </h1>
+      <p class="hero-note">
+        Aku bina sistem yang buat game rasa sedap dimain: pergerakan, kamera, dan
+        gelung gameplay. Sekarang cari tempat internship untuk sesi hadapan.
+      </p>
+    </div>
+
+    <!-- objek wireframe berpusing -->
+    <svg class="wire" viewBox="0 0 300 300" aria-hidden="true">
+      <g class="spin">
+        <circle cx="150" cy="150" r="96"/>
+        <ellipse cx="150" cy="150" rx="96" ry="34"/>
+        <ellipse cx="150" cy="150" rx="96" ry="66"/>
+        <ellipse cx="150" cy="150" rx="34" ry="96"/>
+        <ellipse cx="150" cy="150" rx="66" ry="96"/>
+        <circle class="vtx" cx="150" cy="54"  r="3.5"/>
+        <circle class="vtx" cx="150" cy="246" r="3.5"/>
+        <circle class="vtx" cx="54"  cy="150" r="3.5"/>
+        <circle class="vtx" cx="246" cy="150" r="3.5"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hud">
+    <div><span class="tag">Semester</span><b>5 / 8</b></div>
+    <div><span class="tag">Projek siap</span><b>06</b></div>
+    <div><span class="tag">Engine</span><b>Unity · Unreal</b></div>
+    <div><span class="tag">Status</span><b>Cari internship</b></div>
+  </div>
+</section>
+
+<!-- ===== TENTANG ===== -->
+<section class="sec rise" id="tentang">
+  <div class="sec-head"><span class="tag">01</span><h2>Tentang aku</h2></div>
+  <div class="about-grid">
+    <div>
+      <p>
+        Aku pelajar <strong>Diploma Game Technology</strong> yang lebih suka duduk kat
+        bahagian sistem — controller, state machine, dan benda yang orang tak perasan
+        tapi terus rasa kalau tak kena.
+      </p>
+      <p>
+        Mula belajar sebab nak faham kenapa lompatan dalam sesetengah game rasa berat
+        dan sesetengah rasa ringan. Sampai sekarang tu masih soalan kegemaran aku.
+      </p>
+    </div>
+    <div>
+      <p>
+        Selain coding, aku pegang <strong>3D asset dan level blockout</strong> untuk
+        projek kumpulan — cukup untuk bina prototaip sendiri tanpa tunggu orang lain.
+      </p>
+      <p>
+        Sedang cari internship dalam <strong>gameplay programming</strong> atau
+        <strong>technical art</strong>. Boleh mula bila-bila lepas semester ni habis.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJEK =====
+     Salin satu blok <a class="card"> untuk tambah projek baru -->
+<section class="sec rise" id="projek">
+  <div class="sec-head"><span class="tag">02</span><h2>Projek</h2></div>
+
+  <div class="projects">
+
+    <a class="card" href="#">
+      <div class="card-media">
+        <!-- TUKAR: bila ada clip gameplay, ganti div bawah ni dengan:
+             <video class="card-video" muted loop playsinline poster="thumbnail.jpg">
+               <source src="clip.mp4" type="video/mp4">
+             </video>
+             (letak fail video/thumbnail dalam folder sama macam index.html) -->
+        <div class="card-media-ph"><span>PREVIEW</span></div>
+        <span class="card-status">Completed</span>
+      </div>
+      <div class="card-body">
+        <span class="num">PRJ_01</span>
+        <h3>Sungai Dalam</h3>
+        <p>Game platformer 2.5D berlatar kampung air. Aku tulis sistem pergerakan
+           pemain dengan coyote time dan jump buffering supaya kawalan rasa adil.</p>
+        <div class="meta">
+          <span>ROLE <i>Gameplay Programmer</i></span>
+          <span>ENGINE <i>Unity · C#</i></span>
+          <span>TAHUN <i>2025</i></span>
+        </div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="card" href="#">
+      <div class="card-media">
+        <div class="card-media-ph"><span>PREVIEW</span></div>
+        <span class="card-status dev">In Dev</span>
+      </div>
+      <div class="card-body">
+        <span class="num">PRJ_02</span>
+        <h3>Relay Point</h3>
+        <p>Prototaip co-op dua pemain untuk game jam 48 jam. Fokus pada sistem
+           interaksi objek dan sinkronisasi input dua pad pada satu skrin.</p>
+        <div class="meta">
+          <span>ROLE <i>Programmer · Level Design</i></span>
+          <span>ENGINE <i>Unreal · Blueprint</i></span>
+          <span>TAHUN <i>2025</i></span>
+        </div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="card" href="#">
+      <div class="card-media">
+        <div class="card-media-ph"><span>PREVIEW</span></div>
+        <span class="card-status">Completed</span>
+      </div>
+      <div class="card-body">
+        <span class="num">PRJ_03</span>
+        <h3>Warung Sim</h3>
+        <p>Game pengurusan warung mudah. Sistem tempahan pelanggan, inventori bahan,
+           dan pengiraan untung harian — semua guna ScriptableObject.</p>
+        <div class="meta">
+          <span>ROLE <i>Solo</i></span>
+          <span>ENGINE <i>Unity · C#</i></span>
+          <span>TAHUN <i>2024</i></span>
+        </div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- ===== SKIL ===== -->
+<section class="sec rise" id="skil">
+  <div class="sec-head"><span class="tag">03</span><h2>Skil &amp; tools</h2></div>
+  <div class="skills">
+    <div>
+      <h4>Programming</h4>
+      <ul>
+        <li>C# (Unity)</li>
+        <li>C++ asas (Unreal)</li>
+        <li>Blueprint visual scripting</li>
+        <li>Git &amp; GitHub</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Engine &amp; sistem</h4>
+      <ul>
+        <li>Unity — URP, Cinemachine, Input System</li>
+        <li>Unreal Engine 5</li>
+        <li>State machine &amp; AI asas</li>
+        <li>UI / HUD implementation</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Art pipeline</h4>
+      <ul>
+        <li>Blender — modeling &amp; UV</li>
+        <li>Substance Painter asas</li>
+        <li>Level blockout</li>
+        <li>Figma untuk UI mockup</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PERJALANAN =====
+     Salin satu blok .log-entry untuk tambah entri baru.
+     Guna class "award" pada .log-entry untuk anugerah (merah),
+     tanpa class tu untuk pengalaman/aktiviti (biru). -->
+<section class="sec rise" id="perjalanan">
+  <div class="sec-head"><span class="tag">04</span><h2>Perjalanan</h2></div>
+
+  <div class="log">
+
+    <div class="log-entry award">
+      <div class="log-rail"><span class="log-dot"></span></div>
+      <div class="log-body">
+        <span class="log-date">2026.02</span>
+        <span class="log-tag">Anugerah</span>
+        <h3>Nama anugerah / pertandingan</h3>
+        <p>Deskripsi ringkas pasal anugerah ni — apa projek, apa peranan kau, kenapa menang.</p>
+      </div>
+    </div>
+
+    <div class="log-entry">
+      <div class="log-rail"><span class="log-dot"></span></div>
+      <div class="log-body">
+        <span class="log-date">2025.11</span>
+        <span class="log-tag">Pengalaman</span>
+        <h3>Nama pengalaman / peranan</h3>
+        <p>Contoh: fasilitator bengkel, ahli kelab, atau kerja sambilan berkaitan teknologi.</p>
+      </div>
+    </div>
+
+    <div class="log-entry award">
+      <div class="log-rail"><span class="log-dot"></span></div>
+      <div class="log-body">
+        <span class="log-date">2025.06</span>
+        <span class="log-tag">Anugerah</span>
+        <h3>Nama anugerah / game jam</h3>
+        <p>Deskripsi ringkas pasal pencapaian ni.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== PENDIDIKAN =====
+     Tukar 3 blok .edu-node ni ikut perjalanan akademik kau sendiri.
+     Letak class "current" pada peringkat yang sedang kau duduki. -->
+<section class="sec rise" id="pendidikan">
+  <div class="sec-head"><span class="tag">05</span><h2>Pendidikan</h2></div>
+
+  <div class="edu-track">
+
+    <div class="edu-node">
+      <span class="edu-level">LVL 01</span>
+      <h3>Nama sekolah menengah</h3>
+      <p class="edu-sub">SPM · tahun</p>
+      <p class="edu-detail">Keputusan atau aliran ringkas, kalau nak sertakan.</p>
+    </div>
+
+    <div class="edu-node">
+      <span class="edu-level">LVL 02</span>
+      <h3>Nama matrikulasi / asasi</h3>
+      <p class="edu-sub">Jurusan · tahun</p>
+      <p class="edu-detail">CGPA atau pencapaian ringkas, kalau nak sertakan.</p>
+    </div>
+
+    <div class="edu-node current">
+      <span class="edu-level">LVL 03 <em>— sekarang</em></span>
+      <h3>Nama universiti / kolej</h3>
+      <p class="edu-sub">Diploma Game Technology · tahun–sekarang</p>
+      <p class="edu-detail">CGPA semasa atau pencapaian yang nak ditonjolkan.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== HUBUNGI ===== -->
+<section class="sec contact rise" id="hubungi">
+  <span class="tag">06 — Hubungi</span>
+  <h2>Ada slot internship?<br>Jom cakap.</h2>
+  <!-- TUKAR: guna email yang kau betul-betul check -->
+  <a class="mail" href="mailto:hello@ikhwanuddin.online">hello@ikhwanuddin.online</a>
+  <div class="socials">
+    <a href="#">GitHub ↗</a>
+    <a href="#">itch.io ↗</a>
+    <a href="#">LinkedIn ↗</a>
+    <a href="#">Resume (PDF) ↗</a>
+  </div>
+</section>
+
+<footer>
+  <span class="tag">© 2026 Ikhwanuddin</span>
+  <span class="tag">Dibina sendiri</span>
+</footer>
+
+<!-- HUD readout -->
+<div class="readout">POS_Y <em id="posy">0000</em> · SEC <em id="secname">HERO</em></div>
+
+<script>
+// papar kedudukan scroll + seksyen semasa dalam HUD
+const posy = document.getElementById('posy');
+const secname = document.getElementById('secname');
+const secs = [...document.querySelectorAll('section[id]')];
+
+function updateHUD(){
+  posy.textContent = String(Math.round(window.scrollY)).padStart(4,'0');
+  let current = 'HERO';
+  for (const s of secs){
+    if (s.getBoundingClientRect().top <= window.innerHeight * 0.4) {
+      current = s.id.toUpperCase();
+    }
+  }
+  secname.textContent = current;
+}
+window.addEventListener('scroll', updateHUD, {passive:true});
+updateHUD();
+
+// fade-in bila seksyen masuk skrin
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+}, {threshold:0.12});
+document.querySelectorAll('.rise').forEach(el=>io.observe(el));
+
+// video preview kad projek — main bila hover, berhenti bila keluar
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduceMotion) {
+  document.querySelectorAll('.card-video').forEach(v=>{
+    const card = v.closest('.card');
+    card.addEventListener('mouseenter', ()=>{ v.play().catch(()=>{}); });
+    card.addEventListener('mouseleave', ()=>{ v.pause(); v.currentTime = 0; });
+  });
+}
+</script>
+
+</body>
+</html>
