@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>iPETRO — Zero Leak Challenge — Ikhwanuddin</title>
+<meta name="description" content="iPETRO — Zero Leak Challenge — an industrial VR training simulation built in Unity that teaches flange assembly and bolt-tightening procedure to the ASME PCC-1 standard. Gold Award winner.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --void:    #0B0B10;
+  --panel:   #15161C;
+  --panel-2: #1B1C22;
+  --line:    #24252C;
+  --ink:     #F4F4F6;
+  --muted:   #8C8D97;
+  --red:     #FF3355;
+
+  --display: 'Archivo', system-ui, sans-serif;
+  --body:    'IBM Plex Sans', system-ui, sans-serif;
+  --mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  --pad: clamp(20px, 5vw, 72px);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--void);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{ color:inherit; }
+:focus-visible{ outline:2px solid var(--red); outline-offset:3px; }
+
+body::before{
+  content:'';
+  position:fixed; inset:0; z-index:2; pointer-events:none;
+  opacity:.035; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+.caption{
+  font-family:var(--body); font-size:11px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+}
+
+/* topbar */
+.topbar{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  display:flex; align-items:center; gap:20px;
+  padding:14px var(--pad);
+  background:rgba(11,11,16,.82);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .mark{ font-family:var(--display); font-weight:800; letter-spacing:-.02em; font-size:15px; }
+.navlinks{ margin-left:auto; display:flex; gap:26px; }
+.navlinks a{
+  position:relative;
+  font-family:var(--body); font-size:12.5px; font-weight:500; letter-spacing:.04em;
+  text-decoration:none; color:var(--muted);
+  transition:color .2s; padding-bottom:3px;
+}
+.navlinks a::after{
+  content:''; position:absolute; left:0; bottom:0; height:1px; width:100%;
+  background:var(--red); transform:scaleX(0); transform-origin:left;
+  transition:transform .25s ease;
+}
+.navlinks a:hover{ color:var(--ink); }
+.navlinks a:hover::after{ transform:scaleX(1); }
+@media(max-width:640px){ .navlinks{ display:none; } }
+
+/* back link */
+.backbar{ padding:130px var(--pad) 0; max-width:1240px; margin:0 auto; }
+.back-link{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:12.5px; color:var(--muted);
+  text-decoration:none; transition:color .2s, transform .2s;
+}
+.back-link:hover{ color:var(--red); transform:translateX(-3px); }
+
+/* detail hero */
+.dhero{ max-width:1240px; margin:0 auto; padding:28px var(--pad) 60px; }
+.dhero-top{
+  display:flex; justify-content:space-between; align-items:flex-start;
+  flex-wrap:wrap; gap:16px; margin-bottom:28px;
+}
+.dhero-role{
+  font-family:var(--body); font-size:11.5px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--red);
+}
+.dstatus{
+  display:flex; align-items:center; gap:7px; color:var(--muted);
+}
+.dstatus .dot{ width:6px; height:6px; border-radius:50%; background:var(--red); box-shadow:0 0 0 3px rgba(255,51,85,.18); }
+.dhero h1{
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(38px, 6vw, 68px); letter-spacing:-.03em; line-height:1.02;
+  margin-bottom:16px;
+}
+.dpitch{ max-width:60ch; color:var(--muted); font-size:18px; margin-bottom:24px; }
+.dtags{ display:flex; flex-wrap:wrap; gap:10px; }
+.dtags span{
+  font-family:var(--mono); font-size:12.5px; color:var(--ink);
+  border:1px solid var(--line); padding:7px 14px; border-radius:20px;
+  background:var(--panel);
+}
+.award-line{
+  display:flex; align-items:center; gap:8px; margin-top:22px;
+  font-family:var(--mono); font-size:12px; color:var(--red);
+}
+.award-line svg{ width:15px; height:15px; flex-shrink:0; stroke:var(--red); fill:none; }
+
+/* video slot */
+.video-slot{
+  max-width:1240px; margin:0 auto; padding:0 var(--pad) 60px;
+}
+.video-slot-inner{
+  position:relative; aspect-ratio:16/9; overflow:hidden;
+  border-radius:8px; border:1px solid var(--line);
+  background:linear-gradient(155deg,#1B1C22,#101116);
+  display:flex; align-items:center; justify-content:center;
+}
+.video-slot-motif{ position:absolute; inset:0; width:100%; height:100%; opacity:.9; }
+.video-slot-label{
+  position:relative; z-index:1;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); text-align:center;
+}
+.video-slot-label svg{ width:40px; height:40px; stroke:var(--red); fill:none; opacity:.8; }
+.video-slot-badge{
+  position:absolute; top:14px; left:14px; z-index:1;
+  font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase;
+  padding:3px 8px; border-radius:2px;
+  border:1px solid var(--red); color:var(--red);
+  background:rgba(11,11,16,.85);
+}
+
+/* sections */
+.sec{ max-width:1240px; margin:0 auto; padding:72px var(--pad); border-top:1px solid var(--line); }
+.sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:36px; }
+.sec-head .idx{ font-family:var(--mono); font-size:13px; color:var(--red); }
+.sec-head h2{ font-family:var(--display); font-weight:800; font-size:clamp(26px,3.6vw,38px); letter-spacing:-.03em; }
+.sec p{ color:var(--muted); font-size:17px; max-width:70ch; margin-bottom:16px; }
+.sec p:last-child{ margin-bottom:0; }
+.sec p strong{ color:var(--ink); font-weight:500; }
+
+.breakdown{ display:flex; flex-direction:column; gap:28px; }
+.breakdown-item h3{
+  font-family:var(--display); font-weight:700; font-size:18px; letter-spacing:-.01em;
+  margin-bottom:8px; color:var(--ink);
+}
+.breakdown-item p{ margin-bottom:0; }
+
+.challenges{ display:flex; flex-direction:column; }
+.challenge{
+  display:flex; gap:20px;
+  padding:24px 0; border-top:1px solid var(--line);
+}
+.challenges .challenge:first-child{ border-top:none; padding-top:0; }
+.challenge-num{ font-family:var(--mono); font-size:13px; color:var(--red); flex:0 0 28px; }
+.challenge h3{
+  font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-.01em;
+  margin-bottom:6px; color:var(--ink);
+}
+.challenge p{ margin-bottom:0; }
+
+.link-rows{ display:flex; flex-direction:column; gap:16px; }
+.link-rows a{
+  display:flex; align-items:center; gap:12px;
+  font-family:var(--mono); font-size:15px; color:var(--ink);
+  text-decoration:none; transition:color .2s, transform .2s;
+  width:fit-content;
+}
+.link-rows a:hover{ color:var(--red); transform:translateX(4px); }
+.link-rows svg{ width:17px; height:17px; flex-shrink:0; stroke:var(--red); }
+.link-note{ font-family:var(--mono); font-size:13px; color:var(--muted); }
+
+footer{
+  padding:26px var(--pad); border-top:1px solid var(--line);
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  max-width:1240px; margin:0 auto;
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+  html{ scroll-behavior:auto; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <span class="mark">IKHWANUDDIN</span>
+  <nav class="navlinks">
+    <a href="index.html#about">About</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="index.html#skills">Skills</a>
+    <a href="index.html#education">Education</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<div class="backbar">
+  <a class="back-link" href="index.html#projects">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to portfolio
+  </a>
+</div>
+
+<section class="dhero">
+  <div class="dhero-top">
+    <span class="dhero-role">VR Developer</span>
+    <span class="dstatus caption"><span class="dot"></span>Completed</span>
+  </div>
+  <h1>iPETRO — Zero Leak Challenge</h1>
+  <p class="dpitch">An industrial VR training simulator that teaches real flange bolt-tightening
+    procedure — safely, repeatably, and to the ASME PCC-1 standard — built in Unity.</p>
+  <div class="dtags">
+    <span>Unity 2022 LTS</span>
+    <span>C#</span>
+    <span>XR Interaction Toolkit</span>
+    <span>Virtual Reality</span>
+    <span>Industrial Training</span>
+  </div>
+  <div class="award-line">
+    <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4a1 1 0 0 0-1 1v1a4 4 0 0 0 4 4M17 5h3a1 1 0 0 1 1 1v1a4 4 0 0 1-4 4"/></svg>
+    Gold Award — FTMK Workshop II Innovation Competition
+  </div>
+</section>
+
+<div class="video-slot">
+  <!-- REPLACE: once a real capture exists, swap this placeholder for:
+       <video class="video-slot-media" controls poster="ipetro-poster.jpg">
+         <source src="ipetro-demo.mp4" type="video/mp4">
+       </video> -->
+  <div class="video-slot-inner">
+    <span class="video-slot-badge">Demo</span>
+    <svg class="video-slot-motif" viewBox="0 0 800 450" aria-hidden="true">
+      <g transform="translate(400 225)">
+        <circle r="150" fill="none" stroke="rgba(255,51,85,.28)" stroke-width="1.5"/>
+        <circle r="105" fill="none" stroke="rgba(255,51,85,.45)" stroke-width="1.5"/>
+        <circle r="22" fill="none" stroke="rgba(255,51,85,.55)" stroke-width="2"/>
+        <circle cx="150" cy="0" r="4" fill="#FF3355"/>
+        <circle cx="106" cy="106" r="4" fill="#FF3355"/>
+        <circle cx="0" cy="150" r="4" fill="#FF3355"/>
+        <circle cx="-106" cy="106" r="4" fill="#FF3355"/>
+        <circle cx="-150" cy="0" r="4" fill="#FF3355"/>
+        <circle cx="-106" cy="-106" r="4" fill="#FF3355"/>
+        <circle cx="0" cy="-150" r="4" fill="#FF3355"/>
+        <circle cx="106" cy="-106" r="4" fill="#FF3355"/>
+      </g>
+    </svg>
+    <div class="video-slot-label">
+      <svg viewBox="0 0 24 24"><polygon points="9,8 17,12 9,16" fill="var(--red)" stroke="none"/><circle cx="12" cy="12" r="10"/></svg>
+      Demo video — coming soon
+    </div>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="sec-head"><span class="idx">01</span><h2>Overview</h2></div>
+  <p>iPETRO — Zero Leak Challenge is an industrial Virtual Reality training simulation built for
+    a Flange Management System (FMS) — the equipment and procedure used to safely assemble and
+    seal pipe flanges in oil &amp; gas facilities.</p>
+  <p>Rather than training on live equipment, trainees put on a headset and practice the full
+    flange assembly and bolt-tightening sequence to the ASME PCC-1 standard, repeating it until
+    the procedure is correct — with zero real-world risk. The project won a <strong>Gold Award</strong>
+    at the FTMK Workshop II Innovation Competition.</p>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><span class="idx">02</span><h2>My role</h2></div>
+  <p>I worked as the <strong>VR Developer</strong> on this project, building the interaction
+    system in Unity with the XR Interaction Toolkit, designing the diegetic UI, and scripting the
+    bolt-tightening sequence logic that enforces the correct procedure.</p>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><span class="idx">03</span><h2>Technical breakdown</h2></div>
+  <div class="breakdown">
+    <div class="breakdown-item">
+      <h3>Diegetic UI system</h3>
+      <p>In-world UI panels — not a floating HUD — guide trainees through each maintenance step,
+        keeping the simulation immersive and reducing disorientation common in VR training tools.</p>
+    </div>
+    <div class="breakdown-item">
+      <h3>Bolt-tightening sequence logic</h3>
+      <p>A step-sequenced interaction system enforces the correct ASME PCC-1 star-pattern
+        tightening order, validated through XR Interaction Toolkit grab-and-rotate interactions.</p>
+    </div>
+    <div class="breakdown-item">
+      <h3>Interactive maintenance workflow</h3>
+      <p>The full flange assembly workflow — inspect, align, bolt, torque-check — is scripted as
+        a state machine that only advances once each step is completed correctly.</p>
+    </div>
+    <div class="breakdown-item">
+      <h3>Industrial safety training framing</h3>
+      <p>The simulation is designed to let trainees fail safely, unlike a real flange line, and
+        repeat the procedure until they can complete it correctly and confidently.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><span class="idx">04</span><h2>Challenges</h2></div>
+  <div class="challenges">
+    <div class="challenge">
+      <span class="challenge-num">01</span>
+      <div>
+        <h3>Making a physical procedure feel right in VR</h3>
+        <p>Translating a real bolt-tightening star pattern into VR controller interactions,
+          without the physical wrench-feel of the real tool, took several iterations to make
+          the grab-and-rotate interaction read as correct without being fiddly.</p>
+      </div>
+    </div>
+    <div class="challenge">
+      <span class="challenge-num">02</span>
+      <div>
+        <h3>Guiding without a floating HUD</h3>
+        <p>Committing to a diegetic-only UI meant every instruction had to live inside the 3D
+          scene itself — in-world panels and highlights — rather than reaching for an easy
+          floating text overlay.</p>
+      </div>
+    </div>
+    <div class="challenge">
+      <span class="challenge-num">03</span>
+      <div>
+        <h3>Designing for safety-critical accuracy</h3>
+        <p>Because the sequence trains a real industrial standard, it had to strictly enforce the
+          correct ASME PCC-1 order and clearly communicate mistakes back to the trainee rather
+          than silently letting an incorrect step pass.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><span class="idx">05</span><h2>Links</h2></div>
+  <div class="link-rows">
+    <a href="index.html#projects">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to portfolio
+    </a>
+    <a href="mailto:ikhwanuddinworks@gmail.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      ikhwanuddinworks@gmail.com
+    </a>
+    <a href="https://github.com/wanpenter" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+      github.com/wanpenter
+    </a>
+  </div>
+  <p class="link-note" style="margin-top:20px;">Source code and a full training-session demo video are coming soon.</p>
+</section>
+
+<footer>
+  <span class="caption">© 2026 Ikhwanuddin</span>
+  <span class="caption">Built solo</span>
+</footer>
+
+</body>
+</html>
