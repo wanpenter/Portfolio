@@ -168,8 +168,15 @@ Unchanged shape/surface logic; card grid gap increased slightly (28px) to match 
 ### Pills / Tags
 Unchanged.
 
-### Hero Silhouette (signature component)
-A low-poly geometric bust (SVG polygons, no facial detail) stands in for the missing profile photo — dark panel-toned facets with one red-lit rim facet, bottom-aligned in the hero grid, overlapping the ghost wordmark the way a portrait would in the pinned reference. It is explicitly `aria-hidden` and commented in source as a placeholder, never presented as if it were real photography.
+### Hero Laser Vault (signature component)
+A real-time WebGL volume (Three.js, loaded from CDN as an ES module — no build step) occupying the hero figure slot: a hairline wireframe cage crossed by thin sweeping Signal Red laser beams, with a wireframe pearl at its centre and a small control box at its base. It is a direct reference to VaultBreak MR — the laser security field, the objective, and the control boxes you disable — so the hero demonstrates the subject's actual discipline rather than describing it.
+
+It obeys the Two-Field Rule: every red element here is a **stroke or point, never a fill**, so the volume stays an accent region rather than becoming a third committed-red zone. Because it sits in front of the ghost wordmark, a near-opaque void-black radial wash sits behind the canvas — without it, red beams cross red letterforms and both lose contrast (the No-Red-On-Red Rule applied to non-text marks).
+
+Constraints it must keep: `aria-hidden`, pixel ratio capped at 2, beam count reduced below 900px, the render loop paused whenever the hero is off-screen or the tab is hidden, and a single static frame (no loop, no pointer tracking) under `prefers-reduced-motion`.
+
+### Hero Silhouette (fallback placeholder)
+A low-poly geometric bust (SVG polygons, no facial detail) stands in for the missing profile photo — dark panel-toned facets with one red-lit rim facet, bottom-aligned in the hero grid, overlapping the ghost wordmark the way a portrait would in the pinned reference. It is explicitly `aria-hidden` and commented in source as a placeholder, never presented as if it were real photography. It now serves as the no-WebGL fallback: the laser vault reveals itself only once Three.js has booted, so a browser that cannot render it keeps this figure instead of an empty gap.
 
 ### Device Mockup (signature component)
 A pure CSS/SVG laptop frame in the Contact field (rounded bezel, three window-chrome dots, a clipped trapezoid base) containing a miniature illustrated preview of the site itself — a mini wordmark, greeked content bars, and an accent CTA bar. It stands in for the pinned reference's photographic laptop-and-prop mockup without fabricating a photograph.
