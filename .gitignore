@@ -1,2 +1,13 @@
+# Agent config
 .claude/
-Muhamad_Ikhwanuddin_Internship_Resume.pdf.pdf
+
+# Local scratch — drafts, duplicates, anything not meant to ship
+.local/
+
+# Résumé source — the version that ships is assets/ikhwanuddin-resume.pdf
+*.docx
+
+# OS junk
+Thumbs.db
+desktop.ini
+.DS_Store
