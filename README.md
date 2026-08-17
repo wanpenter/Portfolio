@@ -21,23 +21,33 @@ Sections: About, Projects, Skills, Journey, Education, Contact.
 - `IntersectionObserver` for scroll-triggered reveals
 - Google Fonts: Archivo, IBM Plex Sans, IBM Plex Mono
 
-Everything lives in a single `index.html` file — styles and scripts included.
+Each page is self-contained — styles and scripts live inline in the file they belong to.
 
 ## Structure
 
 ```
 .
-├── index.html              # main page: markup, styles, scripts
-├── ipetro.html             # case study
-├── vaultbreak.html         # case study
-├── workshop-system.html    # case study
-├── assets/
+├── index.html              # the main site: markup, styles, scripts
+├── work/                   # project case studies, one page each
+│   ├── ipetro.html
+│   ├── vaultbreak.html
+│   └── workshop-system.html
+├── assets/                 # everything served to the browser
 │   ├── img/projects/       # project screenshots (see its README)
 │   ├── favicon.svg
+│   ├── ikhwanuddin-resume.pdf
 │   ├── og-image.png        # rendered — regenerate from og-source.html
 │   └── og-source.html      # template for the OG image
+├── docs/                   # reference material, not deployed
+│   └── inspo-website.jpg
+├── _redirects              # Netlify: old root URLs → /work/
+├── DESIGN.md               # visual system (read by the Impeccable skill)
+├── PRODUCT.md              # product context (read by the Impeccable skill)
 └── README.md
 ```
+
+Case-study pages sit one level down, so their links back to the site are
+relative to the parent: `../index.html#projects`, `../assets/favicon.svg`.
 
 ## Development
 
@@ -78,6 +88,9 @@ there is no build step to share it. Change one, change all four.
 
 Hosted on Netlify with a custom domain. Pushes to `main` deploy automatically —
 no build command, publish directory is the repository root.
+
+`_redirects` 301s the pre-`/work/` case-study URLs to their current homes; leave it
+in place as long as anything out there still links to `/ipetro.html` and friends.
 
 ## License
 

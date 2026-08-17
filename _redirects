@@ -1,0 +1,4 @@
+# Case studies moved from the root into /work/ — keep the old URLs alive.
+/ipetro.html            /work/ipetro.html            301
+/vaultbreak.html        /work/vaultbreak.html        301
+/workshop-system.html   /work/workshop-system.html   301
