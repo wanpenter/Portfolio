@@ -173,171 +173,127 @@ body::before{
 @media(max-width:900px){ .navlinks{ display:none; } }
 
 /* ============================================
-   3. HERO
-   ============================================ */
+   3. HERO — 3D Spline hero, ported 1:1
+   ============================================
+   A faithful port of the 21st.dev "3d-hero-section-boxes" component. The values
+   are its Tailwind classes resolved: text-7xl = 4.5rem, gray-300 = #d1d5db,
+   cyan-400 = #22d3ee, rounded-2xl = 1rem, max-w-screen-xl = 1280px. The site's
+   own tokens are deliberately not used here — this block owns its colours,
+   exactly as the component did. */
+
+/* -- navbar ---------------------------------------------------------------
+   The component's fixed translucent bar. The links stay the site's real ones:
+   the component ships Home / Cases / Library / Resources pointing at "#", which
+   would break navigation to the sections that still exist further down. */
+.topbar{
+  z-index:20;
+  padding:16px var(--pad);
+  background:rgba(13, 13, 24, .3);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  border-bottom:none;
+  border-radius:0 0 .75rem .75rem;
+  color:#fff;
+}
+.topbar .mark{ color:#fff; }
+.navlinks a{ color:#d1d5db; font-size:14px; transition:color .15s; }
+.navlinks a:hover{ color:#fff; }
+.navlinks a::after{ display:none; }
+.topbar-cta{
+  border:1px solid #fff; color:#fff;
+  padding:8px 20px; border-radius:9999px;
+  font-size:14px; text-decoration:none; white-space:nowrap;
+  transition:background .3s, color .3s;
+}
+.topbar-cta:hover{ background:#fff; color:#000; }
+
+/* -- hero ------------------------------------------------------------------ */
 .hero{
   position:relative;
-  min-height:100svh;
-  padding:130px var(--pad) 70px;
-  display:flex; flex-direction:column; justify-content:center;
+  min-height:100vh;
   overflow:hidden;
+  background:#000;
+}
+/* Spline layer. Sits behind everything and stays interactive so the scene can be
+   orbited; the overlay above is pointer-events:none except on its buttons — the
+   same split the component made. */
+.hero-3d{
+  position:absolute; inset:0; z-index:0;
+  opacity:0; transition:opacity .8s ease;
+}
+.hero-3d.on{ opacity:1; }
+.hero-3d spline-viewer{
+  position:absolute; inset:0;
+  width:100%; height:100%; display:block;
 }
 
-.ghost{
-  position:absolute; top:128px; left:50%; transform:translateX(-50%);
-  z-index:-1;
+/* The component's two crossed gradients, verbatim. */
+.hero-veil{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    linear-gradient(to right, rgba(0,0,0,.8), transparent 30%, transparent 70%, rgba(0,0,0,.8)),
+    linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.9));
+}
+
+.hero-overlay{
+  position:absolute; inset:0; z-index:10;
+  display:flex; align-items:center;
+  pointer-events:none;
+}
+.hero-content{
+  color:#fff;
+  width:100%; max-width:1280px; margin:0 auto;
+  padding:0 var(--pad);
+}
+
+/* Typography — the hero is one statement now, so the hierarchy is carried by
+   weight and scale rather than by layout. Archivo 900 gives the name its mass;
+   the line under it drops to 400 so the contrast reads as deliberate rather than
+   as two headings competing. Both track tighter as they grow, which is what keeps
+   large display type from falling apart, and the name clamps to 0.86 leading so
+   it sets as a single block rather than a row of words. */
+.hero-name{
+  display:block;
   font-family:var(--display); font-weight:900;
-  font-size:clamp(80px, 11vw, 155px);
-  line-height:1; letter-spacing:-.045em;
-  /* decoration, not signal — neutral per the accent discipline */
-  color:var(--line-light);
-  white-space:nowrap;
-  pointer-events:none; user-select:none;
-  animation:ghostSettle .9s cubic-bezier(.16,1,.3,1) both;
+  font-size:clamp(3.2rem, 12vw, 10rem);
+  line-height:.86; letter-spacing:-.05em;
+  text-transform:uppercase;
+  margin:0; color:#fff;
 }
-@media(max-width:640px){ .ghost{ font-size:clamp(70px, 20vw, 120px); top:330px; } }
+.hero-tagline{
+  display:block;
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(1.35rem, 3.4vw, 3.1rem);
+  line-height:1.1; letter-spacing:-.02em;
+  margin-top:.34em; color:#fff;
+}
+/* The accent word steps up one weight as well as changing colour, so it still
+   reads as emphasis where the cyan is hard to see. */
+.hero-tagline .accent{ color:var(--signal); font-weight:600; }
 
-/* hero boot-sequence: one authored entrance, not a scroll-reveal repeat */
-@keyframes ghostSettle{
-  from{ opacity:0; transform:translateX(-50%) scale(1.05); }
-  to{ opacity:1; transform:translateX(-50%) scale(1); }
+/* Mono, wide-tracked, under a hairline — the one small element, set against two
+   large ones. inline-block keeps the rule the width of the text, not the column. */
+.hero-kicker{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
+  color:#9aa3ad;
+  margin-top:2.4rem; padding-top:1.1rem;
+  border-top:1px solid rgba(255,255,255,.14);
 }
-@keyframes heroFade{
-  from{ opacity:0; transform:translateY(14px); }
+@media(max-width:640px){
+  .hero-kicker{ font-size:.62rem; letter-spacing:.16em; margin-top:1.8rem; }
+}
+
+/* One authored entrance, staggered so the name lands before the line under it. */
+@keyframes heroRise{
+  from{ opacity:0; transform:translateY(18px); }
   to{ opacity:1; transform:none; }
 }
-@keyframes cursorBlink{
-  0%,49%{ opacity:1; }
-  50%,100%{ opacity:0; }
-}
-@keyframes signalSweep{
-  0%{ transform:translateX(-160%); opacity:0; }
-  12%{ opacity:1; }
-  88%{ opacity:1; }
-  100%{ transform:translateX(340%); opacity:0; }
-}
-.signal-sweep{
-  position:absolute; top:0; left:0; width:40%; height:100%;
-  background:linear-gradient(100deg, transparent,
-    color-mix(in srgb, var(--ink) 4%, transparent) 45%,
-    color-mix(in srgb, var(--signal) 18%, transparent) 50%,
-    color-mix(in srgb, var(--ink) 4%, transparent) 55%, transparent);
-  opacity:0; transform:translateX(-160%);
-  pointer-events:none; z-index:2;
-  animation:signalSweep 1.8s cubic-bezier(.4,0,.2,1) 1.1s 1 both;
-}
-.cursor{
-  display:inline-block; width:.05em; height:.8em; margin-left:.06em;
-  background:var(--signal); vertical-align:-.04em;
-  animation:cursorBlink 1s step-end infinite .95s;
-}
-
-.hero-inner{ position:relative; z-index:1; max-width:1240px; margin:0 auto; width:100%; }
-
-.hero-top{
-  display:flex; justify-content:space-between; align-items:flex-start;
-  margin-bottom:56px; flex-wrap:wrap; gap:16px;
-  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .25s both;
-}
-.hero-role{
-  display:flex; flex-direction:column; gap:2px;
-  font-family:var(--body); font-size:11.5px; font-weight:600; letter-spacing:.1em;
-  text-transform:uppercase; color:var(--signal-text);
-}
-.hero-status{
-  display:flex; align-items:center; gap:7px;
-  color:var(--ink-soft);
-}
-.hero-status .dot{
-  width:6px; height:6px; border-radius:50%; background:var(--signal);
-  box-shadow:0 0 0 3px color-mix(in srgb, var(--signal) 20%, transparent);
-}
-
-.hero-main{
-  position:relative;
-  display:grid; grid-template-columns:1.15fr .8fr .45fr;
-  gap:32px; align-items:end;
-}
-@media(max-width:900px){ .hero-main{ grid-template-columns:1fr; gap:36px; } }
-
-h1{
-  font-family:var(--display); font-weight:800;
-  font-size:clamp(44px, 7.4vw, 92px);
-  line-height:.96; letter-spacing:-.035em;
-  margin-bottom:22px;
-  display:flex; flex-wrap:wrap; align-items:baseline; gap:.18em;
-  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .38s both;
-}
-h1 .lede{
-  font-weight:500; font-size:.26em; letter-spacing:.01em;
-  color:var(--ink-soft);
-}
-/* The name is a flex item that can be shrunk below its natural width. "Ikhwanuddin"
-   is one unbreakable word, so the only break opportunity is in front of the cursor —
-   which used to drop it onto a line of its own. Keep the two together. */
-h1 .name{ white-space:nowrap; }
-.hero-note{
-  max-width:42ch; color:var(--ink-soft); font-size:16.5px; padding-bottom:6px;
-  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .5s both;
-}
-
-.hero-figure-wrap{
-  position:relative; display:flex; justify-content:center;
-  align-self:end;
-  animation:heroFade .7s cubic-bezier(.16,1,.3,1) .42s both;
-}
-.hero-figure{
-  width:100%; max-width:300px; height:auto; display:block;
-  filter:drop-shadow(0 24px 44px color-mix(in srgb, var(--ink) 18%, transparent));
-}
-@media(max-width:900px){ .hero-figure-wrap{ max-width:240px; margin:0 auto; } }
-
-/* Hero laser vault — the security-laser volume from VaultBreak MR, rendered live
-   in WebGL. Stays hidden until Three.js has actually booted, so a browser without
-   WebGL (or with the CDN blocked) simply keeps the low-poly SVG placeholder. */
-.hero-vault{
-  position:relative;
-  width:100%; max-width:300px;
-  aspect-ratio:240 / 380;
-  display:none;
-}
-.hero-vault.on{ display:block; }
-.hero-vault.on ~ .hero-figure{ display:none; }
-/* wash — separates the vault from the ghost wordmark behind it. Now tinted to
-   the light section background rather than the old void black. */
-.hero-vault::before{
-  content:""; position:absolute; inset:-14% -24%;
-  background:radial-gradient(farthest-side at 50% 46%,
-    var(--mist) 0%,
-    color-mix(in srgb, var(--mist) 96%, transparent) 48%,
-    color-mix(in srgb, var(--mist) 82%, transparent) 72%,
-    color-mix(in srgb, var(--mist) 34%, transparent) 88%, transparent 100%);
-  pointer-events:none;
-}
-/* ambient floor glow — a wash, never a hard-edged shadow */
-.hero-vault::after{
-  content:""; position:absolute; left:50%; bottom:-4%;
-  width:78%; height:16%; transform:translateX(-50%);
-  background:radial-gradient(closest-side,
-    color-mix(in srgb, var(--signal) 18%, transparent), transparent);
-  pointer-events:none;
-}
-.hero-vault canvas{ position:relative; display:block; width:100%; height:100%; }
-
-.hero-stats{
-  display:flex; flex-direction:column; border-left:1px solid var(--line-light); margin-top:70px;
-  animation:heroFade .6s cubic-bezier(.16,1,.3,1) .58s both;
-}
-.hero-stats b{ font-variant-numeric:tabular-nums; }
-@media(max-width:900px){ .hero-stats{ margin-top:0; } }
-.hero-stats div{ padding:14px 0 14px 22px; border-top:1px solid var(--line-light); }
-.hero-stats div:first-child{ border-top:none; }
-.hero-stats b{ font-family:var(--display); font-weight:800; font-size:30px; color:var(--ink); display:block; }
-.hero-stats span{ font-family:var(--body); font-size:11px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); }
-@media(max-width:900px){
-  .hero-stats{ flex-direction:row; border-left:none; border-top:1px solid var(--line-light); flex-wrap:wrap; }
-  .hero-stats div{ flex:1 1 33%; padding:14px 16px; border-top:none; border-right:1px solid var(--line-light); }
-  .hero-stats div:last-child{ border-right:none; }
+.hero-name{    animation:heroRise .7s cubic-bezier(.16,1,.3,1) .15s both; }
+.hero-tagline{ animation:heroRise .7s cubic-bezier(.16,1,.3,1) .30s both; }
+.hero-kicker{  animation:heroRise .7s cubic-bezier(.16,1,.3,1) .45s both; }
+@media(prefers-reduced-motion:reduce){
+  .hero-name, .hero-tagline, .hero-kicker{ animation:none; }
 }
 
 /* ============================================
@@ -593,66 +549,19 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     <a href="#education">Education</a>
     <a href="#contact">Contact</a>
   </nav>
+  <a class="topbar-cta" href="#contact">Let&#39;s Talk!</a>
 </header>
 
-<!-- ===== HERO ===== -->
-<section class="hero section-light">
-  <div class="signal-sweep" aria-hidden="true"></div>
-  <div class="hero-inner">
-    <span class="ghost" aria-hidden="true">PORTFOLIO</span>
+<!-- ===== HERO — 3D Spline, ported 1:1 from the 21st.dev component ===== -->
+<section class="hero" data-spline="https://prod.spline.design/dJqTIQ-tE3ULUPMi/scene.splinecode">
+  <div class="hero-3d" aria-hidden="true"></div>
+  <div class="hero-veil" aria-hidden="true"></div>
 
-    <div class="hero-top">
-      <div class="hero-role">
-        <span>Game &amp; XR Developer</span>
-      </div>
-      <span class="hero-status caption"><span class="dot"></span>Personal showcase</span>
-    </div>
-
-    <div class="hero-main">
-      <div class="hero-copy">
-        <h1><span class="lede">Hi, I'm</span><span class="name">Ikhwanuddin<span class="cursor" aria-hidden="true"></span></span></h1>
-        <p class="hero-note">
-          Final-year <strong>Information Technology (Game Technology)</strong> student
-          at UTeM. I build systems that connect games and Mixed Reality/VR.
-        </p>
-      </div>
-
-      <!-- Live WebGL laser vault (VaultBreak MR's security volume). It replaces the
-           figure slot only once Three.js boots; the low-poly SVG below is both the
-           no-WebGL fallback and a deliberate placeholder — no real photo exists yet,
-           and neither of these is an attempt to fake one. -->
-      <div class="hero-figure-wrap" aria-hidden="true">
-        <div class="hero-vault" id="vault"></div>
-        <svg class="hero-figure" viewBox="0 0 240 380" fill="none">
-          <!-- Neutral faceting: this is a placeholder silhouette, not signal,
-               so it carries no accent colour. Tones read against --mist. -->
-          <defs>
-            <linearGradient id="faceGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="var(--line-light)"/>
-              <stop offset="1" stop-color="var(--line-graphic)"/>
-            </linearGradient>
-          </defs>
-          <!-- shoulders -->
-          <polygon points="20,380 -10,240 95,150 95,380" fill="var(--line-graphic)"/>
-          <polygon points="220,380 250,240 145,150 145,380" fill="url(#faceGrad)"/>
-          <polygon points="95,150 145,150 145,380 95,380" fill="var(--line-light)"/>
-          <polygon points="145,150 250,240 250,300 155,190" fill="var(--ink-soft)" opacity=".28"/>
-          <!-- neck -->
-          <polygon points="102,150 138,150 142,120 98,120" fill="var(--line-graphic)"/>
-          <!-- head (low-poly) -->
-          <polygon points="120,10 165,45 158,95 120,122 82,95 75,45" fill="url(#faceGrad)"/>
-          <polygon points="120,10 165,45 158,95 120,60" fill="var(--line-light)"/>
-          <polygon points="158,95 165,45 145,70" fill="var(--ink-soft)" opacity=".3"/>
-          <polygon points="120,10 75,45 82,95 120,60" fill="var(--line-graphic)"/>
-          <line x1="120" y1="10" x2="120" y2="122" stroke="var(--ink-soft)" stroke-width="1" opacity=".35"/>
-        </svg>
-      </div>
-
-      <div class="hero-stats">
-        <div><b class="data" data-count="3" data-pad="2">03</b><span>Projects shipped</span></div>
-        <div><b class="data" data-count="3.62">3.62</b><span>CGPA</span></div>
-        <div><b class="data" data-count="1" data-pad="2">01</b><span>Award</span></div>
-      </div>
+  <div class="hero-overlay" id="heroOverlay">
+    <div class="hero-content">
+      <span class="hero-name">Ikhwanuddin</span>
+      <span class="hero-tagline">I Build <span class="accent">Immersive</span> Experiences.</span>
+      <div class="hero-kicker">Unreal \ Unity \ C++ \ XR \ Mixed Reality</div>
     </div>
   </div>
 </section>
@@ -964,26 +873,6 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <script>
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// hero stat count-up — a small "data" flourish matching the mono/stat identity
-if (!reduceMotion) {
-  document.querySelectorAll('.hero-stats [data-count]').forEach((el, i)=>{
-    const target = parseFloat(el.dataset.count);
-    const decimals = el.dataset.count.includes('.') ? 2 : 0;
-    const pad = el.dataset.pad ? Number(el.dataset.pad) : 0;
-    const duration = 900;
-    const start = performance.now() + 550 + i * 120;
-    function tick(now){
-      const p = Math.min(Math.max((now - start) / duration, 0), 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      let text = (target * eased).toFixed(decimals);
-      if (pad) text = text.padStart(pad, '0');
-      el.textContent = text;
-      if (now < start + duration) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  });
-}
-
 // fade sections in as they enter the viewport
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
@@ -1000,172 +889,61 @@ if (!reduceMotion) {
 }
 </script>
 
-<!-- Hero laser vault — real-time WebGL. Loaded as a module and fully self-contained:
-     if the CDN is unreachable or WebGL is unavailable, nothing else on the page is
-     affected and the SVG placeholder simply stays visible. -->
+<!-- 3D backdrop and the component's two scroll effects. -->
 <script type="module">
-const host = document.getElementById('vault');
-const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hero  = document.querySelector('.hero[data-spline]');
+const url   = hero?.dataset.spline.trim();
+const mount = hero?.querySelector('.hero-3d');
 
-if (host) {
+if (url && mount) {
   try {
-    const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js');
-    boot(THREE);
-  } catch (err) {
-    // No WebGL, or the CDN is blocked — the low-poly SVG placeholder stays put.
+    await import('https://unpkg.com/@splinetool/viewer@2.0.9/build/spline-viewer.js');
+
+    const viewer = document.createElement('spline-viewer');
+    viewer.setAttribute('url', url);
+    viewer.setAttribute('loading-anim-type', 'none');
+
+    // 'load-complete' is the viewer's own event — it exposes no promise, and its
+    // load() returns nothing to await. Fading in only then keeps the black hero
+    // steady if the scene stalls or the CDN is blocked.
+    // The viewer paints a 'Built with Spline' badge and a preloader into its own
+    // shadow root, where a normal stylesheet cannot reach them. The root is open,
+    // so a style injected into it hides both without touching the canvas — more
+    // durable than removing the nodes, which the component can re-create.
+    const hideChrome = () => {
+      const sr = viewer.shadowRoot;
+      if (!sr || sr.querySelector('style[data-hide-chrome]')) return;
+      const st = document.createElement('style');
+      st.dataset.hideChrome = '';
+      st.textContent = '#logo, #preloader { display:none !important; }';
+      sr.appendChild(st);
+    };
+
+    viewer.addEventListener('load-complete', ()=>{
+      mount.classList.add('on');
+      hideChrome();
+    }, { once:true });
+
+    mount.appendChild(viewer);
+    hideChrome();          // the shadow root exists from connectedCallback
+  } catch {
+    // No 3D — the black hero and its copy are unaffected.
   }
 }
 
-function boot(THREE){
-  // Three.js takes numeric colours, so it cannot read the CSS tokens directly.
-  // Pull them off :root at boot and convert, keeping one source of truth.
-  const css = getComputedStyle(document.documentElement);
-  const token = (name, fallback) => {
-    const raw = css.getPropertyValue(name).trim();
-    const hex = /^#([0-9a-f]{6})$/i.exec(raw);
-    return hex ? parseInt(hex[1], 16) : fallback;
-  };
-  const BEAM = token('--signal',        0x00A8B5);
-  const BG   = token('--mist',          0xF2F4F7);
-  const HAIR = token('--line-graphic',  0xAFB8C4);
-  const OBJ  = token('--ink-soft',      0x4A5260);
+// The hero copy fades over the first 400px of scroll, rAF-throttled on a passive
+// listener. The screenshot parallax went with the screenshot band.
+const overlay = document.getElementById('heroOverlay');
+let queued = false;
 
-  const W = 2.5, H = 4.3, D = 2.5;              // the volume the beams sweep
-
-  const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  host.appendChild(renderer.domElement);
-
-  const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(BG, 7, 16);         // beams fade into the section background at depth
-  const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
-  camera.position.set(0, 0, 9.4);
-
-  const vault = new THREE.Group();
-  scene.add(vault);
-
-  // cage — hairline structure, the same role 1px borders play everywhere else
-  vault.add(new THREE.LineSegments(
-    new THREE.EdgesGeometry(new THREE.BoxGeometry(W, H, D)),
-    new THREE.LineBasicMaterial({ color:HAIR })
-  ));
-
-  // the pearl — the objective you actually steal in VaultBreak
-  const pearl = new THREE.LineSegments(
-    new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(.32, 1)),
-    new THREE.LineBasicMaterial({ color:OBJ, transparent:true, opacity:.55 })
-  );
-  vault.add(pearl);
-
-  // control box — the thing you disable to kill a laser
-  const ctrl = new THREE.LineSegments(
-    new THREE.EdgesGeometry(new THREE.BoxGeometry(.42, .42, .42)),
-    new THREE.LineBasicMaterial({ color:HAIR })
-  );
-  ctrl.position.set(W/2 - .34, -H/2 + .3, D/2 - .34);
-  vault.add(ctrl);
-  vault.add(new THREE.Points(
-    new THREE.BufferGeometry().setAttribute('position',
-      new THREE.Float32BufferAttribute([ctrl.position.x, ctrl.position.y, ctrl.position.z], 3)),
-    new THREE.PointsMaterial({ color:BEAM, size:4, sizeAttenuation:false, transparent:true, opacity:.9 })
-  ));
-
-  // lasers — thin crossing beams, accent as a stroke only, never a fill
-  const count = window.innerWidth < 900 ? 9 : 15;
-  const beams = [];
-  const ends = new Float32Array(count * 6);
-  for (let i = 0; i < count; i++){
-    const alongX = i % 2 === 0;
-    const a = (Math.random() * 2 - 1) * (alongX ? D : W) * .42;
-    const b = (Math.random() * 2 - 1) * (alongX ? D : W) * .42;
-    const p = alongX
-      ? [ new THREE.Vector3(-W/2, 0, a), new THREE.Vector3(W/2, 0, b) ]
-      : [ new THREE.Vector3(a, 0, -D/2), new THREE.Vector3(b, 0, D/2) ];
-    const line = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints(p),
-      // Normal, not additive: additive blending brightens toward its
-      // background, so on the light hero the beams would wash out to white.
-      new THREE.LineBasicMaterial({
-        color:BEAM, transparent:true, opacity:.5 + Math.random() * .35,
-        blending:THREE.NormalBlending, depthWrite:false
-      })
-    );
-    vault.add(line);
-    ends[i*6]   = p[0].x; ends[i*6+2] = p[0].z;
-    ends[i*6+3] = p[1].x; ends[i*6+5] = p[1].z;
-    beams.push({ line, speed:.12 + Math.random() * .26, phase:Math.random() * Math.PI * 2 });
-  }
-
-  // emitter dots where each beam meets the cage wall
-  const emitters = new THREE.Points(
-    new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(ends, 3)),
-    new THREE.PointsMaterial({
-      color:BEAM, size:3.4, sizeAttenuation:false, transparent:true,
-      opacity:.85, blending:THREE.NormalBlending, depthWrite:false
-    })
-  );
-  vault.add(emitters);
-
-  // pointer parallax — small, so the volume feels lit from the visitor's side
-  const aim = { x:0, y:0 };
-  if (!still) {
-    window.addEventListener('pointermove', (e)=>{
-      aim.x = (e.clientX / window.innerWidth  - .5) * .5;
-      aim.y = (e.clientY / window.innerHeight - .5) * .34;
-    }, { passive:true });
-  }
-
-  let t = 0, spin = 0, px = 0, py = 0;
-  const clock = new THREE.Clock();
-
-  function draw(dt){
-    t += dt; spin += dt * .13;
-    const pos = emitters.geometry.attributes.position;
-    for (let i = 0; i < beams.length; i++){
-      const y = Math.sin(t * beams[i].speed * 2 + beams[i].phase) * (H/2 - .12);
-      beams[i].line.position.y = y;
-      pos.array[i*6+1] = y; pos.array[i*6+4] = y;
-    }
-    pos.needsUpdate = true;
-    pearl.rotation.set(t * .18, t * .35, 0);
-    px += (aim.x - px) * .05;
-    py += (aim.y - py) * .05;
-    vault.rotation.y = spin + px;
-    vault.rotation.x = py;
-    renderer.render(scene, camera);
-  }
-
-  function size(){
-    const w = host.clientWidth, h = host.clientHeight;
-    if (!w || !h) return;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-
-  host.classList.add('on');   // reveal only now that a frame can actually render
-  size();
-  new ResizeObserver(()=>{ size(); if (still) draw(0); }).observe(host);
-
-  let running = false, onScreen = false;
-  function frame(){
-    if (!running) return;
-    draw(Math.min(clock.getDelta(), .05));
-    requestAnimationFrame(frame);
-  }
-  function start(){
-    if (running || still || !onScreen || document.hidden) return;
-    running = true; clock.getDelta(); requestAnimationFrame(frame);
-  }
-  function stop(){ running = false; }
-
-  // only burn frames while the hero is actually on screen and the tab is visible
-  new IntersectionObserver(([e])=>{ onScreen = e.isIntersecting; onScreen ? start() : stop(); }, { threshold:0 })
-    .observe(host.closest('.hero'));
-  document.addEventListener('visibilitychange', ()=>{ document.hidden ? stop() : start(); });
-
-  draw(0);   // one composed frame up front — and the only frame under reduced motion
+function paint(){
+  queued = false;
+  if (overlay) overlay.style.opacity = String(1 - Math.min(window.scrollY / 400, 1));
 }
+addEventListener('scroll', ()=>{
+  if (!queued) { queued = true; requestAnimationFrame(paint); }
+}, { passive:true });
+paint();
 </script>
 
 </body>
