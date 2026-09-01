@@ -16,11 +16,11 @@ Anyone the owner shares the link with for a personal showcase — friends, lectu
 
 ## Product Purpose
 
-A personal, single-page portfolio for Muhamad Ikhwanuddin Bin Hai Rozzaman (preferred name: Ikhwanuddin), a final-year Bachelor of Information Technology (Game Technology) student at UTeM. It showcases real project work across game development, XR (MR/VR), and full-stack web development.
+A personal, single-page portfolio for Muhamad Ikhwanuddin Bin Hai Rozzaman (preferred name: Ikhwanuddin), a final-year Bachelor of Information Technology (Game Technology) student at UTeM. It showcases real project work across game development, XR (MR/VR), and database-backed C++ systems.
 
 ## Positioning
 
-Cross-disciplinary builder: gameplay/XR programmer (Unreal, Unity, full-body tracking, Mixed Reality) who also ships full-stack web applications (React/Next.js/Node/MySQL) — not a single-track game-dev student.
+Cross-disciplinary builder: gameplay/XR programmer (Unreal, Unity, full-body tracking, Mixed Reality) who also builds database-backed systems with C++ and MySQL.
 
 ## Operating Context
 
@@ -42,8 +42,8 @@ None fixed yet. A pinned visual reference exists: `inspo website.jpg` (dark back
 
 **Projects:**
 1. **VaultBreak MR** — XR Developer. Unreal Engine 5.6.1, C++, Meta Quest 3S, Sony Mocopi full-body tracking. Mixed Reality stealth game: infiltrate a vault, avoid laser security via full-body tracking, disable control boxes, steal a pearl. Features: MR gameplay, full-body tracking integration, random laser generation system, health/damage system, objective-based gameplay, C++ gameplay programming.
-2. **iPETRO – Zero Leak Challenge** — VR Developer. Unity 2022 LTS, C#, XR Interaction Toolkit. Industrial VR training simulation for Flange Management System (FMS) training, teaching flange assembly and bolt-tightening procedure per ASME PCC-1. Features: VR training simulation, interactive maintenance workflow, diegetic UI, bolt-tightening sequence, industrial safety training. **Achievement: Gold Award — FTMK Workshop II Innovation Competition.**
-3. **Car Workshop Appointment System** — Full Stack Developer. React, Next.js, Node.js, MySQL. Web-based appointment management system: customers book vehicle service appointments online; admins manage bookings, customer info, and schedules. Features: online booking, customer management, admin dashboard, database management.
+2. **iPETRO – Zero Leak Challenge (The Undead Shutdown)** — VR Interaction Developer on Team DEADLOCK. Built the flange interaction in Unity 2022.3 LTS using C# and XR Interaction Toolkit, including the mechanic for spinning and tightening nuts through rotation and the sequence logic that validates the required tightening order. The complete team project is an industrial VR serious game that teaches the ASME PCC-1 flange-tightening procedure while players defend the worksite from zombie waves. **Achievement: Gold Award — FTMK Workshop II Innovation Competition.**
+3. **Car Workshop Appointment System** — Workshop I database project. A role-based C++ console application backed by MySQL and administered locally through XAMPP/phpMyAdmin. Customers can register, browse services, book or cancel appointments, view completed-service receipts, and update profiles. Mechanics view assigned appointments and update completion status. Administrators manage mechanics and services, view customers and appointments, and generate an annual summary. The database contains Appointment, Customer, Service, Admin, and Mechanic tables.
 
 **Skills:**
 - Programming: C++, C#, Java, JavaScript, SQL

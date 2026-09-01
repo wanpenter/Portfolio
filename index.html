@@ -366,6 +366,9 @@ body::before{
 .card img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
 /* the card media slot is 4/3; an image dropped in fills it edge to edge */
 .pcard-media img{ position:absolute; inset:0; height:100%; aspect-ratio:auto; }
+.pcard-media img.pcard-console-shot{ object-fit:contain; background:#090B0F; padding:20px; }
+.pcard-media img.pcard-poster-shot{ object-position:center top; }
+.pcard-media img.pcard-wide-shot{ object-fit:contain; background:#050B12; }
 
 .pstatus{
   position:absolute; top:12px; left:12px;
@@ -454,20 +457,48 @@ body::before{
   background:radial-gradient(120% 90% at 100% 0%,
     color-mix(in srgb, var(--signal) 12%, transparent), transparent 60%);
 }
-.contact-inner{ position:relative; z-index:1; max-width:1240px; margin:0 auto; padding:0 var(--pad); }
-.contact-grid{ display:grid; grid-template-columns:1fr .9fr; gap:56px; align-items:center; }
-@media(max-width:860px){ .contact-grid{ grid-template-columns:1fr; gap:48px; } }
-
-.contact .sec-head{ margin-bottom:20px; }
-.contact .idx{ font-family:var(--mono); font-size:12px; color:var(--eyebrow); }
-.contact h2{
-  font-family:var(--display); font-weight:800; color:var(--fg);
-  font-size:clamp(34px,5.6vw,60px); letter-spacing:-.03em;
-  line-height:1.03; margin:0 0 20px;
+.contact-inner{ position:relative; z-index:1; max-width:1000px; margin:0 auto; padding:0 var(--pad); }
+.contact-panel{ display:flex; flex-direction:column; align-items:center; text-align:center; }
+.contact-top-link{
+  display:inline-flex; align-items:center; gap:10px;
+  margin-bottom:34px; padding:8px 14px;
+  border:1px solid var(--hair); border-radius:20px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--fg-soft); text-decoration:none;
+  transition:color .2s, border-color .2s, background .2s;
 }
-.contact-note{ color:var(--fg-soft); font-size:16px; max-width:42ch; }
+.contact-top-link:hover{ color:var(--fg); border-color:var(--signal); background:color-mix(in srgb, var(--signal) 8%, transparent); }
+.contact-top-link svg{ width:15px; height:15px; stroke:currentColor; }
 
-.cta-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:28px; }
+.contact-title{
+  width:100%; margin:0 0 24px;
+  font-family:var(--display); font-weight:500; color:var(--fg);
+  font-size:clamp(42px,7vw,76px); letter-spacing:-.04em;
+  line-height:.98;
+}
+.contact-title > span:first-child{ display:block; }
+.contact-rotator{
+  position:relative; display:block; width:100%; height:1.08em;
+  overflow:hidden; color:var(--signal); font-weight:800;
+}
+.contact-word{
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transform:translateY(110%); filter:blur(8px);
+  transition:
+    transform .48s cubic-bezier(.16,1,.3,1),
+    opacity .32s ease,
+    filter .4s ease;
+}
+.contact-word.is-active{ opacity:1; transform:translateY(0); filter:blur(0); }
+.contact-word.is-before{ opacity:0; transform:translateY(-110%); filter:blur(8px); }
+.contact-note{ color:var(--fg-soft); font-size:clamp(16px,2vw,19px); max-width:62ch; margin:0 auto; }
+.sr-only{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+.cta-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-top:32px; }
 .cta-row a{
   display:inline-flex; align-items:center; justify-content:center; gap:9px;
   font-family:var(--body); font-size:14px; font-weight:600; line-height:1;
@@ -482,52 +513,27 @@ body::before{
 .btn-outline{ background:transparent; color:var(--fg); border-color:color-mix(in srgb, var(--fg) 45%, transparent); }
 .btn-outline:hover{ background:var(--fg); color:var(--ink); border-color:var(--fg); }
 
-.contact-list{ display:flex; flex-direction:column; gap:16px; margin-top:28px; }
+.contact-list{ display:flex; flex-wrap:wrap; justify-content:center; gap:18px 28px; margin-top:34px; }
 .contact-list a{
   display:flex; align-items:center; gap:12px;
   font-family:var(--mono); font-size:15px; color:var(--fg);
   text-decoration:none; transition:color .2s, transform .2s;
 }
-.contact-list a:hover{ transform:translateX(4px); color:var(--accent-text); }
+.contact-list a:hover{ transform:translateY(-2px); color:var(--accent-text); }
 .contact-list svg{ width:17px; height:17px; flex-shrink:0; stroke:currentColor; transition:stroke .2s; }
 
-/* device mockup — CSS/SVG only, not a real photo */
-.device{ display:flex; justify-content:center; }
-.device-frame{
-  width:min(420px, 100%);
-  background:var(--surface);
-  border:1px solid var(--hair);
-  border-radius:10px 10px 4px 4px;
-  padding:10px 10px 0;
-  box-shadow:0 40px 80px -30px color-mix(in srgb, var(--ink) 55%, transparent);
+@media(max-width:640px){
+  .sec.contact{ padding:84px 0; }
+  .contact-top-link{ margin-bottom:28px; }
+  .contact-note{ font-size:16px; }
+  .cta-row{ width:100%; }
+  .cta-row a{ flex:1 1 180px; }
+  .contact-list{ flex-direction:column; align-items:center; }
 }
-.device-dots{ display:flex; gap:5px; padding:0 4px 8px; }
-.device-dots span{ width:6px; height:6px; border-radius:50%; background:var(--hair); }
-.device-screen{
-  aspect-ratio:16/10.5;
-  background:var(--mist);
-  border-radius:3px 3px 0 0;
-  overflow:hidden;
-  position:relative;
-  padding:14px 16px;
-  display:flex; flex-direction:column; gap:8px;
-}
-/* the mockup mirrors the real page, so its screen is light like the hero now */
-.device-screen .mini-ghost{
-  position:absolute; top:-6px; left:8px;
-  font-family:var(--display); font-weight:900; font-size:46px; letter-spacing:-.04em;
-  color:var(--line-light); opacity:.9;
-}
-.device-screen .mini-line{ height:6px; border-radius:2px; background:var(--line-light); }
-.device-screen .mini-line.w60{ width:60%; }
-.device-screen .mini-line.w40{ width:40%; }
-.device-screen .mini-cta{
-  margin-top:auto; width:34%; height:16px; border-radius:20px; background:var(--signal);
-}
-.device-base{
-  height:12px;
-  background:var(--hair);
-  clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);
+
+@media(prefers-reduced-motion:reduce){
+  .contact-word{ transition:none; transform:none; filter:none; display:none; }
+  .contact-word.is-active{ display:flex; }
 }
 
 footer{
@@ -670,44 +676,22 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
     <a class="pcard" href="work/ipetro.html">
       <div class="pcard-media">
-        <!-- TASK B — see assets/img/projects/README.md
-        <picture>
-          <source srcset="assets/img/projects/ipetro.webp" type="image/webp">
-          <img src="assets/img/projects/ipetro.jpg"
-               width="1600" height="900" loading="lazy" decoding="async"
-               alt="TODO: describe the shot — e.g. the in-headset view of a flange
-                    with the bolt-tightening sequence overlaid on the rim">
-        </picture>
-        -->
-        <svg class="pcard-motif" viewBox="0 0 300 225" aria-hidden="true">
-          <g transform="translate(150 112.5)">
-            <circle r="76" fill="none" stroke="var(--graphic)" stroke-opacity=".42" stroke-width="1"/>
-            <circle r="52" fill="none" stroke="var(--graphic)" stroke-opacity=".62" stroke-width="1"/>
-            <circle r="10" fill="none" stroke="var(--graphic)" stroke-opacity=".75" stroke-width="1.4"/>
-            <circle cx="76" cy="0" r="3" fill="var(--graphic)"/>
-            <circle cx="53.7" cy="53.7" r="3" fill="var(--graphic)"/>
-            <circle cx="0" cy="76" r="3" fill="var(--graphic)"/>
-            <circle cx="-53.7" cy="53.7" r="3" fill="var(--graphic)"/>
-            <circle cx="-76" cy="0" r="3" fill="var(--graphic)"/>
-            <circle cx="-53.7" cy="-53.7" r="3" fill="var(--graphic)"/>
-            <circle cx="0" cy="-76" r="3" fill="var(--graphic)"/>
-            <circle cx="53.7" cy="-53.7" r="3" fill="var(--graphic)"/>
-          </g>
-        </svg>
+        <img class="pcard-poster-shot" src="assets/img/projects/ipetro/ipetro-thumbnail.png"
+             width="1024" height="1536" loading="lazy" decoding="async"
+             alt="iPETRO Zero Leak Challenge poster featuring flange repair and zombie survival gameplay">
         <span class="pstatus">Completed</span>
       </div>
       <div class="pcard-body">
         <span class="pnum">02</span>
         <h3>iPETRO — Zero Leak Challenge</h3>
-        <p class="prole">VR Developer · Unity 2022 LTS · C#</p>
-        <p class="pdesc">An industrial Virtual Reality training simulation for a
-          Flange Management System (FMS), teaching flange assembly and bolt
-          tightening procedure to the ASME PCC-1 standard in a safe virtual
-          environment.</p>
+        <p class="prole">VR Interaction Developer · Unity 2022.3 LTS · C#</p>
+        <p class="pdesc">An industrial VR serious game featuring nut-rotation
+          interactions and sequence-validated flange tightening while players
+          defend a petrochemical worksite from zombie waves.</p>
         <div class="pfeatures">
-          <span>Diegetic UI</span>
-          <span>Bolt tightening sequence</span>
-          <span>Industrial safety</span>
+          <span>Nut rotation mechanic</span>
+          <span>Sequence validation</span>
+          <span>VR interaction</span>
         </div>
         <div class="award-line">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4a1 1 0 0 0-1 1v1a4 4 0 0 0 4 4M17 5h3a1 1 0 0 1 1 1v1a4 4 0 0 1-4 4"/></svg>
@@ -719,39 +703,22 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
     <a class="pcard" href="work/workshop-system.html">
       <div class="pcard-media">
-        <!-- TASK B — see assets/img/projects/README.md
-        <picture>
-          <source srcset="assets/img/projects/workshop-system.webp" type="image/webp">
-          <img src="assets/img/projects/workshop-system.jpg"
-               width="1600" height="900" loading="lazy" decoding="async"
-               alt="TODO: describe the shot — e.g. the admin dashboard listing the
-                    day's bookings with one appointment row selected">
-        </picture>
-        -->
-        <svg class="pcard-motif" viewBox="0 0 300 225" aria-hidden="true">
-          <rect x="40" y="40" width="220" height="150" rx="8" fill="none" stroke="var(--graphic)" stroke-opacity=".45" stroke-width="1.2"/>
-          <circle cx="56" cy="56" r="3" fill="var(--graphic)" fill-opacity=".75"/>
-          <circle cx="68" cy="56" r="3" fill="var(--graphic)" fill-opacity=".55"/>
-          <circle cx="80" cy="56" r="3" fill="var(--graphic)" fill-opacity=".38"/>
-          <line x1="40" y1="70" x2="260" y2="70" stroke="var(--graphic)" stroke-opacity=".38" stroke-width="1"/>
-          <rect x="56" y="86" width="188" height="16" rx="3" fill="none" stroke="var(--graphic)" stroke-opacity=".38" stroke-width="1"/>
-          <rect x="56" y="112" width="188" height="16" rx="3" fill="var(--graphic)" fill-opacity=".22" stroke="var(--graphic)" stroke-opacity=".7" stroke-width="1"/>
-          <rect x="56" y="138" width="188" height="16" rx="3" fill="none" stroke="var(--graphic)" stroke-opacity=".38" stroke-width="1"/>
-          <rect x="56" y="164" width="120" height="16" rx="3" fill="none" stroke="var(--graphic)" stroke-opacity=".38" stroke-width="1"/>
-        </svg>
+        <img class="pcard-wide-shot" src="assets/img/projects/workshop-system/car-workshop-thumbnail.png"
+             width="1672" height="941" loading="lazy" decoding="async"
+             alt="TorquePro Car Workshop Appointment System dashboard presentation">
         <span class="pstatus">Completed</span>
       </div>
       <div class="pcard-body">
         <span class="pnum">03</span>
         <h3>Car Workshop Appointment System</h3>
-        <p class="prole">Web Project · React · Next.js · Node.js · MySQL</p>
-        <p class="pdesc">A web-based appointment management system — customers
-          can book vehicle servicing online, while admins manage bookings,
-          customer records, and service schedules efficiently.</p>
+        <p class="prole">Database Project · C++ · MySQL · phpMyAdmin</p>
+        <p class="pdesc">A role-based C++ and MySQL system where customers book
+          services, mechanics update job status, and administrators manage
+          workshop data and annual reports.</p>
         <div class="pfeatures">
-          <span>Online booking</span>
-          <span>Admin dashboard</span>
-          <span>Customer management</span>
+          <span>Service booking</span>
+          <span>Role-based access</span>
+          <span>Annual reporting</span>
         </div>
         <span class="go">View details</span>
       </div>
@@ -837,50 +804,52 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <!-- ===== CONTACT ===== -->
 <section class="sec contact rise section-dark" id="contact">
   <div class="contact-inner">
-    <div class="contact-grid">
-      <div>
-        <div class="sec-head"><span class="idx">05</span><h2>Let's build something<br>together.</h2></div>
-        <p class="contact-note">Final-year Game Technology student at UTeM, looking for a
-          placement in gameplay programming or XR development —
-          open to relocate within Malaysia.</p>
-        <div class="cta-row">
-          <a class="btn-solid" href="assets/ikhwanuddin-resume.pdf" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-            Download CV
-          </a>
-          <a class="btn-outline" href="https://www.linkedin.com/in/muhamadikhwanuddin/" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6Z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            Connect on LinkedIn
-          </a>
-        </div>
-        <div class="contact-list">
-          <a href="mailto:ikhwanuddinworks@gmail.com">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-            ikhwanuddinworks@gmail.com
-          </a>
-          <a href="tel:+60164178744">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            016-417 8744
-          </a>
-          <a href="https://github.com/wanpenter" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
-            github.com/wanpenter
-          </a>
-        </div>
+    <div class="contact-panel">
+      <a class="contact-top-link" href="#projects">
+        View selected projects
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+
+      <h2 class="contact-title">
+        <span>Let's build something</span>
+        <span class="contact-rotator" aria-hidden="true">
+          <span class="contact-word is-active">immersive.</span>
+          <span class="contact-word">interactive.</span>
+          <span class="contact-word">useful.</span>
+          <span class="contact-word">memorable.</span>
+          <span class="contact-word">together.</span>
+        </span>
+        <span class="sr-only"> meaningful together.</span>
+      </h2>
+
+      <p class="contact-note">I'm a final-year Game Technology student building across
+        gameplay, XR, C++, and database systems. If you have a project,
+        collaboration, or opportunity in mind, let's turn it into something real.</p>
+
+      <div class="cta-row">
+        <a class="btn-outline" href="tel:+60164178744">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call me
+        </a>
+        <a class="btn-solid" href="mailto:ikhwanuddinworks@gmail.com">
+          Email me
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
       </div>
 
-      <!-- Device mockup built with CSS/SVG only — not a real image/photo -->
-      <div class="device" aria-hidden="true">
-        <div class="device-frame">
-          <div class="device-dots"><span></span><span></span><span></span></div>
-          <div class="device-screen">
-            <span class="mini-ghost">PORT</span>
-            <div class="mini-line w60" style="margin-top:38px"></div>
-            <div class="mini-line w40"></div>
-            <div class="mini-cta"></div>
-          </div>
-          <div class="device-base"></div>
-        </div>
+      <div class="contact-list">
+        <a href="assets/ikhwanuddin-resume.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Download CV
+        </a>
+        <a href="https://www.linkedin.com/in/muhamadikhwanuddin/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6Z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/wanpenter" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+          GitHub
+        </a>
       </div>
     </div>
   </div>
@@ -906,6 +875,51 @@ if (!reduceMotion) {
     const card = v.closest('.pcard');
     card.addEventListener('mouseenter', ()=>{ v.play().catch(()=>{}); });
     card.addEventListener('mouseleave', ()=>{ v.pause(); v.currentTime = 0; });
+  });
+}
+
+// Contact statement — the final word rotates only while the section is visible.
+// Keeping every word in the DOM preserves a stable layout and avoids dependency
+// overhead for an effect the browser can express directly.
+const contactSection = document.getElementById('contact');
+const contactWords = [...document.querySelectorAll('.contact-word')];
+let contactWordIndex = 0;
+let contactWordTimer = null;
+
+function advanceContactWord(){
+  const previousWord = contactWords[contactWordIndex];
+  contactWordIndex = (contactWordIndex + 1) % contactWords.length;
+  const nextWord = contactWords[contactWordIndex];
+
+  previousWord.classList.remove('is-active');
+  previousWord.classList.add('is-before');
+  nextWord.classList.add('is-active');
+
+  window.setTimeout(()=>previousWord.classList.remove('is-before'), 520);
+}
+
+function startContactWords(){
+  if (reduceMotion || document.hidden || contactWordTimer || contactWords.length < 2) return;
+  contactWordTimer = window.setInterval(advanceContactWord, 2200);
+}
+
+function stopContactWords(){
+  if (!contactWordTimer) return;
+  window.clearInterval(contactWordTimer);
+  contactWordTimer = null;
+}
+
+if (contactSection && contactWords.length) {
+  const contactObserver = new IntersectionObserver(([entry])=>{
+    if (entry.isIntersecting) startContactWords();
+    else stopContactWords();
+  }, { threshold:.25 });
+  contactObserver.observe(contactSection);
+
+  document.addEventListener('visibilitychange', ()=>{
+    if (document.hidden) stopContactWords();
+    else if (contactSection.getBoundingClientRect().top < innerHeight &&
+             contactSection.getBoundingClientRect().bottom > 0) startContactWords();
   });
 }
 </script>

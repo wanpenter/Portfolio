@@ -123,10 +123,17 @@ body::before{
   display:flex; justify-content:space-between; align-items:flex-start;
   flex-wrap:wrap; gap:16px; margin-bottom:28px;
 }
+.dhero-status{ justify-content:flex-end; }
 .dhero-role{
   font-family:var(--body); font-size:11.5px; font-weight:600; letter-spacing:.1em;
   text-transform:uppercase; color:var(--signal-text);
 }
+.dhero-roleline{
+  display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px;
+  margin:-4px 0 24px; color:var(--ink-soft); font-size:14px;
+}
+.dhero-roleline span:first-child{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
+.dhero-roleline strong{ color:var(--ink); font-family:var(--display); font-size:16px; }
 .dstatus{
   display:flex; align-items:center; gap:7px; color:var(--ink-soft);
 }
@@ -150,30 +157,26 @@ body::before{
 }
 .award-line svg{ width:15px; height:15px; flex-shrink:0; stroke:var(--ink); fill:none; }
 
-/* video slot */
+/* lead project evidence */
 .video-slot{
   max-width:1240px; margin:0 auto; padding:0 var(--pad) 60px;
 }
 .video-slot-inner{
-  position:relative; aspect-ratio:16/9; overflow:hidden;
+  position:relative; overflow:hidden;
   border-radius:8px; border:1px solid var(--line-light);
-  background:var(--img-ph);
+  background:#090B0F;
   display:flex; align-items:center; justify-content:center;
 }
-.video-slot-motif{ position:absolute; inset:0; width:100%; height:100%; opacity:.9; }
-.video-slot-label{
-  position:relative; z-index:1;
-  display:flex; flex-direction:column; align-items:center; gap:10px;
-  font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase;
-  color:var(--ink-soft); text-align:center;
-}
-.video-slot-label svg{ width:40px; height:40px; stroke:var(--signal); fill:none; opacity:.8; }
 .video-slot-badge{
   position:absolute; top:14px; left:14px; z-index:1;
   font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase;
   padding:3px 8px; border-radius:2px;
-  border:1px solid var(--ink-soft); color:var(--ink);
-  background:color-mix(in srgb, var(--card) 85%, transparent);
+  border:1px solid rgba(255,255,255,.26); color:var(--on-dark);
+  background:rgba(9,11,15,.82);
+}
+.video-slot-inner video{
+  width:100%; height:auto; aspect-ratio:16/9;
+  display:block; object-fit:contain; background:#090B0F;
 }
 
 /* sections */
@@ -184,6 +187,114 @@ body::before{
 .sec p{ color:var(--ink-soft); font-size:17px; max-width:70ch; margin-bottom:16px; }
 .sec p:last-child{ margin-bottom:0; }
 .sec p strong{ color:var(--ink); font-weight:500; }
+
+.fact-strip{
+  display:grid; grid-template-columns:repeat(3, 1fr);
+  margin-top:34px; border-top:1px solid var(--line-light); border-bottom:1px solid var(--line-light);
+}
+.fact{ padding:22px 22px 22px 0; }
+.fact + .fact{ padding-left:22px; border-left:1px solid var(--line-light); }
+.fact strong{
+  display:block; font-family:var(--display); font-size:28px; line-height:1;
+  letter-spacing:-.03em; margin-bottom:7px;
+}
+.fact span{ font-family:var(--mono); font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.08em; }
+
+.objective-list{ display:grid; gap:0; counter-reset:objectives; }
+.objective{
+  display:grid; grid-template-columns:44px 1fr; gap:16px;
+  padding:22px 0; border-top:1px solid var(--line-light); counter-increment:objectives;
+}
+.objective::before{ content:'0' counter(objectives); font-family:var(--mono); font-size:12px; color:var(--depth); }
+.objective h3{ font-family:var(--display); font-size:18px; margin-bottom:6px; }
+.objective p{ margin:0; }
+
+.role-grid{ display:grid; grid-template-columns:repeat(3, 1fr); border-top:1px solid var(--line-light); }
+.role{ padding:24px 24px 0 0; }
+.role + .role{ padding-left:24px; border-left:1px solid var(--line-light); }
+.role h3{ font-family:var(--display); font-size:20px; margin-bottom:10px; }
+.role ul{ list-style:none; display:grid; gap:8px; }
+.role li{ color:var(--ink-soft); font-size:15px; padding-left:15px; position:relative; }
+.role li::before{ content:''; position:absolute; left:0; top:.72em; width:5px; height:1px; background:var(--signal); }
+
+.media-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:28px; }
+.media-card{ min-width:0; }
+.media-card.wide{ grid-column:1 / -1; }
+.media-frame{
+  display:flex; align-items:center; justify-content:center;
+  min-height:220px; padding:18px; overflow:hidden;
+  border:1px solid var(--line-light); border-radius:8px; background:#090B0F;
+}
+.media-frame.diagram{ background:#fff; }
+.media-frame img{ display:block; max-width:100%; width:100%; height:auto; max-height:620px; object-fit:contain; }
+.media-card figcaption{ padding-top:12px; }
+.media-card figcaption strong{ display:block; font-family:var(--display); font-size:16px; margin-bottom:3px; }
+.media-card figcaption span{ color:var(--ink-soft); font-size:14px; }
+
+.dynamic-gallery{
+  --gallery-rows:1fr 1.22fr 1fr;
+  --gallery-cols:1fr 1.22fr 1fr;
+  display:grid;
+  grid-template-rows:var(--gallery-rows);
+  grid-template-columns:var(--gallery-cols);
+  gap:6px;
+  height:clamp(560px, 72vw, 780px);
+  padding:6px;
+  overflow:hidden;
+  border-radius:10px;
+  background:#090B0F;
+  transition:grid-template-rows .45s cubic-bezier(.16,1,.3,1), grid-template-columns .45s cubic-bezier(.16,1,.3,1);
+}
+.gallery-cell{
+  position:relative;
+  min-width:0; min-height:0;
+  overflow:hidden;
+  background:#11151C;
+  isolation:isolate;
+}
+.gallery-cell img{
+  width:100%; height:100%; display:block;
+  object-fit:cover;
+  transform:scale(1.01);
+  transition:transform .55s cubic-bezier(.16,1,.3,1), filter .35s ease;
+}
+.gallery-cell:hover img,
+.gallery-cell:focus-visible img{ transform:scale(1.045); }
+.gallery-cell::after{
+  content:''; position:absolute; inset:38% 0 0; z-index:1; pointer-events:none;
+  background:linear-gradient(to bottom, transparent, rgba(4,6,9,.82));
+}
+.gallery-cell figcaption{
+  position:absolute; left:14px; right:14px; bottom:12px; z-index:2;
+  color:#F4F4F6; font-family:var(--body); font-size:13px; line-height:1.35;
+  text-shadow:0 2px 14px rgba(0,0,0,.75);
+}
+.gallery-cell figcaption strong{ display:block; font-family:var(--display); font-size:14px; margin-bottom:2px; }
+.gallery-cell figcaption span{ color:rgba(244,244,246,.76); }
+.gallery-cell.poster{ background:#07090D; }
+.gallery-cell.poster img{ object-fit:contain; transform:none; }
+.gallery-cell.poster:hover img,
+.gallery-cell.poster:focus-visible img{ transform:scale(1.018); }
+.gallery-cell:focus-visible{ outline:2px solid var(--signal); outline-offset:-3px; }
+
+.schema-list{ border-top:1px solid var(--line-light); }
+.schema-row{
+  display:grid; grid-template-columns:minmax(150px,.35fr) 1fr; gap:30px;
+  padding:20px 0; border-bottom:1px solid var(--line-light);
+}
+.schema-row strong{ font-family:var(--display); font-size:17px; }
+.schema-row span{ color:var(--ink-soft); }
+
+.code-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
+.code-grid .media-frame{ min-height:180px; padding:12px; }
+.code-grid .media-card.wide{ grid-column:span 2; }
+
+.note-band{
+  margin-top:34px; padding:26px 28px; border:1px solid var(--line-light); border-radius:8px;
+  background:var(--card);
+}
+.note-band h3{ font-family:var(--display); font-size:18px; margin-bottom:8px; }
+.note-band p{ margin:0; font-size:16px; }
 
 .breakdown{ display:flex; flex-direction:column; gap:28px; }
 .breakdown-item h3{
@@ -222,10 +333,31 @@ footer{
   max-width:1240px; margin:0 auto;
 }
 
-/* TASK B — images dropped into a card or the video slot */
-.card img,
-.video-slot-inner img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
-.video-slot-inner img{ position:absolute; inset:0; height:100%; }
+@media(max-width:820px){
+  .role-grid{ grid-template-columns:1fr; }
+  .role{ padding:22px 0; border-bottom:1px solid var(--line-light); }
+  .role + .role{ padding-left:0; border-left:0; }
+  .code-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:640px){
+  .fact-strip, .media-grid, .code-grid{ grid-template-columns:1fr; }
+  .fact{ padding:18px 0; }
+  .fact + .fact{ padding-left:0; border-left:0; border-top:1px solid var(--line-light); }
+  .media-card.wide, .code-grid .media-card.wide{ grid-column:auto; }
+  .media-frame{ min-height:160px; padding:10px; }
+  .schema-row{ grid-template-columns:1fr; gap:6px; }
+  .dynamic-gallery{
+    display:grid; height:auto; grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:none; gap:6px;
+  }
+  .gallery-cell{ aspect-ratio:4/3; }
+  .gallery-cell.poster{ grid-column:1 / -1; aspect-ratio:3/4; max-height:640px; }
+  .gallery-cell figcaption span{ display:none; }
+}
+@media(max-width:420px){
+  .dynamic-gallery{ grid-template-columns:1fr; }
+  .gallery-cell.poster{ grid-column:auto; }
+}
 
 @media(prefers-reduced-motion:reduce){
   *{ animation:none !important; transition:none !important; }
@@ -247,6 +379,7 @@ footer{
   </nav>
 </header>
 
+<main>
 <div class="backbar">
   <a class="back-link" href="../index.html#projects">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -255,19 +388,18 @@ footer{
 </div>
 
 <section class="dhero">
-  <div class="dhero-top">
-    <span class="dhero-role">VR Developer</span>
+  <div class="dhero-top dhero-status">
     <span class="dstatus caption"><span class="dot"></span>Completed</span>
   </div>
   <h1>iPETRO — Zero Leak Challenge</h1>
-  <p class="dpitch">An industrial VR training simulator that teaches real flange bolt-tightening
-    procedure — safely, repeatably, and to the ASME PCC-1 standard — built in Unity.</p>
+  <p class="dpitch">The Undead Shutdown is an industrial VR serious game that combines
+    flange-management training with survival-horror pressure inside a petrochemical plant.</p>
+  <div class="dhero-roleline"><span>Role</span><strong>VR Interaction Developer</strong><span>Team DEADLOCK · Workshop II</span></div>
   <div class="dtags">
-    <span>Unity 2022 LTS</span>
+    <span>Unity 2022.3 LTS</span>
     <span>C#</span>
     <span>XR Interaction Toolkit</span>
-    <span>Virtual Reality</span>
-    <span>Industrial Training</span>
+    <span>Meta Quest</span>
   </div>
   <div class="award-line">
     <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4a1 1 0 0 0-1 1v1a4 4 0 0 0 4 4M17 5h3a1 1 0 0 1 1 1v1a4 4 0 0 1-4 4"/></svg>
@@ -276,134 +408,136 @@ footer{
 </section>
 
 <div class="video-slot">
-  <!-- REPLACE: once a real capture exists, swap this placeholder for:
-       <video class="video-slot-media" controls poster="ipetro-poster.jpg">
-         <source src="ipetro-demo.mp4" type="video/mp4">
-       </video> -->
   <div class="video-slot-inner">
-    <span class="video-slot-badge">Demo</span>
-    <svg class="video-slot-motif" viewBox="0 0 800 450" aria-hidden="true">
-      <g transform="translate(400 225)">
-        <circle r="150" fill="none" stroke="var(--ink-soft)" stroke-opacity=".3" stroke-width="1.5"/>
-        <circle r="105" fill="none" stroke="var(--ink-soft)" stroke-opacity=".45" stroke-width="1.5"/>
-        <circle r="22" fill="none" stroke="var(--ink-soft)" stroke-opacity=".6" stroke-width="2"/>
-        <circle cx="150" cy="0" r="4" fill="var(--ink-soft)" fill-opacity=".55"/>
-        <circle cx="106" cy="106" r="4" fill="var(--ink-soft)" fill-opacity=".55"/>
-        <circle cx="0" cy="150" r="4" fill="var(--ink-soft)" fill-opacity=".55"/>
-        <circle cx="-106" cy="106" r="4" fill="var(--ink-soft)" fill-opacity=".55"/>
-        <circle cx="-150" cy="0" r="4" fill="var(--ink-soft)" fill-opacity=".55"/>
-        <circle cx="-106" cy="-106" r="4" fill="var(--ink-soft)" fill-opacity=".55"/>
-        <circle cx="0" cy="-150" r="4" fill="var(--ink-soft)" fill-opacity=".55"/>
-        <circle cx="106" cy="-106" r="4" fill="var(--ink-soft)" fill-opacity=".55"/>
-      </g>
-    </svg>
-    <div class="video-slot-label">
-      <svg viewBox="0 0 24 24"><polygon points="9,8 17,12 9,16" fill="var(--signal)" stroke="none"/><circle cx="12" cy="12" r="10"/></svg>
-      Demo video — coming soon
-    </div>
+    <span class="video-slot-badge">In-game view</span>
+    <video controls playsinline preload="metadata"
+      poster="../assets/img/projects/ipetro/wave-task-ui.jpg"
+      aria-label="iPETRO Zero Leak Challenge gameplay demonstration">
+      <source src="../assets/video/ipetro-gameplay.mp4" type="video/mp4">
+      Your browser does not support HTML video. You can download the
+      <a href="../assets/video/ipetro-gameplay.mp4">iPETRO gameplay video</a> instead.
+    </video>
   </div>
 </div>
 
 <section class="sec">
-  <div class="sec-head"><span class="idx">01</span><h2>Overview</h2></div>
-  <p>iPETRO — Zero Leak Challenge is an industrial Virtual Reality training simulation built for
-    a Flange Management System (FMS) — the equipment and procedure used to safely assemble and
-    seal pipe flanges in oil &amp; gas facilities.</p>
-  <p>Rather than training on live equipment, trainees put on a headset and practice the full
-    flange assembly and bolt-tightening sequence to the ASME PCC-1 standard, repeating it until
-    the procedure is correct — with zero real-world risk. The project won a <strong>Gold Award</strong>
-    at the FTMK Workshop II Innovation Competition.</p>
-</section>
-
-<section class="sec">
-  <div class="sec-head"><span class="idx">02</span><h2>My role</h2></div>
-  <p>I worked as the <strong>VR Developer</strong> on this project, building the interaction
-    system in Unity with the XR Interaction Toolkit, designing the diegetic UI, and scripting the
-    bolt-tightening sequence logic that enforces the correct procedure.</p>
-</section>
-
-<section class="sec">
-  <div class="sec-head"><span class="idx">03</span><h2>Technical breakdown</h2></div>
-  <div class="breakdown">
-    <div class="breakdown-item">
-      <h3>Diegetic UI system</h3>
-      <p>In-world UI panels — not a floating HUD — guide trainees through each maintenance step,
-        keeping the simulation immersive and reducing disorientation common in VR training tools.</p>
-    </div>
-    <div class="breakdown-item">
-      <h3>Bolt-tightening sequence logic</h3>
-      <p>A step-sequenced interaction system enforces the correct ASME PCC-1 star-pattern
-        tightening order, validated through XR Interaction Toolkit grab-and-rotate interactions.</p>
-    </div>
-    <div class="breakdown-item">
-      <h3>Interactive maintenance workflow</h3>
-      <p>The full flange assembly workflow — inspect, align, bolt, torque-check — is scripted as
-        a state machine that only advances once each step is completed correctly.</p>
-    </div>
-    <div class="breakdown-item">
-      <h3>Industrial safety training framing</h3>
-      <p>The simulation is designed to let trainees fail safely, unlike a real flange line, and
-        repeat the procedure until they can complete it correctly and confidently.</p>
-    </div>
+  <div class="sec-head"><h2>Overview</h2></div>
+  <p><strong>iPETRO: Zero Leak Challenge (The Undead Shutdown)</strong> is a VR training simulation
+    created by Team DEADLOCK. Players practise the ASME PCC-1 star-pattern flange-tightening
+    procedure while defending an industrial worksite from waves of infected enemies.</p>
+  <p>The project provides a safe, repeatable alternative to training on live plant equipment,
+    combining technical accuracy, real-time feedback, and an immersive petrochemical environment.</p>
+  <p>A guided tutorial teaches the five-step workflow before timed work phases are interrupted by
+    zombie waves, testing whether players can complete the correct procedure under pressure.</p>
+  <div class="fact-strip" aria-label="Project facts">
+    <div class="fact"><strong>5-step</strong><span>FMS training workflow</span></div>
+    <div class="fact"><strong>3</strong><span>Timed challenge levels</span></div>
+    <div class="fact"><strong>8 / 12</strong><span>Bolt configurations</span></div>
   </div>
 </section>
 
 <section class="sec">
-  <div class="sec-head"><span class="idx">04</span><h2>Challenges</h2></div>
-  <div class="challenges">
-    <div class="challenge">
-      <span class="challenge-num">01</span>
-      <div>
-        <h3>Making a physical procedure feel right in VR</h3>
-        <p>Translating a real bolt-tightening star pattern into VR controller interactions,
-          without the physical wrench-feel of the real tool, took several iterations to make
-          the grab-and-rotate interaction read as correct without being fiddly.</p>
-      </div>
-    </div>
-    <div class="challenge">
-      <span class="challenge-num">02</span>
-      <div>
-        <h3>Guiding without a floating HUD</h3>
-        <p>Committing to a diegetic-only UI meant every instruction had to live inside the 3D
-          scene itself — in-world panels and highlights — rather than reaching for an easy
-          floating text overlay.</p>
-      </div>
-    </div>
-    <div class="challenge">
-      <span class="challenge-num">03</span>
-      <div>
-        <h3>Designing for safety-critical accuracy</h3>
-        <p>Because the sequence trains a real industrial standard, it had to strictly enforce the
-          correct ASME PCC-1 order and clearly communicate mistakes back to the trainee rather
-          than silently letting an incorrect step pass.</p>
-      </div>
-    </div>
+  <div class="sec-head"><h2>My role</h2></div>
+  <p>I worked as the team's <strong>VR Interaction Developer</strong>, implementing the flange
+    interaction in Unity. I built the nut-spinning mechanic, mapped rotational input to each nut,
+    and controlled the tightening sequence so the task only progresses when the correct nut is
+    secured in the required order.</p>
+  <div class="role-grid">
+    <div class="role"><h3>Flange interaction</h3><ul><li>Spin and tighten nuts in VR</li><li>Rotation handling on the flange</li></ul></div>
+    <div class="role"><h3>Sequence logic</h3><ul><li>Required tightening order</li><li>Step validation and progression</li></ul></div>
+    <div class="role"><h3>Unity integration</h3><ul><li>C# interaction scripts</li><li>XR Interaction Toolkit setup</li></ul></div>
+  </div>
+  <div class="note-band"><h3>Team contribution</h3><p>My contribution focused on the flange
+    interaction and tightening-sequence mechanics. Environment art, enemy systems, game design,
+    and project management were completed across Team DEADLOCK.</p></div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>Project gallery</h2></div>
+  <div class="dynamic-gallery" aria-label="iPETRO project gallery">
+    <figure class="gallery-cell" tabindex="0" data-row="0" data-col="0">
+      <img src="../assets/img/projects/ipetro/gallery/team-5693.webp" alt="Team DEADLOCK presenting the iPETRO VR project during the Workshop II showcase" width="1600" height="900" loading="lazy">
+      <figcaption><strong>Workshop II showcase</strong><span>Live project presentation and VR demonstration.</span></figcaption>
+    </figure>
+    <figure class="gallery-cell" tabindex="0" data-row="0" data-col="1">
+      <img src="../assets/img/projects/ipetro/spatial-timer.jpg" alt="iPETRO Unity scene with a spatial remaining-time display" width="1286" height="685" loading="lazy">
+      <figcaption><strong>Mission timer</strong><span>Diegetic guidance inside the industrial scene.</span></figcaption>
+    </figure>
+    <figure class="gallery-cell" tabindex="0" data-row="0" data-col="2">
+      <img src="../assets/img/projects/ipetro/wave-task-ui.jpg" alt="iPETRO in-game interface showing bolt counts, wave status, and task time" width="697" height="368" loading="lazy">
+      <figcaption><strong>Task tracking</strong><span>Bolts, nuts, wave status, and remaining time.</span></figcaption>
+    </figure>
+    <figure class="gallery-cell" tabindex="0" data-row="1" data-col="0">
+      <img src="../assets/img/projects/ipetro/xr-grab-physics.jpg" alt="Unity editor showing the flange workspace and XR Grab Interactable configuration" width="1334" height="709" loading="lazy">
+      <figcaption><strong>Flange interaction</strong><span>XR grab and rotation setup for the maintenance task.</span></figcaption>
+    </figure>
+    <figure class="gallery-cell poster" tabindex="0" data-row="1" data-col="1">
+      <img src="../assets/img/projects/ipetro/gallery/ipetro-poster.webp" alt="Official iPETRO Zero Leak Challenge poster featuring a flange, repair tools, and zombie survival theme" width="1600" height="2265" loading="lazy">
+      <figcaption><strong>Official iPETRO poster</strong><span>The Undead Shutdown.</span></figcaption>
+    </figure>
+    <figure class="gallery-cell" tabindex="0" data-row="1" data-col="2">
+      <img src="../assets/img/projects/ipetro/zombie-ai-navmesh.jpg" alt="Unity editor showing zombie navigation inside the iPETRO industrial environment" width="1336" height="693" loading="lazy">
+      <figcaption><strong>Zombie encounter</strong><span>NavMesh-driven pressure during the repair task.</span></figcaption>
+    </figure>
+    <figure class="gallery-cell" tabindex="0" data-row="2" data-col="0">
+      <img src="../assets/img/projects/ipetro/gallery/team-5732.webp" alt="Team DEADLOCK holding medals and the iPETRO Gold Award certificate" width="1600" height="900" loading="lazy">
+      <figcaption><strong>Gold Award</strong><span>Team DEADLOCK at the Workshop II competition.</span></figcaption>
+    </figure>
+    <figure class="gallery-cell" tabindex="0" data-row="2" data-col="1">
+      <img src="../assets/img/projects/ipetro/gallery/team-2238.webp" alt="Close-up of the iPETRO Gold Award certificate" width="1200" height="1600" loading="lazy">
+      <figcaption><strong>Certificate of Excellence</strong><span>Gold Award recognition for iPETRO.</span></figcaption>
+    </figure>
+    <figure class="gallery-cell" tabindex="0" data-row="2" data-col="2">
+      <img src="../assets/img/projects/ipetro/gallery/unity-2022.webp" alt="Unity Hub showing the Unity 2022.3 LTS environment used for iPETRO" width="1604" height="895" loading="lazy">
+      <figcaption><strong>Unity 2022.3 LTS</strong><span>The project's documented development environment.</span></figcaption>
+    </figure>
   </div>
 </section>
 
 <section class="sec">
-  <div class="sec-head"><span class="idx">05</span><h2>Links</h2></div>
-  <div class="link-rows">
-    <a href="../index.html#projects">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Back to portfolio
-    </a>
-    <a href="mailto:ikhwanuddinworks@gmail.com">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-      ikhwanuddinworks@gmail.com
-    </a>
-    <a href="https://github.com/wanpenter" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
-      github.com/wanpenter
-    </a>
-  </div>
-  <p class="link-note" style="margin-top:20px;">Source code and a full training-session demo video are coming soon.</p>
+  <div class="sec-head"><h2>Outcome</h2></div>
+  <p>The final build combined industrial training fidelity with an unusual survival-game structure.
+    User Acceptance Testing was completed, and the report records stable XR interaction with a target
+    performance range of <strong>72–90 FPS</strong> on the selected PC-VR setup.</p>
 </section>
+</main>
 
 <footer>
   <span class="caption">© 2026 Ikhwanuddin</span>
-  <span class="caption">Built solo</span>
+  <span class="caption">Team DEADLOCK</span>
 </footer>
+
+<script>
+(() => {
+  const gallery = document.querySelector('.dynamic-gallery');
+  if (!gallery) return;
+
+  const cells = [...gallery.querySelectorAll('.gallery-cell')];
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const resting = ['1fr', '1.22fr', '1fr'];
+
+  const setAxis = (active) => resting.map((size, index) => index === active ? '1.8fr' : '.72fr').join(' ');
+  const reset = () => {
+    gallery.style.setProperty('--gallery-rows', resting.join(' '));
+    gallery.style.setProperty('--gallery-cols', resting.join(' '));
+  };
+  const expand = (cell) => {
+    if (window.innerWidth <= 640 || reduceMotion) return;
+    gallery.style.setProperty('--gallery-rows', setAxis(Number(cell.dataset.row)));
+    gallery.style.setProperty('--gallery-cols', setAxis(Number(cell.dataset.col)));
+  };
+
+  cells.forEach((cell) => {
+    if (canHover) {
+      cell.addEventListener('pointerenter', () => expand(cell));
+      cell.addEventListener('pointerleave', reset);
+    }
+    cell.addEventListener('focus', () => expand(cell));
+    cell.addEventListener('blur', reset);
+  });
+})();
+</script>
 
 </body>
 </html>
