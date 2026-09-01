@@ -234,6 +234,26 @@ body::before{
     linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.9));
 }
 
+/* Spline renders its attribution inside the viewer's own shadow DOM, so its
+   internal markup can change independently of this page. This cover sits above
+   the canvas at the badge's bottom-right anchor and blends back into the hero. */
+.hero-spline-cover{
+  position:absolute;
+  right:0;
+  bottom:0;
+  z-index:2;
+  width:min(430px, 52vw);
+  height:132px;
+  pointer-events:none;
+  background:linear-gradient(90deg, transparent 0, rgba(0,0,0,.94) 24%, #000 48%);
+}
+@media(max-width:640px){
+  .hero-spline-cover{
+    width:min(320px, 78vw);
+    height:112px;
+  }
+}
+
 .hero-overlay{
   position:absolute; inset:0; z-index:10;
   display:flex; align-items:center;
@@ -556,6 +576,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <section class="hero" data-spline="https://prod.spline.design/dJqTIQ-tE3ULUPMi/scene.splinecode">
   <div class="hero-3d" aria-hidden="true"></div>
   <div class="hero-veil" aria-hidden="true"></div>
+  <div class="hero-spline-cover" aria-hidden="true"></div>
 
   <div class="hero-overlay" id="heroOverlay">
     <div class="hero-content">
