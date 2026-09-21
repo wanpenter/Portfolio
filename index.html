@@ -219,6 +219,7 @@ body::before{
 .hero-3d{
   position:absolute; inset:0; z-index:0;
   opacity:0; transition:opacity .8s ease;
+  contain:layout paint;
 }
 .hero-3d.on{ opacity:1; }
 .hero-3d spline-viewer{
@@ -403,60 +404,151 @@ body::before{
 .pcard:hover .go::after{ transform:translateX(4px); }
 
 /* ============================================
-   6. SKILLS — pill layout
+   6. SKILLS — draggable marquee
    ============================================ */
-.skillset{ display:flex; flex-direction:column; gap:36px; }
-.skill-group{ display:flex; gap:24px; align-items:baseline; flex-wrap:wrap; }
-.skill-group h4{
-  font-family:var(--mono); font-size:11px; color:var(--eyebrow);
-  flex:0 0 180px;
+.skills-head{ justify-content:space-between; }
+.skill-motion-toggle{
+  margin-left:auto; display:inline-flex; align-items:center; gap:8px;
+  min-height:38px; padding:7px 12px; border:1px solid var(--hair); border-radius:20px;
+  background:transparent; color:var(--fg); font:600 12px/1 var(--body); cursor:pointer;
+  transition:border-color .2s,color .2s,background .2s;
 }
-.pills{ display:flex; flex-wrap:wrap; gap:10px; flex:1; }
-/* tech tag pills again — same --depth job as .pfeatures */
-.pills span{
-  font-family:var(--mono); font-size:12.5px; color:var(--eyebrow);
-  border:1px solid color-mix(in srgb, var(--eyebrow) 35%, transparent);
-  padding:7px 14px; border-radius:20px;
-  background:color-mix(in srgb, var(--eyebrow) 8%, transparent);
-  transition:border-color .2s, color .2s, background .2s;
+.skill-motion-toggle:hover{ border-color:var(--signal); color:var(--accent-text); background:color-mix(in srgb,var(--signal) 8%,transparent); }
+.skill-motion-toggle svg{ width:14px; height:14px; stroke:currentColor; fill:none; }
+.skill-motion-toggle .icon-play{ display:none; }
+.skill-motion-toggle[aria-pressed="true"] .icon-pause{ display:none; }
+.skill-motion-toggle[aria-pressed="true"] .icon-play{ display:block; }
+.skill-guide{ color:var(--fg-soft); font-size:14px; margin:-16px 0 30px; }
+.skill-marquees{ display:flex; flex-direction:column; border-block:1px solid var(--hair); }
+.skill-lane{ display:grid; grid-template-columns:170px minmax(0,1fr); align-items:center; min-height:108px; }
+.skill-lane + .skill-lane{ border-top:1px solid var(--hair); }
+.skill-lane h4{ font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--eyebrow); letter-spacing:.075em; text-transform:uppercase; }
+.skill-marquee{
+  min-width:0; overflow-x:auto; overflow-y:hidden; cursor:grab; scrollbar-width:none;
+  overscroll-behavior-x:contain; touch-action:pan-y; contain:layout paint;
+  mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
 }
-.pills span:hover{
-  border-color:var(--signal);
-  color:var(--accent-text);
-  background:color-mix(in srgb, var(--signal) 10%, transparent);
+.skill-marquee::-webkit-scrollbar{ display:none; }
+.skill-marquee.is-dragging{ cursor:grabbing; user-select:none; }
+.skill-track{ display:flex; width:max-content; }
+.skill-list{ display:flex; align-items:center; gap:clamp(38px,4.5vw,70px); list-style:none; padding-right:clamp(38px,4.5vw,70px); }
+.skill-list li{
+  flex:none; font-family:var(--display); font-size:clamp(18px,1.8vw,24px);
+  font-weight:700; line-height:1.15; letter-spacing:-.025em; color:var(--ink);
+  white-space:nowrap;
 }
-@media(max-width:700px){ .skill-group{ flex-direction:column; gap:12px; } .skill-group h4{ flex-basis:auto; } }
+@media(max-width:700px){
+  .skills-head{ align-items:center; }
+  .skill-motion-toggle{ min-height:36px; }
+  .skill-guide{ margin-top:-10px; }
+  .skill-lane{ grid-template-columns:1fr; gap:12px; padding:18px 0 20px; }
+  .skill-marquee{ margin-inline:calc(var(--pad) * -1); }
+  .skill-list{ gap:34px; padding-right:34px; }
+  .skill-lane h4{ font-size:12.5px; }
+  .skill-list li{ font-size:19px; }
+}
+@media(prefers-reduced-motion:reduce){ .skill-motion-toggle{ display:none; } }
 
 /* ============================================
-   7. EDUCATION — list
+   7. JOURNEY — year-controlled education timeline
    ============================================ */
-.edu-list{ display:flex; flex-direction:column; }
-.edu-item{
-  display:flex; justify-content:space-between; align-items:flex-start; gap:24px;
-  padding:26px 0; border-top:1px solid var(--hair); flex-wrap:wrap;
+.journey-lede{ max-width:64ch; color:var(--fg-soft); margin:-22px 0 42px; }
+.journey-board{ border-block:1px solid var(--hair); padding:34px 0 40px; }
+.journey-year-row{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; }
+.journey-year-label{ font-family:var(--mono); font-size:11px; color:var(--eyebrow); letter-spacing:.09em; text-transform:uppercase; }
+.journey-year{
+  display:block; margin-top:2px; font-family:var(--display); font-size:clamp(48px,7vw,78px);
+  font-weight:800; line-height:.95; letter-spacing:-.04em; color:var(--fg); font-variant-numeric:tabular-nums;
 }
-.edu-list .edu-item:first-child{ border-top:none; padding-top:0; }
-.edu-item h3{ font-family:var(--display); font-weight:700; font-size:20px; letter-spacing:-.01em; margin-bottom:4px; color:var(--fg); }
-.edu-item p{ color:var(--fg-soft); font-size:14.5px; }
-.edu-result{ font-family:var(--mono); font-size:13px; color:var(--fg); white-space:nowrap; }
+.journey-phase{
+  margin-bottom:7px; padding:5px 9px; border:1px solid var(--hair); border-radius:2px;
+  font-family:var(--mono); font-size:10px; color:var(--eyebrow); letter-spacing:.07em; text-transform:uppercase;
+}
+.journey-range-wrap{ margin-top:30px; }
+.journey-slider{
+  --journey-progress:90%; appearance:none; -webkit-appearance:none; width:100%; height:28px;
+  display:block; background:transparent; cursor:ew-resize;
+}
+.journey-slider::-webkit-slider-runnable-track{
+  height:4px; border-radius:2px;
+  background:linear-gradient(to right,var(--depth) 0 var(--journey-progress),var(--hair) var(--journey-progress) 100%);
+}
+.journey-slider::-webkit-slider-thumb{
+  -webkit-appearance:none; width:22px; height:22px; margin-top:-9px; border-radius:50%;
+  border:3px solid var(--depth); background:var(--surface); box-shadow:0 5px 14px rgba(14,17,22,.16);
+  transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s ease;
+}
+.journey-slider::-moz-range-track{ height:4px; border:0; border-radius:2px; background:var(--hair); }
+.journey-slider::-moz-range-progress{ height:4px; border-radius:2px; background:var(--depth); }
+.journey-slider::-moz-range-thumb{
+  width:18px; height:18px; border-radius:50%; border:3px solid var(--depth);
+  background:var(--surface); box-shadow:0 5px 14px rgba(14,17,22,.16);
+}
+.journey-slider:hover::-webkit-slider-thumb{ transform:scale(1.12); box-shadow:0 7px 18px rgba(14,17,22,.2); }
+.journey-slider:focus-visible{ outline:2px solid var(--signal); outline-offset:5px; border-radius:2px; }
+.journey-ticks{ display:flex; justify-content:space-between; margin-top:3px; color:var(--fg-soft); font-family:var(--mono); font-size:10px; }
+.journey-detail{
+  display:grid; grid-template-columns:minmax(180px,220px) minmax(0,1fr); gap:clamp(30px,5vw,72px);
+  align-items:center; margin-top:44px;
+}
+.journey-logo-stage{
+  min-height:190px; padding:24px; display:flex; justify-content:center; align-items:center; gap:14px;
+  background:#fff; border:1px solid var(--hair); border-radius:8px;
+}
+.journey-logo-stage img{ display:block; max-width:100%; max-height:140px; object-fit:contain; }
+.journey-logo-stage.is-dual img{ width:calc(50% - 7px); max-height:96px; }
+.journey-period{ font-family:var(--mono); font-size:11px; color:var(--eyebrow); letter-spacing:.08em; text-transform:uppercase; }
+.journey-copy h3{
+  margin:8px 0 6px; color:var(--fg); font-family:var(--display); font-size:clamp(25px,3.2vw,38px);
+  font-weight:750; line-height:1.08; letter-spacing:-.03em;
+}
+.journey-program{ color:var(--fg); font-size:17px; font-weight:600; }
+.journey-description{ max-width:62ch; margin-top:13px; color:var(--fg-soft); font-size:15px; }
+.journey-result{
+  display:inline-block; margin-top:18px; padding:5px 9px; border:1px solid color-mix(in srgb,var(--depth) 45%,var(--hair));
+  border-radius:2px; color:var(--eyebrow); font-family:var(--mono); font-size:11px;
+}
+@media(max-width:700px){
+  .journey-lede{ margin-top:-12px; }
+  .journey-board{ padding-top:28px; }
+  .journey-year-row{ align-items:flex-start; }
+  .journey-year{ font-size:52px; }
+  .journey-phase{ margin-top:4px; }
+  .journey-ticks{ font-size:9px; }
+  .journey-detail{ grid-template-columns:1fr; gap:24px; margin-top:34px; }
+  .journey-logo-stage{ min-height:150px; padding:20px; }
+  .journey-logo-stage img{ max-height:110px; }
+  .journey-logo-stage.is-dual img{ max-height:76px; }
+  .journey-copy h3{ font-size:28px; }
+}
 
 /* ============================================
-   8. CONTACT — full-bleed dark field
-   Was a solid red band; it is now the page's dark close. The three red-field
-   tokens it used (--red-field / --red-deep / --on-red-muted) are retired.
+   8. CONTACT — full-bleed gloss-black field
+   Layered highlights give the close a polished black finish without reducing
+   text contrast or turning the surface into a glass panel.
    ============================================ */
 .contact{
   border-top:1px solid var(--line-dark);
   position:relative;
   overflow:hidden;
 }
+.sec.contact{
+  --bg:#050608;
+  background:
+    linear-gradient(118deg, transparent 0 30%, rgba(255,255,255,.045) 43%, rgba(255,255,255,.012) 53%, transparent 67%),
+    radial-gradient(85% 72% at 50% -24%, rgba(255,255,255,.11), transparent 58%),
+    #050608;
+}
 .sec.contact{ max-width:none; margin:0; padding:104px 0; }
-.contact::before{
+section.contact::before{
   content:'';
   position:absolute; inset:0; z-index:0; pointer-events:none;
-  background:radial-gradient(120% 90% at 100% 0%,
-    color-mix(in srgb, var(--signal) 12%, transparent), transparent 60%);
+  background:
+    radial-gradient(80% 85% at 105% 5%, color-mix(in srgb, var(--signal) 14%, transparent), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,.035), transparent 18%, transparent 82%, rgba(0,0,0,.38));
 }
+footer.contact{ --bg:#050608; background:#050608; }
 .contact-inner{ position:relative; z-index:1; max-width:1000px; margin:0 auto; padding:0 var(--pad); }
 .contact-panel{ display:flex; flex-direction:column; align-items:center; text-align:center; }
 .contact-top-link{
@@ -572,7 +664,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     <a href="#about">About</a>
     <a href="#projects">Projects</a>
     <a href="#skills">Skills</a>
-    <a href="#education">Education</a>
+    <a href="#education">Journey</a>
     <a href="#contact">Contact</a>
   </nav>
   <a class="topbar-cta" href="#contact">Let&#39;s Talk!</a>
@@ -631,8 +723,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
     <a class="pcard" href="work/vaultbreak.html">
       <div class="pcard-media">
-        <img src="assets/img/projects/vaultbreak/vaultbreak-logo.png"
-             width="1254" height="1254" loading="lazy" decoding="async"
+        <img src="assets/img/projects/vaultbreak/vaultbreak-logo.webp"
+             width="1000" height="1000" loading="lazy" decoding="async"
              alt="VaultBreak MR logo with a red laser cutting across a circular vault symbol">
         <span class="pstatus">Completed</span>
       </div>
@@ -654,8 +746,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
     <a class="pcard" href="work/ipetro.html">
       <div class="pcard-media">
-        <img class="pcard-poster-shot" src="assets/img/projects/ipetro/ipetro-thumbnail.png"
-             width="1024" height="1536" loading="lazy" decoding="async"
+        <img class="pcard-poster-shot" src="assets/img/projects/ipetro/ipetro-thumbnail.webp"
+             width="1000" height="1500" loading="lazy" decoding="async"
              alt="iPETRO Zero Leak Challenge poster featuring flange repair and zombie survival gameplay">
         <span class="pstatus">Completed</span>
       </div>
@@ -681,8 +773,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
     <a class="pcard" href="work/workshop-system.html">
       <div class="pcard-media">
-        <img class="pcard-wide-shot" src="assets/img/projects/workshop-system/car-workshop-thumbnail.png"
-             width="1672" height="941" loading="lazy" decoding="async"
+        <img class="pcard-wide-shot" src="assets/img/projects/workshop-system/car-workshop-thumbnail.webp"
+             width="1200" height="675" loading="lazy" decoding="async"
              alt="TorquePro Car Workshop Appointment System dashboard presentation">
         <span class="pstatus">Completed</span>
       </div>
@@ -707,75 +799,88 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 <!-- ===== SKILLS ===== -->
 <section class="sec rise section-light" id="skills">
-  <div class="sec-head"><span class="idx">03</span><h2>Skills &amp; tools</h2></div>
-  <div class="skillset">
-    <div class="skill-group">
+  <div class="sec-head skills-head">
+    <span class="idx">03</span><h2>Skills &amp; tools</h2>
+    <button class="skill-motion-toggle" type="button" aria-pressed="false" aria-describedby="skills-guide" aria-label="Pause skill movement">
+      <svg class="icon-pause" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M9 5v14M15 5v14"/></svg>
+      <svg class="icon-play" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"><path d="m8 5 11 7-11 7Z"/></svg>
+      <span>Pause</span>
+    </button>
+  </div>
+  <p class="skill-guide" id="skills-guide">Pause the movement or drag any row left and right to explore.</p>
+  <div class="skill-marquees" aria-label="Skills and tools">
+    <div class="skill-lane" data-speed="18" data-direction="left">
       <h4>Programming</h4>
-      <div class="pills">
-        <span>C++</span><span>C#</span><span>Java</span><span>JavaScript</span><span>SQL</span>
+      <div class="skill-marquee" tabindex="0" aria-label="Programming skills. Drag or use the arrow keys to explore.">
+        <div class="skill-track">
+          <ul class="skill-list">
+            <li>C++</li><li>C#</li><li>JavaScript</li><li>SQL</li><li>MySQL</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="skill-group">
-      <h4>Game &amp; XR Dev</h4>
-      <div class="pills">
-        <span>Unreal Engine 5</span><span>Unity</span><span>Mixed Reality (MR)</span>
-        <span>Virtual Reality (VR)</span><span>Meta Quest Development</span>
-        <span>Sony Mocopi Full-Body Tracking</span><span>XR Interaction</span>
+    <div class="skill-lane" data-speed="15" data-direction="right">
+      <h4>Game &amp; XR</h4>
+      <div class="skill-marquee" tabindex="0" aria-label="Game and XR skills. Drag or use the arrow keys to explore.">
+        <div class="skill-track">
+          <ul class="skill-list">
+            <li>Unreal Engine 5</li><li>Unity</li><li>Mixed Reality</li><li>Virtual Reality</li>
+            <li>Meta Quest Development</li><li>Sony Mocopi Tracking</li><li>XR Interaction</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="skill-group">
-      <h4>Database</h4>
-      <div class="pills">
-        <span>MySQL</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <h4>Tools</h4>
-      <div class="pills">
-        <span>Visual Studio</span><span>VS Code</span><span>Git</span><span>Blender (basic)</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <h4>Soft Skills</h4>
-      <div class="pills">
-        <span>Problem Solving</span><span>Team Collaboration</span>
-        <span>Communication</span><span>Fast Learner</span>
+    <div class="skill-lane" data-speed="17" data-direction="left">
+      <h4>Tools &amp; strengths</h4>
+      <div class="skill-marquee" tabindex="0" aria-label="Tools and professional strengths. Drag or use the arrow keys to explore.">
+        <div class="skill-track">
+          <ul class="skill-list">
+            <li>Visual Studio</li><li>VS Code</li><li>Git</li><li>Blender</li>
+            <li>Problem Solving</li><li>Team Collaboration</li><li>Communication</li><li>Fast Learner</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== EDUCATION =====
-     Edit/add .edu-item entries to match your own academic history. -->
+<!-- ===== JOURNEY =====
+     The native range input keeps the timeline keyboard- and touch-accessible. -->
 <section class="sec rise section-light" id="education">
-  <div class="sec-head"><span class="idx">04</span><h2>Education</h2></div>
+  <div class="sec-head"><span class="idx">04</span><h2>Journey</h2></div>
+  <p class="journey-lede">Drag through the years to follow my education journey, from secondary school to game technology and XR development.</p>
 
-  <div class="edu-list">
-
-    <div class="edu-item">
+  <div class="journey-board">
+    <div class="journey-year-row">
       <div>
-        <h3>Universiti Teknikal Malaysia Melaka (UTeM)</h3>
-        <p>Bachelor of Information Technology (Game Technology) · Final-year student</p>
+        <span class="journey-year-label">Selected year</span>
+        <output class="journey-year" id="journey-year" for="journey-slider">2026</output>
       </div>
-      <span class="edu-result">CGPA 3.62</span>
+      <span class="journey-phase" id="journey-phase">Current year</span>
     </div>
 
-    <div class="edu-item">
-      <div>
-        <h3>UiTM Dengkil</h3>
-        <p>Foundation in Engineering</p>
+    <div class="journey-range-wrap">
+      <input class="journey-slider" id="journey-slider" type="range" min="2017" max="2027" step="1" value="2026"
+        aria-label="Select a year in Ikhwanuddin's education journey" aria-describedby="journey-instruction">
+      <div class="journey-ticks" aria-hidden="true">
+        <span>2017</span><span>2019</span><span>2021</span><span>2023</span><span>2025</span><span>2027</span>
       </div>
-      <span class="edu-result">CGPA 3.33</span>
+      <span class="sr-only" id="journey-instruction">Use the arrow keys or drag the slider to explore each year.</span>
     </div>
 
-    <div class="edu-item">
-      <div>
-        <h3>SM Sains Sembrong</h3>
-        <p>Malaysian Certificate of Education (SPM)</p>
+    <article class="journey-detail" id="journey-detail" aria-live="polite">
+      <div class="journey-logo-stage" id="journey-logos">
+        <img src="Image/utem.png" width="300" height="165" loading="lazy" decoding="async"
+             alt="Universiti Teknikal Malaysia Melaka logo">
       </div>
-      <span class="edu-result">7A2B</span>
-    </div>
-
+      <div class="journey-copy">
+        <span class="journey-period" id="journey-period">2023 — 2027</span>
+        <h3 id="journey-institution">Universiti Teknikal Malaysia Melaka (UTeM)</h3>
+        <p class="journey-program" id="journey-program">Bachelor of Information Technology (Game Technology)</p>
+        <p class="journey-description" id="journey-description">Building practical experience in gameplay programming, XR and interactive systems through the Game Technology programme.</p>
+        <span class="journey-result" id="journey-result">CGPA 3.62 · Final-year student</span>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -847,6 +952,230 @@ const io = new IntersectionObserver((entries)=>{
 }, {threshold:0.12});
 document.querySelectorAll('.rise').forEach(el=>io.observe(el));
 
+// Skills marquee — a short interval keeps the rows moving even when the browser
+// deprioritises animation frames. It stops off-screen, in hidden tabs, or on pause.
+const skillMarquees = document.querySelector('.skill-marquees');
+const skillToggle = document.querySelector('.skill-motion-toggle');
+if (skillMarquees) {
+  const lanes = [...skillMarquees.querySelectorAll('.skill-lane')].map(lane=>{
+    const viewport = lane.querySelector('.skill-marquee');
+    const track = lane.querySelector('.skill-track');
+    const source = track.querySelector('.skill-list');
+
+    if (!reduceMotion) {
+      // Keep three copies so even a short category can loop across a wide screen.
+      // Two copies are not enough when one list is narrower than its viewport.
+      for (let copy = 0; copy < 2; copy += 1) {
+        const clone = source.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        track.append(clone);
+      }
+    }
+
+    const state = {
+      viewport,
+      source,
+      speed:Number(lane.dataset.speed) || 16,
+      direction:lane.dataset.direction === 'right' ? -1 : 1,
+      dragging:false,
+      startX:0,
+      startScroll:0
+    };
+
+    const normalise = ()=>{
+      if (reduceMotion) return;
+      const width = source.scrollWidth;
+      if (state.viewport.scrollLeft >= width) state.viewport.scrollLeft -= width;
+      if (state.viewport.scrollLeft <= 0) state.viewport.scrollLeft += width;
+    };
+
+    requestAnimationFrame(()=>{
+      if (state.direction < 0 && !reduceMotion) state.viewport.scrollLeft = source.scrollWidth;
+    });
+
+    viewport.addEventListener('pointerdown', event=>{
+      state.dragging = true;
+      state.startX = event.clientX;
+      state.startScroll = viewport.scrollLeft;
+      viewport.classList.add('is-dragging');
+      viewport.setPointerCapture(event.pointerId);
+    });
+    viewport.addEventListener('pointermove', event=>{
+      if (!state.dragging) return;
+      viewport.scrollLeft = state.startScroll - (event.clientX - state.startX);
+      normalise();
+    });
+    const finishDrag = event=>{
+      if (!state.dragging) return;
+      state.dragging = false;
+      viewport.classList.remove('is-dragging');
+      if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
+      normalise();
+    };
+    viewport.addEventListener('pointerup', finishDrag);
+    viewport.addEventListener('pointercancel', finishDrag);
+    viewport.addEventListener('keydown', event=>{
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      viewport.scrollBy({left:event.key === 'ArrowLeft' ? -180 : 180, behavior:'smooth'});
+    });
+
+    state.normalise = normalise;
+    return state;
+  });
+
+  let skillSectionVisible = false;
+  let skillsPaused = reduceMotion;
+  let previousFrame = performance.now();
+  let skillTimer = null;
+
+  const shouldAnimateSkills = ()=>!skillsPaused && skillSectionVisible && !document.hidden;
+
+  const animateSkills = ()=>{
+    if (!shouldAnimateSkills()) {
+      if (skillTimer !== null) clearInterval(skillTimer);
+      skillTimer = null;
+      return;
+    }
+    const now = performance.now();
+    const delta = Math.min(now - previousFrame, 40) / 1000;
+    previousFrame = now;
+    lanes.forEach(state=>{
+      if (state.dragging) return;
+      state.viewport.scrollLeft += state.direction * state.speed * delta;
+      state.normalise();
+    });
+  };
+
+  const syncSkillLoop = ()=>{
+    if (shouldAnimateSkills() && skillTimer === null) {
+      previousFrame = performance.now();
+      skillTimer = setInterval(animateSkills, 40);
+    } else if (!shouldAnimateSkills() && skillTimer !== null) {
+      clearInterval(skillTimer);
+      skillTimer = null;
+    }
+  };
+
+  const updateToggle = ()=>{
+    if (!skillToggle) return;
+    skillToggle.setAttribute('aria-pressed', String(skillsPaused));
+    skillToggle.setAttribute('aria-label', skillsPaused ? 'Resume skill movement' : 'Pause skill movement');
+    skillToggle.querySelector('span').textContent = skillsPaused ? 'Resume' : 'Pause';
+  };
+  skillToggle?.addEventListener('click', ()=>{
+    skillsPaused = !skillsPaused;
+    updateToggle();
+    syncSkillLoop();
+  });
+  updateToggle();
+
+  const skillObserver = new IntersectionObserver(([entry])=>{
+    skillSectionVisible = entry.isIntersecting;
+    syncSkillLoop();
+  }, {threshold:.15});
+  skillObserver.observe(skillMarquees);
+  document.addEventListener('visibilitychange', syncSkillLoop);
+}
+
+// Journey timeline — adapted from the supplied slider interaction for this
+// dependency-free site. The native control preserves touch and keyboard input.
+const journeySlider = document.getElementById('journey-slider');
+const journeyDetail = document.getElementById('journey-detail');
+const journeyYear = document.getElementById('journey-year');
+const journeyPhase = document.getElementById('journey-phase');
+const journeyLogos = document.getElementById('journey-logos');
+const journeyPeriod = document.getElementById('journey-period');
+const journeyInstitution = document.getElementById('journey-institution');
+const journeyProgram = document.getElementById('journey-program');
+const journeyDescription = document.getElementById('journey-description');
+const journeyResult = document.getElementById('journey-result');
+let activeJourneyChapter = null;
+let journeyAnimation = null;
+
+const journeyChapters = [
+  {
+    from:2017, to:2021, period:'2017 — 2021', phase:'Secondary education',
+    institution:'SM Sains Sembrong',
+    program:'Malaysian Certificate of Education (SPM)',
+    description:'Completed secondary education and sat for the Malaysian Certificate of Education before moving into engineering studies.',
+    result:'SPM · 7A2B',
+    logos:[{src:'Image/sasem.jpg',alt:'SM Sains Sembrong logo'}]
+  },
+  {
+    from:2022, to:2022, period:'2022 — 2023', phase:'Foundation studies',
+    institution:'UiTM Dengkil',
+    program:'Foundation in Engineering',
+    description:'Studied core engineering fundamentals during the foundation programme before progressing into Game Technology.',
+    result:'CGPA 3.33',
+    logos:[{src:'Image/uitm.png',alt:'Universiti Teknologi MARA logo'}]
+  },
+  {
+    from:2023, to:2023, period:'2023 · Transition year', phase:'A new chapter',
+    institution:'UiTM Dengkil → UTeM',
+    program:'Foundation completed · Degree journey began',
+    description:'Completed Foundation in Engineering at UiTM Dengkil and began the Bachelor of Information Technology (Game Technology) journey at UTeM.',
+    result:'UiTM CGPA 3.33',
+    logos:[
+      {src:'Image/uitm.png',alt:'Universiti Teknologi MARA logo'},
+      {src:'Image/utem.png',alt:'Universiti Teknikal Malaysia Melaka logo'}
+    ]
+  },
+  {
+    from:2024, to:2027, period:'2023 — 2027', phase:'University degree',
+    institution:'Universiti Teknikal Malaysia Melaka (UTeM)',
+    program:'Bachelor of Information Technology (Game Technology)',
+    description:'Building practical experience in gameplay programming, XR and interactive systems through the Game Technology programme.',
+    result:'CGPA 3.62 · Final-year student',
+    logos:[{src:'Image/utem.png',alt:'Universiti Teknikal Malaysia Melaka logo'}]
+  }
+];
+
+function updateJourney(){
+  if (!journeySlider || !journeyDetail) return;
+  const year = Number(journeySlider.value);
+  const chapter = journeyChapters.find(item=>year >= item.from && year <= item.to) || journeyChapters.at(-1);
+  const progress = ((year - Number(journeySlider.min)) / (Number(journeySlider.max) - Number(journeySlider.min))) * 100;
+
+  journeySlider.style.setProperty('--journey-progress', `${progress}%`);
+  journeySlider.setAttribute('aria-valuetext', `${year}, ${chapter.institution}`);
+  journeyYear.value = String(year);
+  journeyYear.textContent = String(year);
+  journeyPhase.textContent = year === 2026 ? 'Current year' : chapter.phase;
+  if (chapter !== activeJourneyChapter) {
+    journeyPeriod.textContent = chapter.period;
+    journeyInstitution.textContent = chapter.institution;
+    journeyProgram.textContent = chapter.program;
+    journeyDescription.textContent = chapter.description;
+    journeyResult.textContent = chapter.result;
+
+    const logoNodes = chapter.logos.map(logo=>{
+      const image = document.createElement('img');
+      image.src = logo.src;
+      image.alt = logo.alt;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      return image;
+    });
+    journeyLogos.replaceChildren(...logoNodes);
+    journeyLogos.classList.toggle('is-dual', logoNodes.length > 1);
+    activeJourneyChapter = chapter;
+
+    if (!reduceMotion) {
+      journeyAnimation?.cancel();
+      journeyAnimation = journeyDetail.animate(
+        [{opacity:.45,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],
+        {duration:240,easing:'cubic-bezier(.16,1,.3,1)'}
+      );
+    }
+  }
+}
+
+if (journeySlider) {
+  journeySlider.addEventListener('input', updateJourney);
+  updateJourney();
+}
+
 // project card video preview — play on hover, stop on leave
 if (!reduceMotion) {
   document.querySelectorAll('.pcard-video').forEach(v=>{
@@ -907,22 +1236,44 @@ if (contactSection && contactWords.length) {
 const hero  = document.querySelector('.hero[data-spline]');
 const url   = hero?.dataset.spline.trim();
 const mount = hero?.querySelector('.hero-3d');
+let splineViewer = null;
+let splineModule = null;
+let splineIdleTask = null;
+let heroVisible = false;
+const desktopSpline = matchMedia('(min-width:900px)');
+const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+const constrainedDevice = reduceMotion || connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType || '') ||
+  (navigator.deviceMemory && navigator.deviceMemory <= 4);
 
-if (url && mount) {
+function cancelSplineSchedule(){
+  if (splineIdleTask === null) return;
+  if ('cancelIdleCallback' in window) cancelIdleCallback(splineIdleTask);
+  else clearTimeout(splineIdleTask);
+  splineIdleTask = null;
+}
+
+function destroySpline(){
+  cancelSplineSchedule();
+  mount?.classList.remove('on');
+  if (!splineViewer) return;
+  splineViewer.removeAttribute('url');
+  splineViewer.remove();
+  splineViewer = null;
+}
+
+async function createSpline(){
+  splineIdleTask = null;
+  if (!url || !mount || !heroVisible || !desktopSpline.matches || constrainedDevice || splineViewer) return;
   try {
-    await import('https://unpkg.com/@splinetool/viewer@2.0.9/build/spline-viewer.js');
+    splineModule ||= import('https://unpkg.com/@splinetool/viewer@2.0.9/build/spline-viewer.js');
+    await splineModule;
+    if (!heroVisible || !desktopSpline.matches || splineViewer) return;
 
     const viewer = document.createElement('spline-viewer');
+    splineViewer = viewer;
     viewer.setAttribute('url', url);
     viewer.setAttribute('loading-anim-type', 'none');
 
-    // 'load-complete' is the viewer's own event — it exposes no promise, and its
-    // load() returns nothing to await. Fading in only then keeps the black hero
-    // steady if the scene stalls or the CDN is blocked.
-    // The viewer paints a 'Built with Spline' badge and a preloader into its own
-    // shadow root, where a normal stylesheet cannot reach them. The root is open,
-    // so a style injected into it hides both without touching the canvas — more
-    // durable than removing the nodes, which the component can re-create.
     const hideChrome = () => {
       const sr = viewer.shadowRoot;
       if (!sr || sr.querySelector('style[data-hide-chrome]')) return;
@@ -933,15 +1284,34 @@ if (url && mount) {
     };
 
     viewer.addEventListener('load-complete', ()=>{
+      if (viewer !== splineViewer) return;
       mount.classList.add('on');
       hideChrome();
     }, { once:true });
 
     mount.appendChild(viewer);
-    hideChrome();          // the shadow root exists from connectedCallback
+    hideChrome();
   } catch {
-    // No 3D — the black hero and its copy are unaffected.
+    splineViewer = null;
+    // The black hero and its copy remain usable if the CDN or GPU is unavailable.
   }
+}
+
+function scheduleSpline(){
+  if (!heroVisible || !desktopSpline.matches || constrainedDevice || splineViewer || splineIdleTask !== null) return;
+  splineIdleTask = 'requestIdleCallback' in window
+    ? requestIdleCallback(createSpline,{timeout:1400})
+    : setTimeout(createSpline,600);
+}
+
+if (hero && mount && url && !constrainedDevice) {
+  const splineObserver = new IntersectionObserver(([entry])=>{
+    heroVisible = entry.isIntersecting;
+    if (heroVisible) scheduleSpline();
+    else destroySpline();
+  },{rootMargin:'120px 0px',threshold:.05});
+  splineObserver.observe(hero);
+  desktopSpline.addEventListener('change', event=>event.matches ? scheduleSpline() : destroySpline());
 }
 
 // The hero copy fades over the first 400px of scroll, rAF-throttled on a passive
