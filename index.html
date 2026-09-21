@@ -324,7 +324,6 @@ body::before{
    paints the full-bleed background is the <section> wrapper around it. */
 .sec{ max-width:1240px; margin:0 auto; padding:104px var(--pad); border-top:1px solid var(--hair, var(--line-light)); }
 .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:48px; }
-.sec-head .idx{ font-family:var(--mono); font-size:13px; color:var(--eyebrow, var(--depth)); }
 .sec-head h2{ font-family:var(--display); font-weight:800; font-size:clamp(30px,4.4vw,46px); letter-spacing:-.03em; color:var(--fg, var(--ink)); }
 
 .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:52px; }
@@ -418,7 +417,6 @@ body::before{
 .skill-motion-toggle .icon-play{ display:none; }
 .skill-motion-toggle[aria-pressed="true"] .icon-pause{ display:none; }
 .skill-motion-toggle[aria-pressed="true"] .icon-play{ display:block; }
-.skill-guide{ color:var(--fg-soft); font-size:14px; margin:-16px 0 30px; }
 .skill-marquees{ display:flex; flex-direction:column; border-block:1px solid var(--hair); }
 .skill-lane{ display:grid; grid-template-columns:170px minmax(0,1fr); align-items:center; min-height:108px; }
 .skill-lane + .skill-lane{ border-top:1px solid var(--hair); }
@@ -441,7 +439,6 @@ body::before{
 @media(max-width:700px){
   .skills-head{ align-items:center; }
   .skill-motion-toggle{ min-height:36px; }
-  .skill-guide{ margin-top:-10px; }
   .skill-lane{ grid-template-columns:1fr; gap:12px; padding:18px 0 20px; }
   .skill-marquee{ margin-inline:calc(var(--pad) * -1); }
   .skill-list{ gap:34px; padding-right:34px; }
@@ -453,12 +450,11 @@ body::before{
 /* ============================================
    7. JOURNEY — year-controlled education timeline
    ============================================ */
-.journey-lede{ max-width:64ch; color:var(--fg-soft); margin:-22px 0 42px; }
 .journey-board{ border-block:1px solid var(--hair); padding:34px 0 40px; }
 .journey-year-row{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; }
 .journey-year-label{ font-family:var(--mono); font-size:11px; color:var(--eyebrow); letter-spacing:.09em; text-transform:uppercase; }
 .journey-year{
-  display:block; margin-top:2px; font-family:var(--display); font-size:clamp(48px,7vw,78px);
+  display:block; margin-top:2px; font-family:var(--display); font-size:clamp(40px,5.2vw,58px);
   font-weight:800; line-height:.95; letter-spacing:-.04em; color:var(--fg); font-variant-numeric:tabular-nums;
 }
 .journey-phase{
@@ -471,23 +467,30 @@ body::before{
   display:block; background:transparent; cursor:ew-resize;
 }
 .journey-slider::-webkit-slider-runnable-track{
-  height:4px; border-radius:2px;
-  background:linear-gradient(to right,var(--depth) 0 var(--journey-progress),var(--hair) var(--journey-progress) 100%);
+  height:6px; border-radius:3px;
+  background:linear-gradient(to right,var(--signal) 0,var(--depth) var(--journey-progress),var(--hair) var(--journey-progress),var(--hair) 100%);
 }
 .journey-slider::-webkit-slider-thumb{
-  -webkit-appearance:none; width:22px; height:22px; margin-top:-9px; border-radius:50%;
-  border:3px solid var(--depth); background:var(--surface); box-shadow:0 5px 14px rgba(14,17,22,.16);
-  transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s ease;
+  -webkit-appearance:none; width:24px; height:24px; margin-top:-9px; border-radius:50%;
+  border:3px solid var(--surface); outline:2px solid var(--depth); background:var(--signal);
+  box-shadow:0 5px 14px rgba(14,17,22,.2);
+  transition:transform .18s cubic-bezier(.16,1,.3,1),background .18s ease,outline-color .18s ease,box-shadow .18s ease;
 }
-.journey-slider::-moz-range-track{ height:4px; border:0; border-radius:2px; background:var(--hair); }
-.journey-slider::-moz-range-progress{ height:4px; border-radius:2px; background:var(--depth); }
+.journey-slider::-moz-range-track{ height:6px; border:0; border-radius:3px; background:var(--hair); }
+.journey-slider::-moz-range-progress{ height:6px; border-radius:3px; background:linear-gradient(90deg,var(--signal),var(--depth)); }
 .journey-slider::-moz-range-thumb{
-  width:18px; height:18px; border-radius:50%; border:3px solid var(--depth);
-  background:var(--surface); box-shadow:0 5px 14px rgba(14,17,22,.16);
+  width:18px; height:18px; border-radius:50%; border:3px solid var(--surface);
+  outline:2px solid var(--depth); background:var(--signal); box-shadow:0 5px 14px rgba(14,17,22,.2);
 }
-.journey-slider:hover::-webkit-slider-thumb{ transform:scale(1.12); box-shadow:0 7px 18px rgba(14,17,22,.2); }
+.journey-slider:hover::-webkit-slider-thumb{ transform:scale(1.15); background:var(--depth); outline-color:var(--signal); box-shadow:0 7px 18px rgba(14,17,22,.24); }
+.journey-slider:active::-webkit-slider-thumb{ transform:scale(.96); }
 .journey-slider:focus-visible{ outline:2px solid var(--signal); outline-offset:5px; border-radius:2px; }
 .journey-ticks{ display:flex; justify-content:space-between; margin-top:3px; color:var(--fg-soft); font-family:var(--mono); font-size:10px; }
+.journey-ticks span{ position:relative; padding-top:8px; }
+.journey-ticks span::before{
+  content:''; position:absolute; top:0; left:50%; width:4px; height:4px; border-radius:50%;
+  background:color-mix(in srgb,var(--depth) 68%,var(--hair)); transform:translateX(-50%);
+}
 .journey-detail{
   display:grid; grid-template-columns:minmax(180px,220px) minmax(0,1fr); gap:clamp(30px,5vw,72px);
   align-items:center; margin-top:44px;
@@ -510,10 +513,9 @@ body::before{
   border-radius:2px; color:var(--eyebrow); font-family:var(--mono); font-size:11px;
 }
 @media(max-width:700px){
-  .journey-lede{ margin-top:-12px; }
   .journey-board{ padding-top:28px; }
   .journey-year-row{ align-items:flex-start; }
-  .journey-year{ font-size:52px; }
+  .journey-year{ font-size:42px; }
   .journey-phase{ margin-top:4px; }
   .journey-ticks{ font-size:9px; }
   .journey-detail{ grid-template-columns:1fr; gap:24px; margin-top:34px; }
@@ -687,7 +689,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 <!-- ===== ABOUT ===== -->
 <section class="sec rise section-light" id="about">
-  <div class="sec-head"><span class="idx">01</span><h2>About me</h2></div>
+  <div class="sec-head"><h2>About me</h2></div>
   <div class="about-grid">
     <div>
       <p>
@@ -717,7 +719,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <!-- ===== PROJECTS =====
      Copy one <a class="pcard"> block to add a new project -->
 <section class="sec rise section-dark" id="projects">
-  <div class="sec-head"><span class="idx">02</span><h2>Projects</h2></div>
+  <div class="sec-head"><h2>Projects</h2></div>
 
   <div class="pgrid">
 
@@ -800,18 +802,17 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <!-- ===== SKILLS ===== -->
 <section class="sec rise section-light" id="skills">
   <div class="sec-head skills-head">
-    <span class="idx">03</span><h2>Skills &amp; tools</h2>
-    <button class="skill-motion-toggle" type="button" aria-pressed="false" aria-describedby="skills-guide" aria-label="Pause skill movement">
+    <h2>Skills &amp; tools</h2>
+    <button class="skill-motion-toggle" type="button" aria-pressed="false" aria-label="Pause skill movement">
       <svg class="icon-pause" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M9 5v14M15 5v14"/></svg>
       <svg class="icon-play" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"><path d="m8 5 11 7-11 7Z"/></svg>
       <span>Pause</span>
     </button>
   </div>
-  <p class="skill-guide" id="skills-guide">Pause the movement or drag any row left and right to explore.</p>
   <div class="skill-marquees" aria-label="Skills and tools">
     <div class="skill-lane" data-speed="18" data-direction="left">
       <h4>Programming</h4>
-      <div class="skill-marquee" tabindex="0" aria-label="Programming skills. Drag or use the arrow keys to explore.">
+      <div class="skill-marquee" tabindex="0" aria-label="Programming skills">
         <div class="skill-track">
           <ul class="skill-list">
             <li>C++</li><li>C#</li><li>JavaScript</li><li>SQL</li><li>MySQL</li>
@@ -821,7 +822,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     </div>
     <div class="skill-lane" data-speed="15" data-direction="right">
       <h4>Game &amp; XR</h4>
-      <div class="skill-marquee" tabindex="0" aria-label="Game and XR skills. Drag or use the arrow keys to explore.">
+      <div class="skill-marquee" tabindex="0" aria-label="Game and XR skills">
         <div class="skill-track">
           <ul class="skill-list">
             <li>Unreal Engine 5</li><li>Unity</li><li>Mixed Reality</li><li>Virtual Reality</li>
@@ -832,7 +833,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     </div>
     <div class="skill-lane" data-speed="17" data-direction="left">
       <h4>Tools &amp; strengths</h4>
-      <div class="skill-marquee" tabindex="0" aria-label="Tools and professional strengths. Drag or use the arrow keys to explore.">
+      <div class="skill-marquee" tabindex="0" aria-label="Tools and professional strengths">
         <div class="skill-track">
           <ul class="skill-list">
             <li>Visual Studio</li><li>VS Code</li><li>Git</li><li>Blender</li>
@@ -847,8 +848,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <!-- ===== JOURNEY =====
      The native range input keeps the timeline keyboard- and touch-accessible. -->
 <section class="sec rise section-light" id="education">
-  <div class="sec-head"><span class="idx">04</span><h2>Journey</h2></div>
-  <p class="journey-lede">Drag through the years to follow my education journey, from secondary school to game technology and XR development.</p>
+  <div class="sec-head"><h2>Journey</h2></div>
 
   <div class="journey-board">
     <div class="journey-year-row">
@@ -861,11 +861,10 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
     <div class="journey-range-wrap">
       <input class="journey-slider" id="journey-slider" type="range" min="2017" max="2027" step="1" value="2026"
-        aria-label="Select a year in Ikhwanuddin's education journey" aria-describedby="journey-instruction">
+        aria-label="Select a year in Ikhwanuddin's education journey">
       <div class="journey-ticks" aria-hidden="true">
         <span>2017</span><span>2019</span><span>2021</span><span>2023</span><span>2025</span><span>2027</span>
       </div>
-      <span class="sr-only" id="journey-instruction">Use the arrow keys or drag the slider to explore each year.</span>
     </div>
 
     <article class="journey-detail" id="journey-detail" aria-live="polite">
