@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VaultBreak MR — Ikhwanuddin</title>
-<meta name="description" content="VaultBreak MR is a room-scale mixed reality stealth game built with Unreal Engine, Meta Quest 3S and Sony Mocopi full-body tracking.">
+<title>VaultBreak MR | Mixed Reality System — Ikhwanuddin</title>
+<meta name="description" content="VaultBreak MR combines Unreal Engine and C++ with Quest passthrough, Sony Mocopi full-body tracking, room-aware route generation and state-driven gameplay systems.">
+<link rel="canonical" href="https://ikhwanuddin.online/work/vaultbreak.html">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ikhwanuddin">
 <meta property="og:url" content="https://ikhwanuddin.online/work/vaultbreak.html">
-<meta property="og:title" content="VaultBreak MR — Ikhwanuddin">
-<meta property="og:description" content="A room-scale mixed reality stealth game using Sony Mocopi full-body tracking and Meta Quest 3S passthrough.">
+<meta property="og:title" content="VaultBreak MR | Mixed Reality System — Ikhwanuddin">
+<meta property="og:description" content="An Unreal Engine mixed reality system connecting Quest passthrough, Sony Mocopi full-body tracking and room-aware gameplay logic.">
 <meta property="og:image" content="https://ikhwanuddin.online/assets/img/projects/vaultbreak/passthrough-gameplay.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,7 +46,7 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
 <section class="dhero">
   <div class="dhero-top"><span class="dstatus caption"><span class="dot"></span>Completed</span></div>
   <h1>VaultBreak MR</h1>
-  <p class="dpitch">A room-scale mixed reality stealth game where players use their full body to avoid laser security and retrieve a pearl from a virtual vault.</p>
+  <p class="dpitch">A room-scale mixed reality system built in Unreal Engine and C++ that connects Quest passthrough, Sony Mocopi full-body tracking, procedural security routes, and health-driven gameplay.</p>
   <div class="dhero-roleline"><span>Role</span><strong>XR Developer</strong><span>Final Year Project</span></div>
   <div class="dtags"><span>Unreal Engine 5.6.1</span><span>C++</span><span>Meta Quest 3S</span><span>Sony Mocopi</span></div>
   <div class="result-line"><svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Evaluated with 20 participants</div>
@@ -121,7 +122,7 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
 </main>
 <footer><span class="caption">© 2026 Ikhwanuddin</span><span class="caption">Final Year Project</span></footer>
 <script>
-(()=>{const gallery=document.querySelector('.dynamic-gallery');if(!gallery)return;const cells=[...gallery.querySelectorAll('.gallery-cell')];const canHover=window.matchMedia('(hover: hover) and (pointer: fine)').matches;const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;const restingRows=['1fr','1fr'];const restingCols=['1fr','1.22fr','1fr'];const setAxis=(sizes,active)=>sizes.map((size,index)=>index===active?'1.8fr':'.72fr').join(' ');const reset=()=>{gallery.style.setProperty('--gallery-rows',restingRows.join(' '));gallery.style.setProperty('--gallery-cols',restingCols.join(' '))};const expand=cell=>{if(window.innerWidth<=640||reduceMotion)return;gallery.style.setProperty('--gallery-rows',setAxis(restingRows,Number(cell.dataset.row)));gallery.style.setProperty('--gallery-cols',setAxis(restingCols,Number(cell.dataset.col))};cells.forEach(cell=>{if(canHover){cell.addEventListener('pointerenter',()=>expand(cell));cell.addEventListener('pointerleave',reset)}cell.addEventListener('focus',()=>expand(cell));cell.addEventListener('blur',reset)})})();
+(()=>{const gallery=document.querySelector('.dynamic-gallery');if(!gallery)return;const cells=[...gallery.querySelectorAll('.gallery-cell')];const canHover=window.matchMedia('(hover: hover) and (pointer: fine)').matches;const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;const restingRows=['1fr','1fr'];const restingCols=['1fr','1.22fr','1fr'];const setAxis=(sizes,active)=>sizes.map((size,index)=>index===active?'1.8fr':'.72fr').join(' ');const reset=()=>{gallery.style.setProperty('--gallery-rows',restingRows.join(' '));gallery.style.setProperty('--gallery-cols',restingCols.join(' '))};const expand=cell=>{if(window.innerWidth<=640||reduceMotion)return;gallery.style.setProperty('--gallery-rows',setAxis(restingRows,Number(cell.dataset.row)));gallery.style.setProperty('--gallery-cols',setAxis(restingCols,Number(cell.dataset.col)))};cells.forEach(cell=>{if(canHover){cell.addEventListener('pointerenter',()=>expand(cell));cell.addEventListener('pointerleave',reset)}cell.addEventListener('focus',()=>expand(cell));cell.addEventListener('blur',reset)})})();
 </script>
 </body>
 </html>

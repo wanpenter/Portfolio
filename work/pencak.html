@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PENCAK — A Living Archive of Silat | Ikhwanuddin</title>
+<meta name="description" content="PENCAK is an interactive VR introduction to Silat Seni Gayong, developed by the IMMERSA team to support cultural heritage through approachable learning.">
+<link rel="canonical" href="https://ikhwanuddin.online/work/pencak.html">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ikhwanuddin">
+<meta property="og:url" content="https://ikhwanuddin.online/work/pencak.html">
+<meta property="og:title" content="PENCAK — A Living Archive of Silat">
+<meta property="og:description" content="An interactive VR introduction to Silat Seni Gayong and its cultural heritage, developed by the IMMERSA team.">
+<meta property="og:image" content="https://ikhwanuddin.online/assets/img/projects/pencak/pencak-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PENCAK — A Living Archive of Silat">
+<meta name="twitter:description" content="An interactive VR introduction to Silat Seni Gayong and its cultural heritage.">
+<meta name="twitter:image" content="https://ikhwanuddin.online/assets/img/projects/pencak/pencak-poster.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ---- specified palette ---- */
+  --mist:     #F2F4F7;
+  --card:     #FFFFFF;
+  --signal:   #00A8B5;
+  --depth:    #5B3EE8;
+  --ink:      #0E1116;
+  --ink-soft: #4A5260;
+  --on-dark:  #E6E9EE;
+
+  /* ---- accessible accent variants (ratios documented in index.html) ---- */
+  --signal-text:   #00747D;
+  --depth-on-dark: #9B8AF2;
+
+  /* ---- derived neutrals ---- */
+  --line-light:  #D8DDE5;
+  --line-dark:   #262B33;
+  --muted-dark:  #9BA3B0;
+  --card-dark:   #171B22;
+  --line-graphic:#AFB8C4;
+  --img-ph:      #E4E7EC;
+
+  --display: 'Archivo', system-ui, sans-serif;
+  --body:    'IBM Plex Sans', system-ui, sans-serif;
+  --mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  --pad: clamp(20px, 5vw, 72px);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--mist);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{ color:inherit; }
+:focus-visible{ outline:2px solid var(--signal); outline-offset:3px; }
+
+body::before{
+  content:'';
+  position:fixed; inset:0; z-index:2; pointer-events:none;
+  opacity:.035; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+.caption{
+  font-family:var(--body); font-size:11px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft);
+}
+
+/* topbar */
+.topbar{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  display:flex; align-items:center; gap:20px;
+  padding:14px var(--pad);
+  background:color-mix(in srgb, var(--mist) 85%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line-light);
+}
+.topbar .mark{ font-family:var(--display); font-weight:800; letter-spacing:-.02em; font-size:15px; }
+.navlinks{ margin-left:auto; display:flex; gap:26px; }
+.navlinks a{
+  position:relative;
+  font-family:var(--body); font-size:12.5px; font-weight:500; letter-spacing:.04em;
+  text-decoration:none; color:var(--ink-soft);
+  transition:color .2s; padding-bottom:3px;
+}
+.navlinks a::after{
+  content:''; position:absolute; left:0; bottom:0; height:1px; width:100%;
+  background:var(--signal); transform:scaleX(0); transform-origin:left;
+  transition:transform .25s ease;
+}
+.navlinks a:hover{ color:var(--signal-text); }
+.navlinks a:hover::after{ transform:scaleX(1); }
+@media(max-width:640px){ .navlinks{ display:none; } }
+
+/* back link */
+.backbar{ padding:130px var(--pad) 0; max-width:1240px; margin:0 auto; }
+.back-link{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:12.5px; color:var(--ink-soft);
+  text-decoration:none; transition:color .2s, transform .2s;
+}
+.back-link:hover{ color:var(--signal-text); transform:translateX(-3px); }
+
+/* detail hero */
+.dhero{ max-width:1240px; margin:0 auto; padding:28px var(--pad) 60px; }
+.dhero-top{
+  display:flex; justify-content:space-between; align-items:flex-start;
+  flex-wrap:wrap; gap:16px; margin-bottom:28px;
+}
+.dhero-role{
+  font-family:var(--body); font-size:11.5px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--signal-text);
+}
+.dstatus{
+  display:flex; align-items:center; gap:7px; color:var(--ink-soft);
+}
+.dstatus .dot{ width:6px; height:6px; border-radius:50%; background:var(--signal); box-shadow:0 0 0 3px color-mix(in srgb, var(--signal) 20%, transparent); }
+.dhero h1{
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(38px, 6vw, 68px); letter-spacing:-.03em; line-height:1.02;
+  margin-bottom:16px;
+}
+.dpitch{ max-width:60ch; color:var(--ink-soft); font-size:18px; margin-bottom:24px; }
+.dtags{ display:flex; flex-wrap:wrap; gap:10px; }
+/* tech tag pills — one of --depth's two jobs */
+.dtags span{
+  font-family:var(--mono); font-size:12.5px; color:var(--depth);
+  border:1px solid color-mix(in srgb, var(--depth) 35%, transparent); padding:7px 14px; border-radius:20px;
+  background:color-mix(in srgb, var(--depth) 8%, transparent);
+}
+
+/* lead project evidence */
+.video-slot{
+  max-width:1240px; margin:0 auto; padding:0 var(--pad) 60px;
+}
+.video-slot-inner{
+  position:relative; overflow:hidden;
+  border-radius:8px; border:1px solid var(--line-light);
+  background:#090B0F;
+  display:flex; align-items:center; justify-content:center;
+  padding:clamp(18px, 4vw, 48px);
+}
+.video-slot-badge{
+  position:absolute; top:14px; left:14px; z-index:1;
+  font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase;
+  padding:3px 8px; border-radius:2px;
+  border:1px solid rgba(255,255,255,.26); color:var(--on-dark);
+  background:rgba(9,11,15,.82);
+}
+.video-slot-inner img{ width:100%; height:auto; object-fit:contain; display:block; }
+
+/* sections */
+.sec{ max-width:1240px; margin:0 auto; padding:72px var(--pad); border-top:1px solid var(--line-light); }
+.sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:36px; }
+.sec-head .idx{ font-family:var(--mono); font-size:13px; color:var(--depth); }
+.sec-head h2{ font-family:var(--display); font-weight:800; font-size:clamp(26px,3.6vw,38px); letter-spacing:-.03em; }
+.sec p{ color:var(--ink-soft); font-size:17px; max-width:70ch; margin-bottom:16px; }
+.sec p:last-child{ margin-bottom:0; }
+.sec p strong{ color:var(--ink); font-weight:500; }
+
+.fact-strip{
+  display:grid; grid-template-columns:repeat(3, 1fr);
+  margin-top:34px; border-top:1px solid var(--line-light); border-bottom:1px solid var(--line-light);
+}
+.fact{ padding:22px 22px 22px 0; }
+.fact + .fact{ padding-left:22px; border-left:1px solid var(--line-light); }
+.fact strong{
+  display:block; font-family:var(--display); font-size:28px; line-height:1;
+  letter-spacing:-.03em; margin-bottom:7px;
+}
+.fact span{ font-family:var(--mono); font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.08em; }
+
+.objective-list{ display:grid; gap:0; counter-reset:objectives; }
+.objective{
+  display:grid; grid-template-columns:44px 1fr; gap:16px;
+  padding:22px 0; border-top:1px solid var(--line-light); counter-increment:objectives;
+}
+.objective::before{
+  content:'0' counter(objectives); font-family:var(--mono); font-size:12px; color:var(--depth);
+}
+.objective h3{ font-family:var(--display); font-size:18px; margin-bottom:6px; }
+.objective p{ margin:0; }
+
+.role-grid{ display:grid; grid-template-columns:repeat(3, 1fr); border-top:1px solid var(--line-light); }
+.role{
+  padding:24px 24px 0 0;
+}
+.role + .role{ padding-left:24px; border-left:1px solid var(--line-light); }
+.role h3{ font-family:var(--display); font-size:20px; margin-bottom:10px; }
+.role ul{ list-style:none; display:grid; gap:8px; }
+.role li{ color:var(--ink-soft); font-size:15px; padding-left:15px; position:relative; }
+.role li::before{ content:''; position:absolute; left:0; top:.72em; width:5px; height:1px; background:var(--signal); }
+
+.media-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:28px; }
+.media-card{ min-width:0; }
+.media-card.wide{ grid-column:1 / -1; }
+.media-frame{
+  display:flex; align-items:center; justify-content:center;
+  min-height:220px; padding:18px; overflow:hidden;
+  border:1px solid var(--line-light); border-radius:8px; background:#090B0F;
+}
+.media-frame.diagram{ background:#fff; }
+.media-frame img{ display:block; max-width:100%; width:100%; height:auto; max-height:620px; object-fit:contain; }
+.media-card figcaption{ padding-top:12px; }
+.media-card figcaption strong{ display:block; font-family:var(--display); font-size:16px; margin-bottom:3px; }
+.media-card figcaption span{ color:var(--ink-soft); font-size:14px; }
+
+.schema-list{ border-top:1px solid var(--line-light); }
+.schema-row{
+  display:grid; grid-template-columns:minmax(150px,.35fr) 1fr; gap:30px;
+  padding:20px 0; border-bottom:1px solid var(--line-light);
+}
+.schema-row strong{ font-family:var(--display); font-size:17px; }
+.schema-row span{ color:var(--ink-soft); }
+
+.code-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
+.code-grid .media-frame{ min-height:180px; padding:12px; }
+.code-grid .media-card.wide{ grid-column:span 2; }
+
+.note-band{
+  margin-top:34px; padding:26px 28px; border:1px solid var(--line-light); border-radius:8px;
+  background:var(--card);
+}
+.note-band h3{ font-family:var(--display); font-size:18px; margin-bottom:8px; }
+.note-band p{ margin:0; font-size:16px; }
+
+.breakdown{ display:flex; flex-direction:column; gap:28px; }
+.breakdown-item h3{
+  font-family:var(--display); font-weight:700; font-size:18px; letter-spacing:-.01em;
+  margin-bottom:8px; color:var(--ink);
+}
+.breakdown-item p{ margin-bottom:0; }
+
+.challenges{ display:flex; flex-direction:column; }
+.challenge{
+  display:flex; gap:20px;
+  padding:24px 0; border-top:1px solid var(--line-light);
+}
+.challenges .challenge:first-child{ border-top:none; padding-top:0; }
+.challenge-num{ font-family:var(--mono); font-size:13px; color:var(--depth); flex:0 0 28px; }
+.challenge h3{
+  font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-.01em;
+  margin-bottom:6px; color:var(--ink);
+}
+.challenge p{ margin-bottom:0; }
+
+.link-rows{ display:flex; flex-direction:column; gap:16px; }
+.link-rows a{
+  display:flex; align-items:center; gap:12px;
+  font-family:var(--mono); font-size:15px; color:var(--ink);
+  text-decoration:none; transition:color .2s, transform .2s;
+  width:fit-content;
+}
+.link-rows a:hover{ color:var(--signal-text); transform:translateX(4px); }
+.link-rows svg{ width:17px; height:17px; flex-shrink:0; stroke:var(--signal); }
+.link-note{ font-family:var(--mono); font-size:13px; color:var(--ink-soft); }
+
+footer{
+  padding:26px var(--pad); border-top:1px solid var(--line-light);
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  max-width:1240px; margin:0 auto;
+}
+
+@media(max-width:820px){
+  .role-grid{ grid-template-columns:1fr; }
+  .role{ padding:22px 0; border-bottom:1px solid var(--line-light); }
+  .role + .role{ padding-left:0; border-left:0; }
+  .code-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:640px){
+  .fact-strip, .media-grid, .code-grid{ grid-template-columns:1fr; }
+  .fact{ padding:18px 0; }
+  .fact + .fact{ padding-left:0; border-left:0; border-top:1px solid var(--line-light); }
+  .media-card.wide, .code-grid .media-card.wide{ grid-column:auto; }
+  .media-frame{ min-height:160px; padding:10px; }
+  .schema-row{ grid-template-columns:1fr; gap:6px; }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+  html{ scroll-behavior:auto; }
+}
+.pencak-page .dhero{ padding-bottom:36px; }
+.pencak-page .dhero-role,
+.pencak-page .sec-head .idx{ color:#83601f; }
+.pencak-page .dstatus .dot{ background:#b08332; box-shadow:0 0 0 3px rgba(176,131,50,.18); }
+.pencak-showcase{
+  max-width:1240px; margin:0 auto; padding:0 var(--pad) 64px;
+}
+.pencak-showcase figure,
+.pencak-journey-card,
+.pencak-art figure{ min-width:0; background:#fff; border:1px solid var(--line-light); border-radius:8px; overflow:hidden; }
+.pencak-showcase img{ display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+.pencak-showcase figcaption,
+.pencak-art figcaption{ padding:12px 16px; font-size:13px; color:var(--ink-soft); border-top:1px solid var(--line-light); }
+.pencak-journey{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
+.pencak-journey-card img{ display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+.pencak-journey-copy{ padding:20px 22px 24px; }
+.pencak-journey-copy span{ display:block; font-family:var(--mono); font-size:12px; color:#83601f; margin-bottom:6px; }
+.pencak-journey-copy h3{ font-family:var(--display); font-size:21px; line-height:1.2; margin-bottom:8px; }
+.pencak-journey-copy p{ font-size:15px; margin:0; }
+.pencak-art{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; margin-top:28px; }
+.pencak-art figure{ display:flex; flex-direction:column; }
+.pencak-art-visual{ height:560px; display:grid; place-items:center; overflow:hidden; background:#fff; }
+.pencak-art img{ display:block; width:100%; height:100%; object-fit:contain; }
+.pencak-art-standee img{ transform:scale(1.28); }
+.pencak-art figcaption{ margin-top:auto; }
+.pencak-source{ font-size:13px !important; margin-top:22px; }
+@media(max-width:740px){
+  .pencak-journey,.pencak-art{ grid-template-columns:1fr; }
+  .pencak-art-visual{ height:420px; }
+}
+</style>
+</head>
+<body class="pencak-page">
+<header class="topbar">
+  <span class="mark">IKHWANUDDIN</span>
+  <nav class="navlinks">
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#projects">Projects</a>
+    <a href="../index.html#skills">Skills</a>
+    <a href="../index.html#education">Education</a>
+    <a href="../index.html#contact">Contact</a>
+  </nav>
+</header>
+<div class="backbar">
+  <a class="back-link" href="../index.html#projects">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to portfolio
+  </a>
+</div>
+<section class="dhero">
+  <div class="dhero-top">
+    <span class="dhero-role">Virtual Reality · Cultural Heritage</span>
+    <span class="dstatus caption"><span class="dot"></span>In development</span>
+  </div>
+  <h1>PENCAK — A Living Archive of Silat</h1>
+  <p class="dpitch">An interactive VR introduction to Silat Seni Gayong, created by the IMMERSA team to make its foundations more approachable.</p>
+</section>
+<div class="pencak-showcase">
+  <figure>
+    <img src="../assets/img/projects/pencak/slide-5.jpg" width="1600" height="900" decoding="async" alt="PENCAK concept slide showing a silat practitioner training in a traditional pavilion">
+    <figcaption>Training scene concept from the IMMERSA pitch deck</figcaption>
+  </figure>
+</div>
+<section class="sec">
+  <div class="sec-head"><span class="idx">01</span><h2>The idea</h2></div>
+  <p>PENCAK is a virtual reality introduction to Silat Seni Gayong, developed by the IMMERSA team. It invites newcomers to learn through movement: watch a demonstration, try it themselves, and build confidence through practice.</p>
+  <p>Silat is a living tradition shaped by people, places, and repeated practice. PENCAK uses a virtual setting to make that first encounter more approachable and to encourage interest in the heritage behind the movements.</p>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="idx">02</span><h2>How the experience unfolds</h2></div>
+  <p>The pitch deck presents a simple learning journey, from exploring the setting to putting new movements into practice.</p>
+  <div class="pencak-journey">
+    <article class="pencak-journey-card">
+      <img src="../assets/img/projects/pencak/slide-13.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="Concept slide showing a player exploring silat attire in a preparation area">
+      <div class="pencak-journey-copy"><span>01 / Explore</span><h3>Enter the world of silat</h3><p>The player starts in a preparation area and discovers the clothing and setting connected to the practice of silat.</p></div>
+    </article>
+    <article class="pencak-journey-card">
+      <img src="../assets/img/projects/pencak/slide-14.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="Concept slide showing the Virtual Guru welcoming a player">
+      <div class="pencak-journey-copy"><span>02 / Meet</span><h3>Learn with a Virtual Guru</h3><p>In the training pavilion, a Virtual Guru welcomes the player and introduces the lesson through conversation and demonstration.</p></div>
+    </article>
+    <article class="pencak-journey-card">
+      <img src="../assets/img/projects/pencak/slide-15.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="Concept slide showing guided basic silat movement practice">
+      <div class="pencak-journey-copy"><span>03 / Learn</span><h3>Follow the movements</h3><p>The player observes basic hand movements and footwork, then repeats them with guidance step by step.</p></div>
+    </article>
+    <article class="pencak-journey-card">
+      <img src="../assets/img/projects/pencak/slide-16.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="Concept slide showing the PENCAK practice stage">
+      <div class="pencak-journey-copy"><span>04 / Practise</span><h3>Put learning into action</h3><p>A practice stage gives the player a chance to use what they have learned. Feedback helps them see where to improve.</p></div>
+    </article>
+  </div>
+  <p class="pencak-source">Images above are concepts from the IMMERSA pitch deck. PENCAK is still in development.</p>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="idx">03</span><h2>Why it matters</h2></div>
+  <p>PENCAK is designed to introduce the foundations of Silat Seni Gayong in a way that feels active and welcoming. The Virtual Guru gives the experience a human teaching presence, while the setting places each lesson in its cultural context.</p>
+  <p>The project hopes to spark curiosity about silat and support the preservation of its heritage through a new way to encounter it.</p>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="idx">04</span><h2>Competition entry</h2></div>
+  <p>PENCAK was entered in DICE 4.0 (Digital Innovation Creativepreneur), a creative innovation competition with a heritage theme.</p>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="idx">05</span><h2>Project artwork</h2></div>
+  <p>The poster and standee bring the PENCAK identity together: silat movement, traditional visual motifs, and a virtual reality setting.</p>
+  <div class="pencak-art">
+    <figure><div class="pencak-art-visual"><img src="../assets/img/projects/pencak/pencak-poster.jpg" width="1200" height="1699" loading="lazy" decoding="async" alt="PENCAK project poster featuring a silat practitioner in a VR headset"></div><figcaption>Project poster</figcaption></figure>
+    <figure class="pencak-art-standee"><div class="pencak-art-visual"><img src="../assets/img/projects/pencak/pencak-standee.jpg" width="1200" height="2823" loading="lazy" decoding="async" alt="PENCAK standee featuring a silat practitioner in a VR headset"></div><figcaption>Project standee</figcaption></figure>
+  </div>
+</section>
+<footer>
+  <span class="caption">© 2026 Ikhwanuddin</span>
+  <a class="caption" href="../index.html#projects">Back to projects</a>
+</footer>
+</body>
+</html>

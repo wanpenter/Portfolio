@@ -30,6 +30,8 @@ Each page is self-contained — styles and scripts live inline in the file they 
 ├── index.html              # the main site: markup, styles, scripts
 ├── work/                   # project case studies, one page each
 │   ├── ipetro.html
+│   ├── pencak.html
+│   ├── singgah.html
 │   ├── vaultbreak.html
 │   └── workshop-system.html
 ├── assets/                 # everything served to the browser

@@ -4,22 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ikhwanuddin.</title>
-<meta name="description" content="Portfolio of Muhamad Ikhwanuddin — final-year Information Technology (Game Technology) student at UTeM. Gameplay programming and Mixed Reality/VR development.">
+<title>Ikhwanuddin | Software Development, Real-Time Systems &amp; XR</title>
+<meta name="description" content="Portfolio of Ikhwanuddin, an Information Technology student building software applications, real-time simulations and XR systems with C#, C++, SQL, Unity and Unreal Engine.">
+<link rel="canonical" href="https://ikhwanuddin.online/">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ikhwanuddin">
 <meta property="og:url" content="https://ikhwanuddin.online/">
-<meta property="og:title" content="Ikhwanuddin — Game &amp; XR Developer">
-<meta property="og:description" content="Portfolio of Muhamad Ikhwanuddin — final-year Information Technology (Game Technology) student at UTeM. Gameplay programming and Mixed Reality/VR development.">
+<meta property="og:title" content="Ikhwanuddin | Software Development, Real-Time Systems &amp; XR">
+<meta property="og:description" content="Software applications, real-time simulations and XR systems built by Ikhwanuddin, an Information Technology student at UTeM.">
 <meta property="og:image" content="https://ikhwanuddin.online/assets/og-image.png">
 <meta property="og:image:width" content="1469">
 <meta property="og:image:height" content="771">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Ikhwanuddin — Game &amp; XR Developer">
-<meta name="twitter:description" content="Portfolio of Muhamad Ikhwanuddin — final-year Information Technology (Game Technology) student at UTeM. Gameplay programming and Mixed Reality/VR development.">
+<meta name="twitter:title" content="Ikhwanuddin | Software Development, Real-Time Systems &amp; XR">
+<meta name="twitter:description" content="Software applications, real-time simulations and XR systems built by Ikhwanuddin, an Information Technology student at UTeM.">
 <meta name="twitter:image" content="https://ikhwanuddin.online/assets/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -334,7 +335,7 @@ body::before{
 /* ============================================
    5. PROJECT CARDS
    ============================================ */
-.pgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+.pgrid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; }
 @media(max-width:900px){ .pgrid{ grid-template-columns:1fr; } }
 
 .pcard{
@@ -369,6 +370,8 @@ body::before{
 .pcard-media img.pcard-console-shot{ object-fit:contain; background:#090B0F; padding:20px; }
 .pcard-media img.pcard-poster-shot{ object-position:center top; }
 .pcard-media img.pcard-wide-shot{ object-fit:contain; background:#050B12; }
+.pcard-media img.pcard-singgah-icon{ object-fit:contain; background:#E9D7B7; padding:clamp(58px,7vw,96px); }
+.pcard-media img.pcard-pencak-shot{ object-position:center 62%; }
 
 .pstatus{
   position:absolute; top:12px; left:12px;
@@ -681,8 +684,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <div class="hero-overlay" id="heroOverlay">
     <div class="hero-content">
       <span class="hero-name">Ikhwanuddin</span>
-      <span class="hero-tagline">I Build <span class="accent">Immersive</span> Experiences.</span>
-      <div class="hero-kicker">Unreal \ Unity \ C++ \ XR \ Mixed Reality</div>
+      <span class="hero-tagline">I Build <span class="accent">Software</span> &amp; Real-Time Systems.</span>
+      <div class="hero-kicker">C# \ C++ \ SQL \ Unity \ Unreal Engine \ XR</div>
     </div>
   </div>
 </section>
@@ -693,24 +696,21 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <div class="about-grid">
     <div>
       <p>
-        Technology is constantly evolving, and that's what excites me the
-        most. As a final-year Game Technology student, I'm always eager to
-        learn new technologies, embrace new challenges, and grow through
-        hands-on projects. I believe every project is an opportunity to
-        improve my skills, solve real-world problems, and create meaningful
-        digital experiences.
+        I'm a Bachelor of Information Technology (Game Technology) student at
+        Universiti Teknikal Malaysia Melaka (UTeM). My work spans software
+        applications, real-time systems, simulation and XR.
       </p>
     </div>
     <div>
       <p>
-        I'm focused on <strong>gameplay programming</strong> and
-        <strong>Mixed Reality &amp; Virtual Reality</strong> development,
-        with working knowledge of <strong>databases</strong> to support
-        the systems I build.
+        I enjoy building systems and solving technical problems. My projects
+        include a <strong>C++ and MySQL business application</strong>,
+        <strong>industrial VR training</strong> in Unity and a
+        <strong>mixed reality system</strong> in Unreal Engine.
       </p>
       <p>
-        This portfolio is where I collect the projects I've actually built —
-        a personal showcase for now.
+        I'm strengthening my software engineering foundation while building
+        on my experience with real-time and immersive technologies.
       </p>
     </div>
   </div>
@@ -723,6 +723,44 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
   <div class="pgrid">
 
+    <a class="pcard" href="work/singgah.html">
+      <div class="pcard-media">
+        <img class="pcard-singgah-icon" src="assets/img/projects/singgah/singgah-icon.svg"
+             width="64" height="64" loading="lazy" decoding="async"
+             alt="Singgah S icon from the live website">
+        <span class="pstatus">Pre-launch</span>
+      </div>
+      <div class="pcard-body">
+        <span class="pnum">01</span>
+        <h3>Singgah</h3>
+        <p class="prole">Local Business Discovery · Next.js · TypeScript</p>
+        <p class="pdesc">Discover local businesses in Malaysia by category and location. Explore their products, read reviews, and get to know the people behind them.</p>
+        <div class="pfeatures">
+          <span>Business discovery</span>
+          <span>Owner profiles</span>
+          <span>Reviews</span>
+        </div>
+        <span class="go">View details</span>
+      </div>
+    </a>
+
+    <a class="pcard" href="work/pencak.html">
+      <div class="pcard-media">
+        <img class="pcard-pencak-shot" src="assets/img/projects/pencak/pencak-poster.jpg"
+             width="1200" height="1699" loading="lazy" decoding="async"
+             alt="Silat practitioner wearing a VR headset in PENCAK artwork">
+        <span class="pstatus">In development</span>
+      </div>
+      <div class="pcard-body">
+        <span class="pnum">02</span>
+        <h3>PENCAK — A Living Archive of Silat</h3>
+        <p class="prole">Virtual Reality · Cultural Heritage</p>
+        <p class="pdesc">An interactive VR introduction to Silat Seni Gayong. Developed by the IMMERSA team, PENCAK uses guided hand movements and footwork to make the foundations of silat more approachable.</p>
+        <div class="pfeatures"><span>DICE 4.0 entry</span></div>
+        <span class="go">View details</span>
+      </div>
+    </a>
+
     <a class="pcard" href="work/vaultbreak.html">
       <div class="pcard-media">
         <img src="assets/img/projects/vaultbreak/vaultbreak-logo.webp"
@@ -731,12 +769,11 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <span class="pstatus">Completed</span>
       </div>
       <div class="pcard-body">
-        <span class="pnum">01</span>
+        <span class="pnum">03</span>
         <h3>VaultBreak MR</h3>
-        <p class="prole">XR Developer · Unreal Engine 5.6.1 · C++</p>
-        <p class="pdesc">A room-scale Mixed Reality stealth game combining Sony
-          Mocopi full-body tracking, Meta Quest 3S passthrough, and room-aware
-          route generation.</p>
+        <p class="prole">Mixed Reality System · Unreal Engine 5.6.1 · C++</p>
+        <p class="pdesc">A room-scale MR system I developed with full-body tracking,
+          Quest passthrough and route generation based on the player's room.</p>
         <div class="pfeatures">
           <span>Full-body tracking</span>
           <span>Room-aware route</span>
@@ -754,12 +791,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <span class="pstatus">Completed</span>
       </div>
       <div class="pcard-body">
-        <span class="pnum">02</span>
+        <span class="pnum">04</span>
         <h3>iPETRO — Zero Leak Challenge</h3>
-        <p class="prole">VR Interaction Developer · Unity 2022.3 LTS · C#</p>
-        <p class="pdesc">An industrial VR serious game featuring nut-rotation
-          interactions and sequence-validated flange tightening while players
-          defend a petrochemical worksite from zombie waves.</p>
+        <p class="prole">Industrial Training Simulation · Unity · C#</p>
+        <p class="pdesc">A team-built VR training simulation for flange tightening.
+          I implemented the nut-rotation interaction and sequence validation
+          used in its training workflow.</p>
         <div class="pfeatures">
           <span>Nut rotation mechanic</span>
           <span>Sequence validation</span>
@@ -781,12 +818,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <span class="pstatus">Completed</span>
       </div>
       <div class="pcard-body">
-        <span class="pnum">03</span>
+        <span class="pnum">05</span>
         <h3>Car Workshop Appointment System</h3>
-        <p class="prole">Database Project · C++ · MySQL · phpMyAdmin</p>
-        <p class="pdesc">A role-based C++ and MySQL system where customers book
-          services, mechanics update job status, and administrators manage
-          workshop data and annual reports.</p>
+        <p class="prole">Database-Driven Business Application · C++ · MySQL</p>
+        <p class="pdesc">A C++ and MySQL workshop application with customer,
+          mechanic and administrator access. It handles service bookings,
+          job status and annual reporting.</p>
         <div class="pfeatures">
           <span>Service booking</span>
           <span>Role-based access</span>
@@ -815,7 +852,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       <div class="skill-marquee" tabindex="0" aria-label="Programming skills">
         <div class="skill-track">
           <ul class="skill-list">
-            <li>C++</li><li>C#</li><li>JavaScript</li><li>SQL</li><li>MySQL</li>
+            <li>C#</li><li>C++</li><li>SQL</li><li>MySQL</li><li>JavaScript</li>
           </ul>
         </div>
       </div>
@@ -825,7 +862,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       <div class="skill-marquee" tabindex="0" aria-label="Game and XR skills">
         <div class="skill-track">
           <ul class="skill-list">
-            <li>Unreal Engine 5</li><li>Unity</li><li>Mixed Reality</li><li>Virtual Reality</li>
+            <li>Unity</li><li>Unreal Engine 5</li><li>Virtual Reality</li><li>Mixed Reality</li>
             <li>Meta Quest Development</li><li>Sony Mocopi Tracking</li><li>XR Interaction</li>
           </ul>
         </div>
@@ -876,7 +913,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <span class="journey-period" id="journey-period">2023 — 2027</span>
         <h3 id="journey-institution">Universiti Teknikal Malaysia Melaka (UTeM)</h3>
         <p class="journey-program" id="journey-program">Bachelor of Information Technology (Game Technology)</p>
-        <p class="journey-description" id="journey-description">Building practical experience in gameplay programming, XR and interactive systems through the Game Technology programme.</p>
+        <p class="journey-description" id="journey-description">Building software and real-time systems through the Game Technology programme, including simulation and XR projects.</p>
         <span class="journey-result" id="journey-result">CGPA 3.62 · Final-year student</span>
       </div>
     </article>
@@ -904,9 +941,9 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <span class="sr-only"> meaningful together.</span>
       </h2>
 
-      <p class="contact-note">I'm a final-year Game Technology student building across
-        gameplay, XR, C++, and database systems. If you have a project,
-        collaboration, or opportunity in mind, let's turn it into something real.</p>
+      <p class="contact-note">I'm an Information Technology student building software applications,
+        real-time systems and XR simulations. Get in touch about a project,
+        collaboration or graduate opportunity.</p>
 
       <div class="cta-row">
         <a class="btn-outline" href="tel:+60164178744">
