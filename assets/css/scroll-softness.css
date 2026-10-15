@@ -1,0 +1,9 @@
+html{scroll-behavior:smooth;scroll-padding-top:76px;scroll-snap-type:y proximity;}
+body > section,body > footer{scroll-snap-align:start;scroll-snap-stop:normal;}
+body::before{display:none;}
+[data-scroll-soften]:focus-within{filter:none!important;}
+@media(max-width:767px){html{scroll-padding-top:64px;}}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;scroll-snap-type:none;}
+  [data-scroll-soften]{filter:none!important;}
+}

@@ -262,6 +262,8 @@ body::before{
 .link-rows a:hover{ color:var(--signal-text); transform:translateX(4px); }
 .link-rows svg{ width:17px; height:17px; flex-shrink:0; stroke:var(--signal); }
 .link-note{ font-family:var(--mono); font-size:13px; color:var(--ink-soft); }
+.collaborator-link{ color:var(--signal-text); font-weight:600; text-underline-offset:4px; }
+.collaborator-link:hover{ color:var(--signal-text); }
 
 footer{
   padding:26px var(--pad); border-top:1px solid var(--line-light);
@@ -343,6 +345,10 @@ footer{
 <section class="sec">
   <div class="sec-head"><h2>Technical approach</h2></div>
   <p>Singgah uses Next.js and TypeScript for the web application, Tailwind CSS for its interface, and Supabase in its stack. The experience keeps visitor discovery, owner management and review of new businesses distinct, while category and location provide direct ways to narrow a search.</p>
+</section>
+<section class="sec">
+  <div class="sec-head"><h2>Built with</h2></div>
+  <p>Built in collaboration with <a class="collaborator-link" href="https://github.com/azfarsharifuddin" target="_blank" rel="noopener noreferrer">Azfar (@azfarsharifuddin)</a>.</p>
 </section>
 <section class="sec">
   <div class="sec-head"><h2>Links</h2></div>

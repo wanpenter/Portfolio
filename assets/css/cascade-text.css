@@ -1,0 +1,24 @@
+.section-wordmark.cascade-text{
+  font-size:clamp(28px,6vw,82px);font-weight:800;line-height:1.2;
+  letter-spacing:-.035em;text-align:center;text-transform:uppercase;
+  color:var(--fg);cursor:default;transition:color .35s ease;
+}
+.cascade-word{
+  display:inline-flex;vertical-align:bottom;height:1.2em;overflow:hidden;
+  white-space:nowrap;
+}
+.cascade-char{
+  display:inline-block;line-height:1.2;text-shadow:0 1.2em currentColor;
+  transition:transform 250ms ease-in-out;transition-delay:var(--cascade-delay);
+}
+.cascade-text:focus-visible{color:var(--accent-text,var(--signal));outline:2px solid currentColor;outline-offset:8px;}
+.cascade-text:focus-visible .cascade-char{transform:translateY(-1.2em);}
+@media(hover:hover) and (pointer:fine){
+  .cascade-text:hover{color:var(--accent-text,var(--signal));}
+  .cascade-text:hover .cascade-char{transform:translateY(-1.2em);}
+}
+@media(prefers-reduced-motion:reduce){
+  .section-wordmark.cascade-text,.cascade-char{transition:none;}
+  .cascade-text:focus-visible .cascade-char{transform:none;}
+  .cascade-text:hover .cascade-char{transform:none;}
+}

@@ -9,6 +9,8 @@
 <link rel="canonical" href="https://ikhwanuddin.online/">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/project-cards.css">
+<link rel="stylesheet" href="assets/css/beam-footer.css">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ikhwanuddin">
@@ -281,6 +283,18 @@ body::before{
   text-transform:uppercase;
   margin:0; color:#fff;
 }
+.section-wordmark{
+  position:relative; margin:0 0 clamp(36px,5vw,64px);
+  font-family:var(--display); font-size:clamp(28px,6vw,82px);
+  font-weight:900; line-height:1.1; letter-spacing:-.035em; color:var(--fg);
+}
+.section-wordmark canvas{ display:none; width:100%; height:100%; }
+.section-wordmark.is-halftone{ height:clamp(76px,12vw,144px); }
+.section-wordmark.is-halftone canvas{ display:block; }
+.section-wordmark.is-halftone .halftone-text{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip-path:inset(50%); white-space:nowrap;
+}
 .hero-tagline{
   display:block;
   font-family:var(--display); font-weight:400;
@@ -327,86 +341,26 @@ body::before{
 .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:48px; }
 .sec-head h2{ font-family:var(--display); font-weight:800; font-size:clamp(30px,4.4vw,46px); letter-spacing:-.03em; color:var(--fg, var(--ink)); }
 
-.about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:52px; }
+.about-grid{ display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:clamp(32px,5vw,64px); align-items:start; }
+.about-portrait{ margin:0; width:100%; max-width:380px; }
+.about-portrait img{ display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; object-position:50% 35%; border-radius:8px; background:var(--ink); }
+.about-copy{ min-width:0; }
+.about-copy > div + div{ margin-top:28px; }
+.about-grid h2,.about-grid h3{ font-family:var(--display); color:var(--fg); letter-spacing:-.03em; margin-bottom:20px; }
+.about-grid h2{ font-size:clamp(30px,4.4vw,46px); line-height:1.1; }
+.about-grid h3{ font-size:22px; line-height:1.3; }
 .about-grid p{ color:var(--fg-soft, var(--ink-soft)); margin-bottom:16px; font-size:17px; max-width:60ch; }
 .about-grid p strong{ color:var(--fg, var(--ink)); font-weight:500; }
+.about-focus{ display:grid; gap:12px; border-top:1px solid var(--hair); padding-top:24px; margin-top:28px; }
+.about-grid .about-focus h3{ margin-bottom:0; font-size:18px; letter-spacing:normal; }
+.about-focus h3{ font-family:var(--display); font-size:18px; color:var(--signal-text); }
+.about-focus p{ color:var(--fg-soft); max-width:60ch; font-size:17px; }
 @media(max-width:760px){ .about-grid{ grid-template-columns:1fr; gap:24px; } }
+@media(max-width:760px){ .about-portrait{ max-width:360px; margin:0 auto 8px; } }
+@media(max-width:760px){ .about-focus{ grid-template-columns:1fr; gap:12px; } }
 
 /* ============================================
-   5. PROJECT CARDS
-   ============================================ */
-.pgrid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; }
-@media(max-width:900px){ .pgrid{ grid-template-columns:1fr; } }
-
-.pcard{
-  display:flex; flex-direction:column;
-  border:1px solid var(--hair); border-radius:8px; overflow:hidden;
-  background:var(--surface); text-decoration:none;
-  box-shadow:0 30px 60px -40px color-mix(in srgb, var(--ink) 70%, transparent);
-  transition:border-color .25s, transform .25s, box-shadow .25s;
-}
-.pcard:hover{
-  border-color:var(--signal); transform:translateY(-4px);
-  box-shadow:0 34px 70px -32px color-mix(in srgb, var(--signal) 30%, transparent);
-}
-
-.pcard-media{
-  position:relative; aspect-ratio:4/3; overflow:hidden;
-  background:var(--img-ph);
-  display:flex; align-items:center; justify-content:center;
-  border-bottom:1px solid var(--hair);
-}
-.pcard-motif{ position:absolute; inset:0; width:100%; height:100%; transition:transform .4s ease; }
-.pcard:hover .pcard-motif{ transform:scale(1.05); }
-.pcard-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-
-/* TASK B — real project screenshots.
-   The placeholder background above is painted on .pcard-media itself, so the
-   slot never flashes empty while an image decodes. */
-.pcard img,
-.card img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
-/* the card media slot is 4/3; an image dropped in fills it edge to edge */
-.pcard-media img{ position:absolute; inset:0; height:100%; aspect-ratio:auto; }
-.pcard-media img.pcard-console-shot{ object-fit:contain; background:#090B0F; padding:20px; }
-.pcard-media img.pcard-poster-shot{ object-position:center top; }
-.pcard-media img.pcard-wide-shot{ object-fit:contain; background:#050B12; }
-.pcard-media img.pcard-singgah-icon{ object-fit:contain; background:#E9D7B7; padding:clamp(58px,7vw,96px); }
-.pcard-media img.pcard-pencak-shot{ object-position:center 62%; }
-
-.pstatus{
-  position:absolute; top:12px; left:12px;
-  font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase;
-  padding:3px 8px; border-radius:2px;
-  border:1px solid var(--fg-soft); color:var(--fg);
-  background:color-mix(in srgb, var(--surface) 85%, transparent);
-}
-
-.pcard-body{ padding:22px 22px 26px; display:flex; flex-direction:column; gap:10px; flex:1; }
-.pnum{ font-family:var(--mono); font-size:11px; color:var(--eyebrow); }
-.pcard h3{ font-family:var(--display); font-weight:700; font-size:22px; letter-spacing:-.02em; color:var(--fg); }
-.prole{ font-family:var(--mono); font-size:11.5px; color:var(--fg-soft); }
-.pdesc{ color:var(--fg-soft); font-size:14.5px; }
-.pfeatures{ display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
-/* tech tag pills — the second of --depth's two jobs */
-.pfeatures span{
-  font-family:var(--mono); font-size:10px; letter-spacing:.03em; color:var(--eyebrow);
-  background:color-mix(in srgb, var(--eyebrow) 10%, transparent);
-  border:1px solid color-mix(in srgb, var(--eyebrow) 35%, transparent);
-  padding:3px 9px; border-radius:20px;
-}
-.award-line{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11px; color:var(--fg); }
-.award-line svg{ width:13px; height:13px; flex-shrink:0; stroke:var(--fg); fill:none; }
-.pcard .go{
-  margin-top:auto; padding-top:6px;
-  font-family:var(--body); font-size:12.5px; font-weight:500; color:var(--fg-soft);
-  display:inline-flex; align-items:center; gap:4px;
-}
-.pcard .go::after{ content:'→'; display:inline-block; transition:transform .25s ease; }
-.pcard:hover .go{ color:var(--accent-text); }
-.pcard:hover .go::after{ transform:translateX(4px); }
-
-/* ============================================
-   6. SKILLS — draggable marquee
+   6. SKILLS — scroll-driven rows
    ============================================ */
 .skills-head{ justify-content:space-between; }
 .skill-motion-toggle{
@@ -650,6 +604,10 @@ footer .caption{ color:var(--fg-soft); }
   html{ scroll-behavior:auto; }
 }
 </style>
+<link rel="stylesheet" href="assets/css/scroll-sections.css">
+<link rel="stylesheet" href="assets/css/site-nav.css">
+<link rel="stylesheet" href="assets/css/cascade-text.css">
+<link rel="stylesheet" href="assets/css/scroll-softness.css">
 </head>
 
 <body>
@@ -664,19 +622,19 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 <!-- ===== TOPBAR ===== -->
 <header class="topbar">
-  <span class="mark">IKHWANUDDIN</span>
-  <nav class="navlinks">
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#skills">Skills</a>
-    <a href="#education">Journey</a>
-    <a href="#contact">Contact</a>
+  <a class="mark" href="#top" aria-label="Ikhwanuddin home" title="Home">IKHWANUDDIN</a>
+  <button class="nav-toggle" type="button" aria-controls="site-navigation" aria-expanded="false" hidden>Menu</button>
+  <nav class="navlinks site-nav" id="site-navigation" aria-label="Portfolio sections">
+    <a href="#about" data-nav-link>About</a>
+    <a href="#projects" data-nav-link>Projects</a>
+    <a href="#skills" data-nav-link>Skills</a>
+    <a href="#education" data-nav-link>Journey</a>
+    <a href="#contact" data-nav-link>Contact</a>
   </nav>
-  <a class="topbar-cta" href="#contact">Let&#39;s Talk!</a>
 </header>
 
 <!-- ===== HERO — 3D Spline, ported 1:1 from the 21st.dev component ===== -->
-<section class="hero" data-spline="https://prod.spline.design/dJqTIQ-tE3ULUPMi/scene.splinecode">
+<section class="hero" id="top" data-spline="https://prod.spline.design/dJqTIQ-tE3ULUPMi/scene.splinecode">
   <div class="hero-3d" aria-hidden="true"></div>
   <div class="hero-veil" aria-hidden="true"></div>
   <div class="hero-spline-cover" aria-hidden="true"></div>
@@ -692,154 +650,109 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 <!-- ===== ABOUT ===== -->
 <section class="sec rise section-light" id="about">
-  <div class="sec-head"><h2>About me</h2></div>
+  <h2 class="section-wordmark" id="about-heading" data-halftone><span class="halftone-text">Behind the build.</span><canvas aria-hidden="true"></canvas></h2>
   <div class="about-grid">
-    <div>
-      <p>
-        I'm a Bachelor of Information Technology (Game Technology) student at
-        Universiti Teknikal Malaysia Melaka (UTeM). My work spans software
-        applications, real-time systems, simulation and XR.
-      </p>
-    </div>
-    <div>
-      <p>
-        I enjoy building systems and solving technical problems. My projects
-        include a <strong>C++ and MySQL business application</strong>,
-        <strong>industrial VR training</strong> in Unity and a
-        <strong>mixed reality system</strong> in Unreal Engine.
-      </p>
-      <p>
-        I'm strengthening my software engineering foundation while building
-        on my experience with real-time and immersive technologies.
-      </p>
+    <figure class="about-portrait">
+      <img src="assets/img/profile/ikhwanuddin.webp" width="1280" height="956"
+           loading="lazy" decoding="async" alt="Ikhwanuddin wearing a black suit and navy tie against a dark background">
+    </figure>
+    <div class="about-copy">
+      <div>
+        <p><strong>Muhamad Ikhwanuddin Bin Hai Rozzaman, born and raised in Johor, Malaysia.</strong><br>
+          I'm still early in my journey, with a lot to learn and experience.
+          For now, I'm taking every opportunity I can to improve, explore new
+          things, and grow along the way.</p>
+      </div>
+      <div>
+        <h3>What I Build</h3>
+        <p>Software, simulations, and immersive experiences.</p>
+        <p>I enjoy exploring different technologies and building hands-on projects
+          to better understand how things work. Each project gives me a chance to
+          learn something new, improve my skills, and gain practical experience.</p>
+      </div>
+      <div class="about-focus">
+        <h3>What Drives Me</h3>
+        <p>I'm currently strengthening my foundations in software development while
+          continuing to learn about new technologies, tools, and ideas.</p>
+        <p>I know there's still a lot for me to learn, so I'm taking things one
+          step at a time like building, experimenting, learning from mistakes,
+          and improving as I go.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ===== PROJECTS =====
-     Copy one <a class="pcard"> block to add a new project -->
-<section class="sec rise section-dark" id="projects">
-  <div class="sec-head"><h2>Projects</h2></div>
-
-  <div class="pgrid">
-
-    <a class="pcard" href="work/singgah.html">
-      <div class="pcard-media">
+<!-- ===== PROJECTS ===== -->
+<section class="sec section-dark" id="projects" aria-labelledby="projects-heading">
+  <h2 class="section-wordmark cascade-text" id="projects-heading" data-cascade tabindex="0">Ideas made real.</h2>
+  <ul class="project-grid">
+    <li class="project-item">
+      <a class="project-card" href="work/singgah.html">
         <img class="pcard-singgah-icon" src="assets/img/projects/singgah/singgah-icon.svg"
              width="64" height="64" loading="lazy" decoding="async"
              alt="Singgah S icon from the live website">
-        <span class="pstatus">Pre-launch</span>
-      </div>
-      <div class="pcard-body">
-        <span class="pnum">01</span>
-        <h3>Singgah</h3>
-        <p class="prole">Local Business Discovery · Next.js · TypeScript</p>
-        <p class="pdesc">Discover local businesses in Malaysia by category and location. Explore their products, read reviews, and get to know the people behind them.</p>
-        <div class="pfeatures">
-          <span>Business discovery</span>
-          <span>Owner profiles</span>
-          <span>Reviews</span>
+        <span class="project-status">Pre-launch</span>
+        <div class="project-card-copy">
+          <p class="project-category">Local Business Discovery</p>
+          <h3>Singgah</h3>
         </div>
-        <span class="go">View details</span>
-      </div>
-    </a>
-
-    <a class="pcard" href="work/pencak.html">
-      <div class="pcard-media">
-        <img class="pcard-pencak-shot" src="assets/img/projects/pencak/pencak-poster.jpg"
-             width="1200" height="1699" loading="lazy" decoding="async"
+      </a>
+    </li>
+    <li class="project-item">
+      <a class="project-card" href="work/pencak.html">
+        <img class="pcard-pencak-shot" src="assets/img/projects/pencak/pencak-poster-card.webp"
+             width="800" height="1133" loading="lazy" decoding="async"
              alt="Silat practitioner wearing a VR headset in PENCAK artwork">
-        <span class="pstatus">In development</span>
-      </div>
-      <div class="pcard-body">
-        <span class="pnum">02</span>
-        <h3>PENCAK — A Living Archive of Silat</h3>
-        <p class="prole">Virtual Reality · Cultural Heritage</p>
-        <p class="pdesc">An interactive VR introduction to Silat Seni Gayong. Developed by the IMMERSA team, PENCAK uses guided hand movements and footwork to make the foundations of silat more approachable.</p>
-        <div class="pfeatures"><span>DICE 4.0 entry</span></div>
-        <span class="go">View details</span>
-      </div>
-    </a>
-
-    <a class="pcard" href="work/vaultbreak.html">
-      <div class="pcard-media">
+        <span class="project-status">In development</span>
+        <div class="project-card-copy">
+          <p class="project-category">Virtual Reality</p>
+          <h3>PENCAK — A Living Archive of Silat</h3>
+        </div>
+      </a>
+    </li>
+    <li class="project-item">
+      <a class="project-card" href="work/vaultbreak.html">
         <img src="assets/img/projects/vaultbreak/vaultbreak-logo.webp"
              width="1000" height="1000" loading="lazy" decoding="async"
              alt="VaultBreak MR logo with a red laser cutting across a circular vault symbol">
-        <span class="pstatus">Completed</span>
-      </div>
-      <div class="pcard-body">
-        <span class="pnum">03</span>
-        <h3>VaultBreak MR</h3>
-        <p class="prole">Mixed Reality System · Unreal Engine 5.6.1 · C++</p>
-        <p class="pdesc">A room-scale MR system I developed with full-body tracking,
-          Quest passthrough and route generation based on the player's room.</p>
-        <div class="pfeatures">
-          <span>Full-body tracking</span>
-          <span>Room-aware route</span>
-          <span>Health &amp; damage</span>
+        <span class="project-status">Completed</span>
+        <div class="project-card-copy">
+          <p class="project-category">Mixed Reality System</p>
+          <h3>VaultBreak MR</h3>
         </div>
-        <span class="go">View details</span>
-      </div>
-    </a>
-
-    <a class="pcard" href="work/ipetro.html">
-      <div class="pcard-media">
-        <img class="pcard-poster-shot" src="assets/img/projects/ipetro/ipetro-thumbnail.webp"
-             width="1000" height="1500" loading="lazy" decoding="async"
+      </a>
+    </li>
+    <li class="project-item">
+      <a class="project-card" href="work/ipetro.html">
+        <img class="pcard-poster-shot" src="assets/img/projects/ipetro/ipetro-thumbnail-card.webp"
+             width="800" height="1200" loading="lazy" decoding="async"
              alt="iPETRO Zero Leak Challenge poster featuring flange repair and zombie survival gameplay">
-        <span class="pstatus">Completed</span>
-      </div>
-      <div class="pcard-body">
-        <span class="pnum">04</span>
-        <h3>iPETRO — Zero Leak Challenge</h3>
-        <p class="prole">Industrial Training Simulation · Unity · C#</p>
-        <p class="pdesc">A team-built VR training simulation for flange tightening.
-          I implemented the nut-rotation interaction and sequence validation
-          used in its training workflow.</p>
-        <div class="pfeatures">
-          <span>Nut rotation mechanic</span>
-          <span>Sequence validation</span>
-          <span>VR interaction</span>
+        <span class="project-status">Completed</span>
+        <div class="project-card-copy">
+          <p class="project-category">Industrial Training Simulation</p>
+          <h3>iPETRO — Zero Leak Challenge</h3>
         </div>
-        <div class="award-line">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4a1 1 0 0 0-1 1v1a4 4 0 0 0 4 4M17 5h3a1 1 0 0 1 1 1v1a4 4 0 0 1-4 4"/></svg>
-          Gold Award — FTMK Workshop II Innovation Competition
-        </div>
-        <span class="go">View details</span>
-      </div>
-    </a>
-
-    <a class="pcard" href="work/workshop-system.html">
-      <div class="pcard-media">
+      </a>
+    </li>
+    <li class="project-item">
+      <a class="project-card" href="work/workshop-system.html">
         <img class="pcard-console-shot" src="assets/img/projects/workshop-system/main-login.png"
              width="1236" height="491" loading="lazy" decoding="async"
              alt="TorquePro Car Workshop Appointment System main menu">
-        <span class="pstatus">Completed</span>
-      </div>
-      <div class="pcard-body">
-        <span class="pnum">05</span>
-        <h3>Car Workshop Appointment System</h3>
-        <p class="prole">Database-Driven Business Application · C++ · MySQL</p>
-        <p class="pdesc">A C++ and MySQL workshop application with customer,
-          mechanic and administrator access. It handles service bookings,
-          job status and annual reporting.</p>
-        <div class="pfeatures">
-          <span>Service booking</span>
-          <span>Role-based access</span>
-          <span>Annual reporting</span>
+        <span class="project-status">Completed</span>
+        <div class="project-card-copy">
+          <p class="project-category">Database-Driven Business Application</p>
+          <h3>Car Workshop Appointment System</h3>
         </div>
-        <span class="go">View details</span>
-      </div>
-    </a>
-
-  </div>
+      </a>
+    </li>
+  </ul>
 </section>
 
 <!-- ===== SKILLS ===== -->
 <section class="sec rise section-light" id="skills">
+  <h2 class="section-wordmark cascade-text" id="skills-heading" data-cascade tabindex="0">Tools of my trade.</h2>
   <div class="sec-head skills-head">
-    <h2>Skills &amp; tools</h2>
     <button class="skill-motion-toggle" type="button" aria-pressed="false" aria-label="Pause skill movement">
       <svg class="icon-pause" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M9 5v14M15 5v14"/></svg>
       <svg class="icon-play" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"><path d="m8 5 11 7-11 7Z"/></svg>
@@ -882,10 +795,9 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   </div>
 </section>
 
-<!-- ===== JOURNEY =====
-     The native range input keeps the timeline keyboard- and touch-accessible. -->
-<section class="sec rise section-light" id="education">
-  <div class="sec-head"><h2>Journey</h2></div>
+<!-- ===== JOURNEY ===== -->
+<section class="sec section-dark" id="education">
+  <h2 class="section-wordmark cascade-text" id="journey-heading" data-cascade tabindex="0">Every step counts.</h2>
 
   <div class="journey-board">
     <div class="journey-year-row">
@@ -920,63 +832,55 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   </div>
 </section>
 
-<!-- ===== CONTACT ===== -->
-<section class="sec contact rise section-dark" id="contact">
-  <div class="contact-inner">
-    <div class="contact-panel">
-      <a class="contact-top-link" href="#projects">
-        View selected projects
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-
-      <h2 class="contact-title">
-        <span>Let's build something</span>
-        <span class="contact-rotator" aria-hidden="true">
-          <span class="contact-word is-active">immersive.</span>
-          <span class="contact-word">interactive.</span>
-          <span class="contact-word">useful.</span>
-          <span class="contact-word">memorable.</span>
-          <span class="contact-word">together.</span>
-        </span>
-        <span class="sr-only"> meaningful together.</span>
-      </h2>
-
-      <p class="contact-note">I'm an Information Technology student building software applications,
-        real-time systems and XR simulations. Get in touch about a project,
-        collaboration or graduate opportunity.</p>
-
-      <div class="cta-row">
-        <a class="btn-outline" href="tel:+60164178744">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          Call me
-        </a>
-        <a class="btn-solid" href="mailto:ikhwanuddinworks@gmail.com">
-          Email me
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-
-      <div class="contact-list">
-        <a href="assets/ikhwanuddin-resume.pdf" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-          Download CV
-        </a>
-        <a href="https://www.linkedin.com/in/muhamadikhwanuddin/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6Z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          LinkedIn
-        </a>
-        <a href="https://github.com/wanpenter" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
-          GitHub
-        </a>
-      </div>
-    </div>
+<!-- ===== FOOTER / CONTACT ===== -->
+<footer class="bwf" id="contact" aria-label="ikhwanuddin footer">
+  <div class="bwf-rule" aria-hidden="true"></div>
+  <div class="bwf-sky" aria-hidden="true">
+    <div class="bwf-wash"></div><div class="bwf-bands"></div>
+    <div class="bwf-beam"></div><div class="bwf-glow"></div><div class="bwf-grain"></div>
   </div>
-</section>
-
-<footer class="contact section-dark">
-  <span class="caption">© 2026 Ikhwanuddin</span>
-  <span class="caption">Built solo</span>
+  <div class="bwf-inner">
+    <div class="bwf-col">
+      <p class="bwf-label">© 2026 ikhwanuddin</p>
+      <ul class="bwf-socials">
+        <li class="bwf-fade"><a class="bwf-soc" href="https://github.com/wanpenter" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg><span class="bwf-tip" aria-hidden="true">GitHub</span>
+        </a></li>
+        <li class="bwf-fade"><a class="bwf-soc" href="https://www.linkedin.com/in/muhamadikhwanuddin/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="M8 10.5V16M12 16v-5.5M12 13c0-1.6 1-2.6 2.4-2.6s2.1.9 2.1 2.4V16"/><circle cx="8" cy="7.7" r=".55" fill="currentColor"/></svg><span class="bwf-tip" aria-hidden="true">LinkedIn</span>
+        </a></li>
+        <li class="bwf-fade"><a class="bwf-soc" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=ikhwanuddinworks%40gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email Ikhwanuddin">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg><span class="bwf-tip" aria-hidden="true">Email</span>
+        </a></li>
+        <li class="bwf-fade"><a class="bwf-soc" href="https://www.youtube.com/@wanpenter" target="_blank" rel="noopener noreferrer" aria-label="YouTube — wanpenter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3Z"/></svg><span class="bwf-tip" aria-hidden="true">YouTube</span>
+        </a></li>
+      </ul>
+      <div class="bwf-credits"><p class="bwf-fade">Designed &amp; built by <b>Ikhwanuddin</b></p><p class="bwf-fade">Software · Real-time systems · XR</p></div>
+    </div>
+    <nav class="bwf-col" aria-label="Footer portfolio links">
+      <p class="bwf-label">Portfolio</p>
+      <ul class="bwf-links">
+        <li class="bwf-fade"><a class="bwf-link" href="#about"><span class="bwf-link-t">About me</span></a></li>
+        <li class="bwf-fade"><a class="bwf-link" href="#projects"><span class="bwf-link-t">Projects</span></a></li>
+        <li class="bwf-fade"><a class="bwf-link" href="#skills"><span class="bwf-link-t">Skills &amp; tools</span></a></li>
+        <li class="bwf-fade"><a class="bwf-link" href="#education"><span class="bwf-link-t">Journey</span></a></li>
+      </ul>
+    </nav>
+    <nav class="bwf-col" aria-label="Footer contact links">
+      <p class="bwf-label">Get in touch</p>
+      <ul class="bwf-links">
+        <li class="bwf-fade"><a class="bwf-link" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=ikhwanuddinworks%40gmail.com" target="_blank" rel="noopener noreferrer"><span class="bwf-link-t">Email me</span></a></li>
+        <li class="bwf-fade"><a class="bwf-link" href="tel:+60164178744"><span class="bwf-link-t">Call me</span></a></li>
+        <li class="bwf-fade"><a class="bwf-link" href="assets/ikhwanuddin-resume.pdf" target="_blank" rel="noopener"><span class="bwf-link-t">Download CV</span></a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="bwf-word">
+    <p class="sr-only">ikhwanuddin</p>
+    <div class="bwf-word-box"><div class="bwf-word-in" aria-hidden="true"><span class="bwf-lw"><span class="bwf-l">i</span></span><span class="bwf-lw"><span class="bwf-l">k</span></span><span class="bwf-lw"><span class="bwf-l">h</span></span><span class="bwf-lw"><span class="bwf-l">w</span></span><span class="bwf-lw"><span class="bwf-l">a</span></span><span class="bwf-lw"><span class="bwf-l">n</span></span><span class="bwf-lw"><span class="bwf-l">u</span></span><span class="bwf-lw"><span class="bwf-l">d</span></span><span class="bwf-lw"><span class="bwf-l">d</span></span><span class="bwf-lw"><span class="bwf-l">i</span></span><span class="bwf-lw"><span class="bwf-l">n</span></span></div></div>
+    <div class="bwf-foot" aria-hidden="true"></div>
+  </div>
 </footer>
 
 <script>
@@ -987,147 +891,6 @@ const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
 }, {threshold:0.12});
 document.querySelectorAll('.rise').forEach(el=>io.observe(el));
-
-// Skills marquee — a short interval keeps the rows moving even when the browser
-// deprioritises animation frames. It stops off-screen, in hidden tabs, or on pause.
-const skillMarquees = document.querySelector('.skill-marquees');
-const skillToggle = document.querySelector('.skill-motion-toggle');
-if (skillMarquees) {
-  const lanes = [...skillMarquees.querySelectorAll('.skill-lane')].map(lane=>{
-    const viewport = lane.querySelector('.skill-marquee');
-    const track = lane.querySelector('.skill-track');
-    const source = track.querySelector('.skill-list');
-
-    if (!reduceMotion) {
-      // Keep three copies so even a short category can loop across a wide screen.
-      // Two copies are not enough when one list is narrower than its viewport.
-      for (let copy = 0; copy < 2; copy += 1) {
-        const clone = source.cloneNode(true);
-        clone.setAttribute('aria-hidden', 'true');
-        track.append(clone);
-      }
-    }
-
-    const state = {
-      viewport,
-      source,
-      speed:Number(lane.dataset.speed) || 16,
-      direction:lane.dataset.direction === 'right' ? -1 : 1,
-      dragging:false,
-      startX:0,
-      startScroll:0
-    };
-
-    const normalise = ()=>{
-      if (reduceMotion) return;
-      const width = source.scrollWidth;
-      if (state.viewport.scrollLeft >= width) state.viewport.scrollLeft -= width;
-      if (state.viewport.scrollLeft <= 0) state.viewport.scrollLeft += width;
-    };
-
-    requestAnimationFrame(()=>{
-      if (state.direction < 0 && !reduceMotion) state.viewport.scrollLeft = source.scrollWidth;
-    });
-
-    viewport.addEventListener('pointerdown', event=>{
-      state.dragging = true;
-      state.startX = event.clientX;
-      state.startScroll = viewport.scrollLeft;
-      viewport.classList.add('is-dragging');
-      viewport.setPointerCapture(event.pointerId);
-    });
-    viewport.addEventListener('pointermove', event=>{
-      if (!state.dragging) return;
-      viewport.scrollLeft = state.startScroll - (event.clientX - state.startX);
-      normalise();
-    });
-    const finishDrag = event=>{
-      if (!state.dragging) return;
-      state.dragging = false;
-      viewport.classList.remove('is-dragging');
-      if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
-      normalise();
-    };
-    viewport.addEventListener('pointerup', finishDrag);
-    viewport.addEventListener('pointercancel', finishDrag);
-    viewport.addEventListener('keydown', event=>{
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-      event.preventDefault();
-      viewport.scrollBy({left:event.key === 'ArrowLeft' ? -180 : 180, behavior:'smooth'});
-    });
-
-    state.normalise = normalise;
-    return state;
-  });
-
-  let skillSectionVisible = false;
-  let skillsPaused = reduceMotion;
-  let previousFrame = performance.now();
-  let skillTimer = null;
-
-  const shouldAnimateSkills = ()=>!skillsPaused && skillSectionVisible && !document.hidden;
-
-  const animateSkills = ()=>{
-    if (!shouldAnimateSkills()) {
-      if (skillTimer !== null) clearInterval(skillTimer);
-      skillTimer = null;
-      return;
-    }
-    const now = performance.now();
-    const delta = Math.min(now - previousFrame, 40) / 1000;
-    previousFrame = now;
-    lanes.forEach(state=>{
-      if (state.dragging) return;
-      state.viewport.scrollLeft += state.direction * state.speed * delta;
-      state.normalise();
-    });
-  };
-
-  const syncSkillLoop = ()=>{
-    if (shouldAnimateSkills() && skillTimer === null) {
-      previousFrame = performance.now();
-      skillTimer = setInterval(animateSkills, 40);
-    } else if (!shouldAnimateSkills() && skillTimer !== null) {
-      clearInterval(skillTimer);
-      skillTimer = null;
-    }
-  };
-
-  const updateToggle = ()=>{
-    if (!skillToggle) return;
-    skillToggle.setAttribute('aria-pressed', String(skillsPaused));
-    skillToggle.setAttribute('aria-label', skillsPaused ? 'Resume skill movement' : 'Pause skill movement');
-    skillToggle.querySelector('span').textContent = skillsPaused ? 'Resume' : 'Pause';
-  };
-  skillToggle?.addEventListener('click', ()=>{
-    skillsPaused = !skillsPaused;
-    updateToggle();
-    syncSkillLoop();
-  });
-  updateToggle();
-
-  const skillObserver = new IntersectionObserver(([entry])=>{
-    skillSectionVisible = entry.isIntersecting;
-    syncSkillLoop();
-  }, {threshold:.15});
-  skillObserver.observe(skillMarquees);
-  document.addEventListener('visibilitychange', syncSkillLoop);
-}
-
-// Journey timeline — adapted from the supplied slider interaction for this
-// dependency-free site. The native control preserves touch and keyboard input.
-const journeySlider = document.getElementById('journey-slider');
-const journeyDetail = document.getElementById('journey-detail');
-const journeyYear = document.getElementById('journey-year');
-const journeyPhase = document.getElementById('journey-phase');
-const journeyLogos = document.getElementById('journey-logos');
-const journeyPeriod = document.getElementById('journey-period');
-const journeyInstitution = document.getElementById('journey-institution');
-const journeyProgram = document.getElementById('journey-program');
-const journeyDescription = document.getElementById('journey-description');
-const journeyResult = document.getElementById('journey-result');
-let activeJourneyChapter = null;
-let journeyAnimation = null;
 
 const journeyChapters = [
   {
@@ -1167,105 +930,14 @@ const journeyChapters = [
   }
 ];
 
-function updateJourney(){
-  if (!journeySlider || !journeyDetail) return;
-  const year = Number(journeySlider.value);
-  const chapter = journeyChapters.find(item=>year >= item.from && year <= item.to) || journeyChapters.at(-1);
-  const progress = ((year - Number(journeySlider.min)) / (Number(journeySlider.max) - Number(journeySlider.min))) * 100;
-
-  journeySlider.style.setProperty('--journey-progress', `${progress}%`);
-  journeySlider.setAttribute('aria-valuetext', `${year}, ${chapter.institution}`);
-  journeyYear.value = String(year);
-  journeyYear.textContent = String(year);
-  journeyPhase.textContent = year === 2026 ? 'Current year' : chapter.phase;
-  if (chapter !== activeJourneyChapter) {
-    journeyPeriod.textContent = chapter.period;
-    journeyInstitution.textContent = chapter.institution;
-    journeyProgram.textContent = chapter.program;
-    journeyDescription.textContent = chapter.description;
-    journeyResult.textContent = chapter.result;
-
-    const logoNodes = chapter.logos.map(logo=>{
-      const image = document.createElement('img');
-      image.src = logo.src;
-      image.alt = logo.alt;
-      image.loading = 'lazy';
-      image.decoding = 'async';
-      return image;
-    });
-    journeyLogos.replaceChildren(...logoNodes);
-    journeyLogos.classList.toggle('is-dual', logoNodes.length > 1);
-    activeJourneyChapter = chapter;
-
-    if (!reduceMotion) {
-      journeyAnimation?.cancel();
-      journeyAnimation = journeyDetail.animate(
-        [{opacity:.45,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],
-        {duration:240,easing:'cubic-bezier(.16,1,.3,1)'}
-      );
-    }
-  }
-}
-
-if (journeySlider) {
-  journeySlider.addEventListener('input', updateJourney);
-  updateJourney();
-}
-
-// project card video preview — play on hover, stop on leave
-if (!reduceMotion) {
-  document.querySelectorAll('.pcard-video').forEach(v=>{
-    const card = v.closest('.pcard');
-    card.addEventListener('mouseenter', ()=>{ v.play().catch(()=>{}); });
-    card.addEventListener('mouseleave', ()=>{ v.pause(); v.currentTime = 0; });
-  });
-}
-
-// Contact statement — the final word rotates only while the section is visible.
-// Keeping every word in the DOM preserves a stable layout and avoids dependency
-// overhead for an effect the browser can express directly.
-const contactSection = document.getElementById('contact');
-const contactWords = [...document.querySelectorAll('.contact-word')];
-let contactWordIndex = 0;
-let contactWordTimer = null;
-
-function advanceContactWord(){
-  const previousWord = contactWords[contactWordIndex];
-  contactWordIndex = (contactWordIndex + 1) % contactWords.length;
-  const nextWord = contactWords[contactWordIndex];
-
-  previousWord.classList.remove('is-active');
-  previousWord.classList.add('is-before');
-  nextWord.classList.add('is-active');
-
-  window.setTimeout(()=>previousWord.classList.remove('is-before'), 520);
-}
-
-function startContactWords(){
-  if (reduceMotion || document.hidden || contactWordTimer || contactWords.length < 2) return;
-  contactWordTimer = window.setInterval(advanceContactWord, 2200);
-}
-
-function stopContactWords(){
-  if (!contactWordTimer) return;
-  window.clearInterval(contactWordTimer);
-  contactWordTimer = null;
-}
-
-if (contactSection && contactWords.length) {
-  const contactObserver = new IntersectionObserver(([entry])=>{
-    if (entry.isIntersecting) startContactWords();
-    else stopContactWords();
-  }, { threshold:.25 });
-  contactObserver.observe(contactSection);
-
-  document.addEventListener('visibilitychange', ()=>{
-    if (document.hidden) stopContactWords();
-    else if (contactSection.getBoundingClientRect().top < innerHeight &&
-             contactSection.getBoundingClientRect().bottom > 0) startContactWords();
-  });
-}
 </script>
+
+<script src="assets/js/section-halftone.js" defer></script>
+<script src="assets/js/cascade-text.js" defer></script>
+<script src="assets/js/beam-footer.js" defer></script>
+<script src="assets/js/scroll-sections.js" defer></script>
+<script src="assets/js/site-nav.js" defer></script>
+<script src="assets/js/scroll-softness.js" defer></script>
 
 <!-- 3D backdrop and the component's two scroll effects. -->
 <script type="module">
@@ -1279,7 +951,8 @@ let heroVisible = false;
 const desktopSpline = matchMedia('(min-width:900px)');
 const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
 const constrainedDevice = reduceMotion || connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType || '') ||
-  (navigator.deviceMemory && navigator.deviceMemory <= 4);
+  (navigator.deviceMemory && navigator.deviceMemory <= 4) ||
+  (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || matchMedia('(pointer:coarse)').matches;
 
 function cancelSplineSchedule(){
   if (splineIdleTask === null) return;
@@ -1354,10 +1027,15 @@ if (hero && mount && url && !constrainedDevice) {
 // listener. The screenshot parallax went with the screenshot band.
 const overlay = document.getElementById('heroOverlay');
 let queued = false;
+let previousOpacity = -1;
 
 function paint(){
   queued = false;
-  if (overlay) overlay.style.opacity = String(1 - Math.min(window.scrollY / 400, 1));
+  const opacity = 1 - Math.min(window.scrollY / 400, 1);
+  if (overlay && opacity !== previousOpacity) {
+    overlay.style.opacity = String(opacity);
+    previousOpacity = opacity;
+  }
 }
 addEventListener('scroll', ()=>{
   if (!queued) { queued = true; requestAnimationFrame(paint); }
