@@ -343,8 +343,13 @@ body::before{
 
 .about-grid{ display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:clamp(32px,5vw,64px); align-items:start; }
 .about-portrait{ margin:0; width:100%; max-width:380px; }
-.about-portrait img{ display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; object-position:50% 35%; border-radius:8px; background:var(--ink); }
+.about-portrait img{ display:block; width:100%; height:auto; aspect-ratio:9/16; object-fit:cover; object-position:50% 35%; border-radius:8px; background:var(--ink); }
 .about-copy{ min-width:0; }
+.about-copy > div:last-child > p:last-child{ margin-bottom:0; }
+@media(min-width:761px){
+  .about-portrait{ position:relative; align-self:stretch; }
+  .about-portrait img{ position:absolute; inset:0; height:100%; aspect-ratio:auto; }
+}
 .about-copy > div + div{ margin-top:28px; }
 .about-grid h2,.about-grid h3{ font-family:var(--display); color:var(--fg); letter-spacing:-.03em; margin-bottom:20px; }
 .about-grid h2{ font-size:clamp(30px,4.4vw,46px); line-height:1.1; }
@@ -653,8 +658,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <h2 class="section-wordmark" id="about-heading" data-halftone><span class="halftone-text">Behind the build.</span><canvas aria-hidden="true"></canvas></h2>
   <div class="about-grid">
     <figure class="about-portrait">
-      <img src="assets/img/profile/ikhwanuddin.webp" width="1280" height="956"
-           loading="lazy" decoding="async" alt="Ikhwanuddin wearing a black suit and navy tie against a dark background">
+      <img src="assets/img/profile/ikhwanuddin-formal.png" width="941" height="1672"
+           loading="lazy" decoding="async" alt="Ikhwanuddin wearing a black suit and white shirt against a light background">
     </figure>
     <div class="about-copy">
       <div>
