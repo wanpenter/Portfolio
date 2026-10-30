@@ -21,7 +21,8 @@ Sections: About, Projects, Skills, Journey, Education, Contact.
 - `IntersectionObserver` for scroll-triggered reveals
 - Google Fonts: Archivo, IBM Plex Sans, IBM Plex Mono
 
-Each page is self-contained — styles and scripts live inline in the file they belong to.
+Page-specific styles and scripts live inline. Shared styles and scripts are in
+`assets/css/` and `assets/js/`.
 
 ## Structure
 
@@ -36,12 +37,23 @@ Each page is self-contained — styles and scripts live inline in the file they 
 │   └── workshop-system.html
 ├── assets/                 # everything served to the browser
 │   ├── img/projects/       # project screenshots (see its README)
+│   ├── img/profile/        # portfolio portraits
+│   ├── img/logos/          # school and university logos
+│   ├── css/                # shared styles
+│   ├── js/                 # shared interactions and animations
+│   ├── video/              # videos used by the website
 │   ├── favicon.svg
 │   ├── ikhwanuddin-resume.pdf
 │   ├── og-image.png        # rendered — regenerate from og-source.html
 │   └── og-source.html      # template for the OG image
-├── docs/                   # reference material, not deployed
+├── docs/                   # design references
 │   └── inspo-website.jpg
+├── source-material/        # original files, separate from website assets
+│   ├── images/             # reference images not currently used on the site
+│   ├── ipetro/             # original photos, video, poster and report
+│   ├── resume/             # editable Word resume
+│   └── workshop-system/    # original thumbnail and Word report
+├── .local/                 # local tools, extracted files and scratch work
 ├── _redirects              # Netlify: old root URLs → /work/
 ├── DESIGN.md               # visual system (read by the Impeccable skill)
 ├── PRODUCT.md              # product context (read by the Impeccable skill)
@@ -50,6 +62,14 @@ Each page is self-contained — styles and scripts live inline in the file they 
 
 Case-study pages sit one level down, so their links back to the site are
 relative to the parent: `../index.html#projects`, `../assets/favicon.svg`.
+
+Keep browser-ready files in `assets/`. Keep original documents and media in
+`source-material/`; this folder is ignored by Git so large originals and editable
+personal documents are not included in Git-based deployments. `.local/` is also
+ignored. Do not upload these local folders when deploying manually.
+
+`DESIGN.md` and `PRODUCT.md` stay at the root so design tools can find them.
+Hidden configuration folders belong to the tools that created them.
 
 ## Development
 

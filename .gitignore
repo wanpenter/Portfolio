@@ -4,6 +4,9 @@
 # Local scratch — drafts, duplicates, anything not meant to ship
 .local/
 
+# Original media and editable documents; the website uses assets/ instead
+/source-material/
+
 # Résumé source — the version that ships is assets/ikhwanuddin-resume.pdf
 *.docx
 
