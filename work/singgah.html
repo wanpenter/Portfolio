@@ -294,8 +294,11 @@ footer{
 .singgah-media img{ width:clamp(120px,20vw,200px); height:auto; }
 @media(max-width:640px){ .singgah-media{ min-height:220px; } }
 </style>
+<link rel="stylesheet" href="../assets/css/project-detail.css">
+<script src="../assets/js/project-detail.js" defer></script>
 </head>
-<body>
+<body class="project-detail">
+<a class="project-skip" href="#project-main">Skip to project content</a>
 <header class="topbar">
   <span class="mark">IKHWANUDDIN</span>
   <nav class="navlinks">
@@ -306,6 +309,7 @@ footer{
     <a href="../index.html#contact">Contact</a>
   </nav>
 </header>
+<main id="project-main" tabindex="-1">
 <div class="backbar">
   <a class="back-link" href="../index.html#projects">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -323,18 +327,20 @@ footer{
     <span>Next.js</span><span>TypeScript</span><span>Tailwind CSS</span><span>Supabase</span>
   </div>
 </section>
-<div class="video-slot">
+<div class="video-slot project-demo" id="project-demo" tabindex="-1">
   <div class="video-slot-inner singgah-media">
     <span class="video-slot-badge">Singgah branding</span>
     <img src="../assets/img/projects/singgah/singgah-icon.svg" width="64" height="64"
          alt="Singgah S icon from the live website">
   </div>
 </div>
-<section class="sec">
+<div class="project-layout">
+<div class="project-sections">
+<section class="sec" id="the-problem" tabindex="-1">
   <div class="sec-head"><h2>The problem</h2></div>
   <p>Singgah helps people find local businesses in Malaysia when they know what they are looking for, or simply want to see what is nearby. It brings business profiles, products and community reviews into one discovery experience.</p>
 </section>
-<section class="sec">
+<section class="sec" id="how-it-works" tabindex="-1">
   <div class="sec-head"><h2>How it works</h2></div>
   <div class="role-grid">
     <div class="role"><h3>For visitors</h3><ul><li>Search by category and location</li><li>Explore business profiles and products</li><li>Read and leave reviews</li></ul></div>
@@ -342,15 +348,15 @@ footer{
     <div class="role"><h3>For administrators</h3><ul><li>Review new businesses through an admin panel</li></ul></div>
   </div>
 </section>
-<section class="sec">
+<section class="sec" id="technical-approach" tabindex="-1">
   <div class="sec-head"><h2>Technical approach</h2></div>
   <p>Singgah uses Next.js and TypeScript for the web application, Tailwind CSS for its interface, and Supabase in its stack. The experience keeps visitor discovery, owner management and review of new businesses distinct, while category and location provide direct ways to narrow a search.</p>
 </section>
-<section class="sec">
+<section class="sec" id="built-with" tabindex="-1">
   <div class="sec-head"><h2>Built with</h2></div>
   <p>Built in collaboration with <a class="collaborator-link" href="https://github.com/azfarsharifuddin" target="_blank" rel="noopener noreferrer">Azfar (@azfarsharifuddin)</a>.</p>
 </section>
-<section class="sec">
+<section class="sec" id="links" tabindex="-1">
   <div class="sec-head"><h2>Links</h2></div>
   <div class="link-rows">
     <a href="https://singgah.cc" target="_blank" rel="noopener">
@@ -364,6 +370,9 @@ footer{
     </a>
   </div>
 </section>
+</div>
+</div>
+</main>
 <footer><span class="caption">© 2026 Ikhwanuddin</span></footer>
 </body>
 </html>

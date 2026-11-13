@@ -37,10 +37,15 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
 @media(max-width:420px){.dynamic-gallery{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
+<link rel="stylesheet" href="../assets/css/project-detail.css">
+<script src="../assets/js/project-detail.js" defer></script>
+<link rel="stylesheet" href="../assets/css/circular-gallery.css">
+<script src="../assets/js/circular-gallery.js" defer></script>
 </head>
-<body>
+<body class="project-detail">
+<a class="project-skip" href="#project-main">Skip to project content</a>
 <header class="topbar"><span class="mark">IKHWANUDDIN</span><nav class="navlinks" aria-label="Portfolio navigation"><a href="../index.html#about">About</a><a href="../index.html#projects">Projects</a><a href="../index.html#skills">Skills</a><a href="../index.html#education">Education</a><a href="../index.html#contact">Contact</a></nav></header>
-<main>
+<main id="project-main" tabindex="-1">
 <div class="backbar"><a class="back-link" href="../index.html#projects"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back to portfolio</a></div>
 
 <section class="dhero">
@@ -52,7 +57,7 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
   <div class="result-line"><svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Evaluated with 20 participants</div>
 </section>
 
-<div class="video-slot">
+<div class="video-slot project-demo" id="project-demo" tabindex="-1">
   <div class="video-slot-inner">
     <span class="video-slot-badge">In-game view</span>
     <video controls playsinline preload="metadata"
@@ -65,7 +70,9 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
   </div>
 </div>
 
-<section class="sec">
+<div class="project-layout">
+<div class="project-sections">
+<section class="sec" id="overview" tabindex="-1">
   <div class="sec-head"><h2>Overview</h2></div>
   <p><strong>VaultBreak MR</strong> is a mixed reality stealth game built for Meta Quest 3S. The player's real room becomes a laser-protected vault through passthrough and room-aware route generation.</p>
   <p>Sony Mocopi tracks the player's body so crouching, leaning, and stepping around lasers become part of the gameplay. Players can also shoot control boxes to disable selected laser sections.</p>
@@ -73,7 +80,7 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
   <div class="fact-strip" aria-label="Project results"><div class="fact"><strong>+0.70</strong><span>Confidence increase</span></div><div class="fact"><strong>20</strong><span>Playtest participants</span></div><div class="fact"><strong>57 / 100</strong><span>SUS usability score</span></div></div>
 </section>
 
-<section class="sec">
+<section class="sec" id="the-hardware-behind-it" tabindex="-1">
   <div class="sec-head"><h2>The hardware behind it</h2></div>
   <p>Two devices work together to turn the player's real room and full-body movement into gameplay.</p>
   <div class="hardware-grid">
@@ -95,7 +102,7 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
   <div class="hardware-note">Quest displays the mixed reality world. Mocopi makes the player's whole body part of it.</div>
 </section>
 
-<section class="sec">
+<section class="sec" id="my-role" tabindex="-1">
   <div class="sec-head"><h2>My role</h2></div>
   <p>I developed the prototype as the project's <strong>XR Developer</strong>, connecting full-body tracking, mixed reality room data, and gameplay systems into one complete experience.</p>
   <div class="role-grid">
@@ -106,9 +113,9 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
   <div class="note-band"><h3>Project scope</h3><p>I designed, developed, tested, and documented VaultBreak MR as my Final Year Project.</p></div>
 </section>
 
-<section class="sec">
+<section class="sec" id="project-gallery" tabindex="-1">
   <div class="sec-head"><h2>Project gallery</h2></div>
-  <div class="dynamic-gallery" aria-label="VaultBreak MR project gallery">
+  <div data-circular-gallery class="dynamic-gallery" aria-label="VaultBreak MR project gallery">
     <figure class="gallery-cell" tabindex="0" data-row="0" data-col="0"><img src="../assets/img/projects/vaultbreak/passthrough-gameplay.png" alt="VaultBreak MR passthrough gameplay with red laser obstacles" width="617" height="358" loading="lazy"><figcaption><strong>Passthrough gameplay</strong><span>Laser security placed inside the player's real room.</span></figcaption></figure>
     <figure class="gallery-cell contain" tabindex="0" data-row="0" data-col="1"><img src="../assets/img/projects/vaultbreak/body-hitboxes.png" alt="Mocopi avatar with seven body collision regions" width="937" height="647" loading="lazy"><figcaption><strong>Body collision</strong><span>Seven tracked regions detect laser contact.</span></figcaption></figure>
     <figure class="gallery-cell" tabindex="0" data-row="0" data-col="2"><img src="../assets/img/projects/vaultbreak/room-check.png" alt="VaultBreak MR room check interface" width="626" height="361" loading="lazy"><figcaption><strong>Room check</strong><span>The available play space is checked before setup.</span></figcaption></figure>
@@ -118,7 +125,9 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
   </div>
 </section>
 
-<section class="sec"><div class="sec-head"><h2>Outcome</h2></div><p>The completed prototype combined Meta Quest passthrough, Sony Mocopi full-body tracking, and physical laser-dodging gameplay. Testing with <strong>20 participants</strong> showed an increase in reported interaction confidence, while also highlighting calibration and usability as the main areas for improvement.</p></section>
+<section class="sec" id="outcome" tabindex="-1"><div class="sec-head"><h2>Outcome</h2></div><p>The completed prototype combined Meta Quest passthrough, Sony Mocopi full-body tracking, and physical laser-dodging gameplay. Testing with <strong>20 participants</strong> showed an increase in reported interaction confidence, while also highlighting calibration and usability as the main areas for improvement.</p></section>
+</div>
+</div>
 </main>
 <footer><span class="caption">© 2026 Ikhwanuddin</span><span class="caption">Final Year Project</span></footer>
 <script>

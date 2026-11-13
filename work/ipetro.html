@@ -365,9 +365,14 @@ footer{
   html{ scroll-behavior:auto; }
 }
 </style>
+<link rel="stylesheet" href="../assets/css/project-detail.css">
+<script src="../assets/js/project-detail.js" defer></script>
+<link rel="stylesheet" href="../assets/css/circular-gallery.css">
+<script src="../assets/js/circular-gallery.js" defer></script>
 </head>
 
-<body>
+<body class="project-detail">
+<a class="project-skip" href="#project-main">Skip to project content</a>
 
 <header class="topbar">
   <span class="mark">IKHWANUDDIN</span>
@@ -380,7 +385,7 @@ footer{
   </nav>
 </header>
 
-<main>
+<main id="project-main" tabindex="-1">
 <div class="backbar">
   <a class="back-link" href="../index.html#projects">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -409,7 +414,7 @@ footer{
   </div>
 </section>
 
-<div class="video-slot">
+<div class="video-slot project-demo" id="project-demo" tabindex="-1">
   <div class="video-slot-inner">
     <span class="video-slot-badge">In-game view</span>
     <video controls playsinline preload="metadata"
@@ -422,7 +427,9 @@ footer{
   </div>
 </div>
 
-<section class="sec">
+<div class="project-layout">
+<div class="project-sections">
+<section class="sec" id="overview" tabindex="-1">
   <div class="sec-head"><h2>Overview</h2></div>
   <p><strong>iPETRO: Zero Leak Challenge (The Undead Shutdown)</strong> is a VR training simulation
     created by Team DEADLOCK. Players practise the ASME PCC-1 star-pattern flange-tightening
@@ -438,7 +445,7 @@ footer{
   </div>
 </section>
 
-<section class="sec">
+<section class="sec" id="my-role" tabindex="-1">
   <div class="sec-head"><h2>My role</h2></div>
   <p>I worked as the team's <strong>VR Interaction Developer</strong>, implementing the flange
     interaction in Unity. I built the nut-spinning mechanic, mapped rotational input to each nut,
@@ -454,9 +461,9 @@ footer{
     and project management were completed across Team DEADLOCK.</p></div>
 </section>
 
-<section class="sec">
+<section class="sec" id="project-gallery" tabindex="-1">
   <div class="sec-head"><h2>Project gallery</h2></div>
-  <div class="dynamic-gallery" aria-label="iPETRO project gallery">
+  <div data-circular-gallery class="dynamic-gallery" aria-label="iPETRO project gallery">
     <figure class="gallery-cell" tabindex="0" data-row="0" data-col="0">
       <img src="../assets/img/projects/ipetro/gallery/team-5693.webp" alt="Team DEADLOCK presenting the iPETRO VR project during the Workshop II showcase" width="1600" height="900" loading="lazy">
       <figcaption><strong>Workshop II showcase</strong><span>Live project presentation and VR demonstration.</span></figcaption>
@@ -496,12 +503,14 @@ footer{
   </div>
 </section>
 
-<section class="sec">
+<section class="sec" id="outcome" tabindex="-1">
   <div class="sec-head"><h2>Outcome</h2></div>
   <p>The final build combined industrial training fidelity with an unusual survival-game structure.
     User Acceptance Testing was completed, and the report records stable XR interaction with a target
     performance range of <strong>72–90 FPS</strong> on the selected PC-VR setup.</p>
 </section>
+</div>
+</div>
 </main>
 
 <footer>

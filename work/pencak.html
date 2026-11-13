@@ -311,17 +311,56 @@ footer{
 .pencak-journey-copy p{ font-size:15px; margin:0; }
 .pencak-art{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; margin-top:28px; }
 .pencak-art figure{ display:flex; flex-direction:column; }
-.pencak-art-visual{ height:560px; display:grid; place-items:center; overflow:hidden; background:#fff; }
-.pencak-art img{ display:block; width:100%; height:100%; object-fit:contain; }
-.pencak-art figcaption{ margin-top:auto; }
+.pencak-art-visual{
+  display:block; position:relative; height:clamp(360px,48vw,560px);
+  background:#eae8e4;
+}
+.pencak-art img{
+  position:absolute; inset:0; width:100%; height:100%; padding:16px;
+  box-sizing:border-box; object-fit:contain;
+}
+.pencak-art figcaption{
+  display:flex; align-items:center; justify-content:space-between; gap:8px 16px;
+  flex-wrap:wrap; padding-block:4px;
+}
+.pencak-art figcaption a{
+  display:inline-flex; align-items:center; min-height:44px;
+  color:#6d4d16; text-decoration:underline; text-underline-offset:3px;
+}
+.pencak-art-visual:focus-visible{ outline:2px solid #83601f; outline-offset:-4px; }
+.pencak-viewer{
+  width:min(1100px,calc(100% - 24px)); height:calc(100% - 24px);
+  max-width:none; max-height:none; margin:auto; padding:0;
+  border:1px solid #424248; border-radius:8px; background:#15161c; color:#f4f4f6;
+}
+.pencak-viewer[open]{ display:grid; grid-template-rows:auto minmax(0,1fr); }
+.pencak-viewer::backdrop{ background:rgba(11,11,16,.82); }
+.pencak-viewer-toolbar{
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;
+  gap:4px 16px; padding:8px 16px; border-bottom:1px solid #424248;
+}
+.pencak-viewer-toolbar button{
+  min-height:44px; padding:0 12px; font:inherit; color:inherit;
+  background:#24252c; border:1px solid #666772; border-radius:4px; cursor:pointer;
+}
+.pencak-viewer-toolbar button:hover{ background:#383943; }
+.pencak-viewer-stage{ overflow:auto; padding:12px; }
+.pencak-viewer-stage img{ display:block; width:100%; height:100%; object-fit:contain; }
+.pencak-viewer-stage.is-zoomed img{ width:auto; height:auto; max-width:none; margin-inline:auto; }
+html:has(.pencak-viewer[open]){ overflow:hidden; }
 .pencak-source{ font-size:13px !important; margin-top:22px; }
 @media(max-width:740px){
   .pencak-journey,.pencak-art{ grid-template-columns:1fr; }
-  .pencak-art-visual{ height:420px; }
+  .pencak-art-visual{ height:clamp(360px,120vw,480px); }
 }
 </style>
+<link rel="stylesheet" href="../assets/css/project-detail.css">
+<script src="../assets/js/project-detail.js" defer></script>
+<link rel="stylesheet" href="../assets/css/circular-gallery.css">
+<script src="../assets/js/circular-gallery.js" defer></script>
 </head>
-<body class="pencak-page">
+<body class="pencak-page project-detail">
+<a class="project-skip" href="#project-main">Skip to project content</a>
 <header class="topbar">
   <span class="mark">IKHWANUDDIN</span>
   <nav class="navlinks">
@@ -332,6 +371,7 @@ footer{
     <a href="../index.html#contact">Contact</a>
   </nav>
 </header>
+<main id="project-main" tabindex="-1">
 <div class="backbar">
   <a class="back-link" href="../index.html#projects">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -346,21 +386,23 @@ footer{
   <h1>PENCAK — A Living Archive of Silat</h1>
   <p class="dpitch">An interactive VR introduction to Silat Seni Gayong, created by the IMMERSA team to make its foundations more approachable.</p>
 </section>
-<div class="pencak-showcase">
+<div class="pencak-showcase project-demo" id="project-demo" tabindex="-1">
   <figure>
     <img src="../assets/img/projects/pencak/slide-5.jpg" width="1600" height="900" decoding="async" alt="PENCAK concept slide showing a silat practitioner training in a traditional pavilion">
     <figcaption>Training scene concept from the IMMERSA pitch deck</figcaption>
   </figure>
 </div>
-<section class="sec">
+<div class="project-layout">
+<div class="project-sections">
+<section class="sec" id="the-idea" tabindex="-1">
   <div class="sec-head"><span class="idx">01</span><h2>The idea</h2></div>
   <p>PENCAK is a virtual reality introduction to Silat Seni Gayong, developed by the IMMERSA team. It invites newcomers to learn through movement: watch a demonstration, try it themselves, and build confidence through practice.</p>
   <p>Silat is a living tradition shaped by people, places, and repeated practice. PENCAK uses a virtual setting to make that first encounter more approachable and to encourage interest in the heritage behind the movements.</p>
 </section>
-<section class="sec">
+<section class="sec" id="how-the-experience-unfolds" tabindex="-1">
   <div class="sec-head"><span class="idx">02</span><h2>How the experience unfolds</h2></div>
   <p>The pitch deck presents a simple learning journey, from exploring the setting to putting new movements into practice.</p>
-  <div class="pencak-journey">
+  <div data-circular-gallery class="pencak-journey">
     <article class="pencak-journey-card">
       <img src="../assets/img/projects/pencak/slide-13.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="Concept slide showing a player exploring silat attire in a preparation area">
       <div class="pencak-journey-copy"><span>01 / Explore</span><h3>Enter the world of silat</h3><p>The player starts in a preparation area and discovers the clothing and setting connected to the practice of silat.</p></div>
@@ -380,26 +422,84 @@ footer{
   </div>
   <p class="pencak-source">Images above are concepts from the IMMERSA pitch deck. PENCAK is still in development.</p>
 </section>
-<section class="sec">
+<section class="sec" id="why-it-matters" tabindex="-1">
   <div class="sec-head"><span class="idx">03</span><h2>Why it matters</h2></div>
   <p>PENCAK is designed to introduce the foundations of Silat Seni Gayong in a way that feels active and welcoming. The Virtual Guru gives the experience a human teaching presence, while the setting places each lesson in its cultural context.</p>
   <p>The project hopes to spark curiosity about silat and support the preservation of its heritage through a new way to encounter it.</p>
 </section>
-<section class="sec">
+<section class="sec" id="competition-entry" tabindex="-1">
   <div class="sec-head"><span class="idx">04</span><h2>Competition entry</h2></div>
   <p>PENCAK was entered in DICE 4.0 (Digital Innovation Creativepreneur), a creative innovation competition with a heritage theme.</p>
 </section>
-<section class="sec">
+<section class="sec" id="project-artwork" tabindex="-1">
   <div class="sec-head"><span class="idx">05</span><h2>Project artwork</h2></div>
-  <p>The poster and standee bring the PENCAK identity together: silat movement, traditional visual motifs, and a virtual reality setting.</p>
-  <div class="pencak-art">
-    <figure><div class="pencak-art-visual"><img src="../assets/img/projects/pencak/pencak-poster.jpg" width="1600" height="2296" loading="lazy" decoding="async" alt="PENCAK project poster featuring a silat practitioner in a VR headset"></div><figcaption>Project poster</figcaption></figure>
-    <figure class="pencak-art-standee"><div class="pencak-art-visual"><img src="../assets/img/projects/pencak/pencak-standee.jpg" width="1200" height="3600" loading="lazy" decoding="async" alt="PENCAK standee featuring a silat practitioner in a VR headset"></div><figcaption>Project standee</figcaption></figure>
+  <p>The poster and bunting bring the PENCAK identity together: silat movement, traditional visual motifs, and a virtual reality setting.</p>
+  <div data-circular-gallery class="pencak-art">
+    <figure>
+      <a class="pencak-art-visual" href="../assets/img/projects/pencak/pencak-poster.jpg" aria-label="View full size: Project poster">
+        <img src="../assets/img/projects/pencak/pencak-poster.jpg" width="1600" height="2296" loading="lazy" decoding="async" alt="PENCAK project poster featuring a silat practitioner in a VR headset">
+      </a>
+      <figcaption><span>Project poster</span> <a href="../assets/img/projects/pencak/pencak-poster.jpg" aria-label="View full size: Project poster">View full size</a></figcaption>
+    </figure>
+    <figure>
+      <a class="pencak-art-visual" href="../assets/img/projects/pencak/pencak-standee.jpg" aria-label="View full size: Project bunting">
+        <img src="../assets/img/projects/pencak/pencak-standee.jpg" width="1200" height="3600" loading="lazy" decoding="async" alt="PENCAK bunting featuring a silat practitioner in a VR headset">
+      </a>
+      <figcaption><span>Project bunting</span> <a href="../assets/img/projects/pencak/pencak-standee.jpg" aria-label="View full size: Project bunting">View full size</a></figcaption>
+    </figure>
   </div>
 </section>
+</div>
+</div>
+</main>
+<dialog class="pencak-viewer" aria-labelledby="pencak-viewer-title">
+  <div class="pencak-viewer-toolbar">
+    <strong id="pencak-viewer-title"></strong>
+    <div>
+      <button type="button" id="pencak-viewer-zoom">Zoom in</button>
+      <button type="button" id="pencak-viewer-close" autofocus>Close</button>
+    </div>
+  </div>
+  <div class="pencak-viewer-stage" role="region" aria-label="Artwork preview" tabindex="0">
+    <img alt="">
+  </div>
+</dialog>
 <footer>
   <span class="caption">© 2026 Ikhwanuddin</span>
   <a class="caption" href="../index.html#projects">Back to projects</a>
 </footer>
+<script>
+  const artworkViewer = document.querySelector('.pencak-viewer');
+  const artworkStage = artworkViewer.querySelector('.pencak-viewer-stage');
+  const artworkImage = artworkStage.querySelector('img');
+  const artworkTitle = document.querySelector('#pencak-viewer-title');
+  const artworkZoom = document.querySelector('#pencak-viewer-zoom');
+
+  if (typeof artworkViewer.showModal === 'function') {
+    document.querySelector('#project-artwork').addEventListener('click', (event) => {
+        const link = event.target.closest('.pencak-art a, a[data-artwork-title]');
+        if (!link) return;
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+
+        const figure = link.closest('figure');
+        artworkTitle.textContent = link.dataset.artworkTitle ?? figure.querySelector('figcaption span').textContent;
+        artworkImage.alt = link.dataset.artworkAlt ?? figure.querySelector('img').alt;
+        artworkImage.src = link.href;
+        artworkStage.classList.remove('is-zoomed');
+        artworkZoom.textContent = 'Zoom in';
+        artworkViewer.showModal();
+        artworkStage.scrollTo(0, 0);
+    });
+
+    artworkZoom.addEventListener('click', () => {
+      const zoomed = artworkStage.classList.toggle('is-zoomed');
+      artworkZoom.textContent = zoomed ? 'Fit to screen' : 'Zoom in';
+      artworkStage.scrollTo(0, 0);
+    });
+
+    document.querySelector('#pencak-viewer-close').addEventListener('click', () => artworkViewer.close());
+  }
+</script>
 </body>
 </html>
