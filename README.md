@@ -108,6 +108,10 @@ there is no build step to share it. Change one, change all four.
 
 ## Deployment
 
+PENCAK loads its checked-in Motion bundle as a static asset. After updating the
+Motion dependency, run `npm run vendor:motion` to refresh the browser bundle
+before committing.
+
 Hosted on Netlify with a custom domain. Pushes to `main` deploy automatically —
 no build command, publish directory is the repository root.
 

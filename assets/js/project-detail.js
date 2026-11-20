@@ -36,17 +36,18 @@
     return link;
   }
 
-  const demoLink = createAction('#project-demo', media.querySelector('video') ? 'Watch demo' : 'View project preview');
-  const contentsLink = createAction('#' + sections[0].id, 'Read about the project');
-  actions.append(demoLink, contentsLink);
-  hero.append(actions);
-
   function focusTarget(target) {
     target.focus({ preventScroll: true });
   }
 
-  demoLink.addEventListener('click', () => focusTarget(media));
-  contentsLink.addEventListener('click', () => focusTarget(sections[0]));
+  if (!hero.hasAttribute('data-project-actions')) {
+    const demoLink = createAction('#project-demo', media.querySelector('video') ? 'Watch demo' : 'View project preview');
+    const contentsLink = createAction('#' + sections[0].id, 'Read about the project');
+    actions.append(demoLink, contentsLink);
+    hero.append(actions);
+    demoLink.addEventListener('click', () => focusTarget(media));
+    contentsLink.addEventListener('click', () => focusTarget(sections[0]));
+  }
 
   let imageForSection = cover;
   const entries = sections.map((section) => {

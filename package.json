@@ -1,0 +1,10 @@
+{
+  "name": "ikhwanuddin-portfolio",
+  "private": true,
+  "scripts": {
+    "vendor:motion": "node -e \"require('node:fs').copyFileSync('node_modules/motion/dist/motion.js','assets/js/motion.vendor.js')\""
+  },
+  "dependencies": {
+    "motion": "14.14.0"
+  }
+}

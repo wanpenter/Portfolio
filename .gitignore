@@ -1,5 +1,6 @@
 # Agent config
 .claude/
+node_modules/
 
 # Local scratch — drafts, duplicates, anything not meant to ship
 .local/
