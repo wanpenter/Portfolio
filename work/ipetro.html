@@ -364,14 +364,83 @@ footer{
   *{ animation:none !important; transition:none !important; }
   html{ scroll-behavior:auto; }
 }
+.ipetro-page .topbar{ background:#111820; color:#fff; border-color:#364250; }
+.ipetro-page .topbar a{ color:#eff3f7; }
+.ipetro-opening{
+  position:relative; isolation:isolate; display:grid; align-items:end; overflow:clip;
+  min-height:100svh; padding:clamp(105px,16svh,155px) var(--pad) 32px;
+  background:#101820; color:#fff; touch-action:pan-y;
+}
+.ipetro-opening :focus-visible{ outline-color:#ffdb95; }
+.ipetro-panorama{ position:absolute; z-index:-1; inset:0; }
+.ipetro-panorama :is(img,canvas){ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.ipetro-panorama img{ object-fit:cover; }
+.ipetro-panorama canvas{ visibility:hidden; }
+.ipetro-opening[data-panorama-ready] canvas{ visibility:visible; }
+.ipetro-opening[data-panorama-ready] .ipetro-panorama img{ visibility:hidden; }
+.ipetro-opening[data-panorama-ready]{ cursor:grab; }
+.ipetro-opening[data-dragging]{ cursor:grabbing; user-select:none; }
+.ipetro-panorama::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(90deg,#101820f5 0%,#101820bb 40%,transparent 83%),
+             linear-gradient(0deg,#101820 0%,#10182051 54%,transparent 82%);
+}
+.ipetro-opening .back-link{
+  position:absolute; left:var(--pad); top:calc(var(--project-header) + 12px);
+  min-height:44px; color:#eff3f7;
+}
+.ipetro-opening .dhero{ max-width:640px; margin:0; padding:0; }
+.ipetro-opening h1{
+  font-size:clamp(2rem,5vw,4.45rem); text-wrap:balance;
+  line-height:1.03; letter-spacing:-.04em;
+}
+.ipetro-opening h1 span{
+  display:block; font-size:clamp(4.35rem,12vw,10rem); line-height:.88; margin-bottom:14px;
+}
+.ipetro-opening :is(.dpitch,.dhero-roleline,.dhero-roleline strong){ color:#eff3f7; }
+.ipetro-opening .dpitch{ max-width:48ch; }
+.ipetro-opening .dhero-roleline{ margin-bottom:16px; }
+.ipetro-opening .dtags span{ color:#eff3f7; border-color:#a0a9b4; background:#101820b8; }
+.ipetro-opening .award-line{ color:#ffdb95; }
+.ipetro-opening .award-line svg{ stroke:currentColor; }
+.ipetro-opening .project-hero-actions a{
+  --project-accent:#ffdb95; background:#18222c; color:#fff;
+}
+.ipetro-opening .project-hero-actions a:is(:hover,:focus-visible){ color:#161b20; }
+.ipetro-view-controls:not([hidden]){
+  display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:24px;
+  justify-self:end;
+}
+.ipetro-view-controls span{ color:#eff3f7; font-size:.875rem; margin-right:6px; }
+.ipetro-view-controls .ipetro-mobile-view-label{ display:none; }
+.ipetro-view-controls button{
+  display:grid; place-items:center; width:44px; height:44px; border-radius:50%;
+  border:1px solid #a0a9b4; background:#101820e6; color:#fff; cursor:pointer;
+}
+.ipetro-view-controls button:hover{ border-color:#ffdb95; color:#ffdb95; }
+.ipetro-view-controls svg{ width:18px; height:18px; }
+@media(max-width:740px){
+  .ipetro-opening{ padding-top:clamp(136px,17svh,184px); }
+  .ipetro-panorama::after{
+    background:linear-gradient(0deg,#101820 2%,#101820dc 44%,#10182030 82%);
+  }
+  .ipetro-view-controls:not([hidden]){
+    position:absolute; top:calc(var(--project-header) + 12px); right:var(--pad); margin-top:0;
+  }
+  .ipetro-view-controls .ipetro-desktop-view-label{ display:none; }
+  .ipetro-view-controls .ipetro-mobile-view-label{ display:inline; margin-right:0; }
+}
+@media(max-width:340px){ .ipetro-view-controls .ipetro-mobile-view-label{ display:none; } }
 </style>
 <link rel="stylesheet" href="../assets/css/project-detail.css">
 <script src="../assets/js/project-detail.js" defer></script>
+<script src="../assets/js/motion.vendor.js" defer></script>
+<script src="../assets/js/ipetro-panorama.js" defer></script>
 <link rel="stylesheet" href="../assets/css/circular-gallery.css">
 <script src="../assets/js/circular-gallery.js" defer></script>
 </head>
 
-<body class="project-detail">
+<body class="project-detail ipetro-page">
 <a class="project-skip" href="#project-main">Skip to project content</a>
 
 <header class="topbar">
@@ -386,18 +455,17 @@ footer{
 </header>
 
 <main id="project-main" tabindex="-1">
-<div class="backbar">
+<div class="ipetro-opening">
+  <div class="ipetro-panorama" aria-hidden="true">
+    <img src="../assets/img/projects/ipetro/refinery-panorama.png" alt="" fetchpriority="high">
+    <canvas></canvas>
+  </div>
   <a class="back-link" href="../index.html#projects">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     Back to portfolio
   </a>
-</div>
-
 <section class="dhero">
-  <div class="dhero-top dhero-status">
-    <span class="dstatus caption"><span class="dot"></span>Completed</span>
-  </div>
-  <h1>iPETRO — Zero Leak Challenge</h1>
+  <h1><span>iPETRO</span> Zero Leak Challenge</h1>
   <p class="dpitch">An industrial VR training simulation for practising flange-tightening
     procedures through a guided workflow and validated interactions. Timed survival
     challenges test the same procedure under pressure.</p>
@@ -413,6 +481,17 @@ footer{
     Gold Award — FTMK Workshop II Innovation Competition
   </div>
 </section>
+  <div class="ipetro-view-controls" role="group" aria-label="360-degree refinery view" hidden>
+    <span class="ipetro-desktop-view-label">Drag to look around</span>
+    <span class="ipetro-mobile-view-label" aria-hidden="true">360°</span>
+    <button type="button" data-turn="-1" aria-label="Look left">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m7 7-7-7 7-7"/></svg>
+    </button>
+    <button type="button" data-turn="1" aria-label="Look right">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
 
 <div class="video-slot project-demo" id="project-demo" tabindex="-1">
   <div class="video-slot-inner">
