@@ -19,7 +19,9 @@
 .project-card::after{ content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to top,rgba(0,0,0,.96) 0%,rgba(0,0,0,.76) 28%,rgba(0,0,0,.18) 64%,transparent 100%); }
 .project-card > img{ position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; }
 .project-card > img.pcard-singgah-icon{ object-fit:contain; padding:26%; background:#E9D7B7; }
-.project-card > img.pcard-pencak-shot{ object-position:50% 34%; }
+.project-card-pencak{ background:#000; }
+.project-card-pencak::after{ content:none; }
+.project-card-pencak > img{ object-fit:contain; padding:10%; }
 .project-card > img.pcard-poster-shot{ object-position:50% 26%; }
 .project-card > img.pcard-console-shot{ object-fit:contain; padding:12px; background:#090B0F; }
 .project-card-copy{ position:absolute; z-index:1; left:0; bottom:0; width:100%; padding:24px 20px; }
