@@ -1,0 +1,165 @@
+.project-layout .project-tour-gallery {
+  margin-bottom: clamp(24px, 4vw, 48px);
+  padding: clamp(16px, 3vw, 36px);
+  border: 1px solid var(--line-light);
+  border-radius: 8px;
+  background: var(--mist);
+}
+
+[data-tour-stage] {
+  min-width: 0;
+  padding: clamp(10px, 2vw, 18px);
+  border: 1px solid var(--line-light);
+  border-radius: 6px;
+  background: var(--card);
+}
+
+[data-project-tour].is-scroll-tour::after {
+  content: '';
+  display: block;
+  height: clamp(320px, calc(24svh * var(--scene-count)), 1320px);
+}
+
+[data-project-tour].is-scroll-tour [data-tour-stage] {
+  position: sticky;
+  top: calc(var(--project-header) + 56px);
+}
+
+@media (min-width: 961px) {
+  [data-project-tour].is-scroll-tour [data-tour-stage] {
+    top: calc(var(--project-header) + 20px);
+  }
+}
+
+[data-tour-meter] {
+  display: none;
+  height: 2px;
+  margin-bottom: 12px;
+  background: var(--line-light);
+}
+
+.is-scroll-tour [data-tour-meter] { display: block; }
+[data-tour-meter] span {
+  display: block;
+  height: 100%;
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+[data-tour-scenes] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+[data-tour-scenes] figure { margin: 0; }
+[data-tour-scenes] figure:not([hidden]) + figure:not([hidden]) { margin-top: 24px; }
+[data-tour-scenes] a { display: block; cursor: zoom-in; }
+[data-tour-scenes] img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  border: 1px solid var(--line-light);
+  border-radius: 4px;
+  background: var(--card-dark);
+}
+
+[data-project-tour].is-scroll-tour [data-tour-scenes] img { max-height: 40svh; }
+[data-tour-scenes] .project-tour-previous {
+  position: absolute;
+  inset: 0 auto auto 0;
+  pointer-events: none;
+}
+
+[data-tour-scenes] figure img { position: relative; }
+[data-tour-scenes] figcaption {
+  min-height: 4.5em;
+  padding-block: 10px;
+  color: var(--ink-soft);
+  font-size: .875rem;
+  line-height: 1.35;
+}
+
+[data-tour-scenes] figcaption strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+[data-tour-controls]:not([hidden]) {
+  --thumbnail-min: 66px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max(var(--thumbnail-min), calc((100% - 8px * (var(--scene-count) - 1)) / var(--scene-count)));
+  gap: 8px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: 3px 3px 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-graphic) var(--card);
+}
+
+@media (min-width: 1200px) {
+  [data-tour-controls]:not([hidden]) { --thumbnail-min: 58px; }
+}
+
+[data-tour-controls] button {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-height: 44px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font: 600 .75rem/1.2 var(--body);
+  text-align: left;
+  cursor: pointer;
+}
+
+[data-tour-controls] img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 1px solid var(--line-light);
+  border-radius: 4px;
+  opacity: .7;
+  transition: opacity 180ms ease, border-color 180ms ease;
+}
+
+[data-tour-controls] button:is(:hover, :focus-visible, [aria-pressed="true"]) {
+  color: var(--signal);
+}
+
+[data-tour-controls] button:is(:hover, :focus-visible, [aria-pressed="true"]) img {
+  border-color: var(--signal);
+  opacity: 1;
+}
+
+[data-tour-controls] button[aria-pressed="true"] img {
+  outline: 1px solid var(--signal);
+  outline-offset: -2px;
+}
+
+.project-layout .project-tour-gallery:focus-visible,
+[data-project-tour] :focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+[data-tour-scenes] a:focus-visible { outline-offset: -3px; }
+
+.gallery-viewer button {
+  border-color: var(--line-graphic);
+  background: var(--card);
+  color: var(--signal);
+}

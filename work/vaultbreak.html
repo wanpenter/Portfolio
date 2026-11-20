@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0b10">
 <title>VaultBreak MR | Mixed Reality System — Ikhwanuddin</title>
 <meta name="description" content="VaultBreak MR combines Unreal Engine and C++ with Quest passthrough, Sony Mocopi full-body tracking, room-aware route generation and state-driven gameplay systems.">
 <link rel="canonical" href="https://ikhwanuddin.online/work/vaultbreak.html">
@@ -18,44 +19,166 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--mist:#F2F4F7;--card:#FFF;--signal:#00A8B5;--depth:#5B3EE8;--ink:#0E1116;--ink-soft:#4A5260;--on-dark:#E6E9EE;--signal-text:#00747D;--line-light:#D8DDE5;--display:'Archivo',system-ui,sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;--pad:clamp(20px,5vw,72px)}
+:root{
+  color-scheme:dark;
+  --mist:#0d0b10;
+  --card:#1c151b;
+  --card-dark:#08060a;
+  --signal:#ff293e;
+  --signal-text:#ff5e6d;
+  --ink:#f8f2f4;
+  --ink-soft:#cec1c7;
+  --on-dark:var(--ink);
+  --line-light:#47353e;
+  --display:'Archivo',system-ui,sans-serif;
+  --body:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --pad:clamp(20px,5vw,72px);
+}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--mist);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}a{color:inherit}:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
 body::before{content:'';position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.035;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
 .caption{font-family:var(--body);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
 .topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:20px;padding:14px var(--pad);background:color-mix(in srgb,var(--mist) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-light)}.topbar .mark{font-family:var(--display);font-weight:800;letter-spacing:-.02em;font-size:15px}.navlinks{margin-left:auto;display:flex;gap:26px}.navlinks a{position:relative;font-size:12.5px;font-weight:500;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);transition:color .2s;padding-bottom:3px}.navlinks a::after{content:'';position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--signal);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}.navlinks a:hover{color:var(--signal-text)}.navlinks a:hover::after{transform:scaleX(1)}
-.backbar{padding:130px var(--pad) 0;max-width:1240px;margin:0 auto}.back-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);text-decoration:none;transition:color .2s,transform .2s}.back-link:hover{color:var(--signal-text);transform:translateX(-3px)}
-.dhero{max-width:1240px;margin:0 auto;padding:28px var(--pad) 60px}.dhero-top{display:flex;justify-content:flex-end;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:28px}.dstatus{display:flex;align-items:center;gap:7px;color:var(--ink-soft)}.dstatus .dot{width:6px;height:6px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 3px color-mix(in srgb,var(--signal) 20%,transparent)}.dhero h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,68px);letter-spacing:-.03em;line-height:1.02;margin-bottom:16px}.dpitch{max-width:60ch;color:var(--ink-soft);font-size:18px;margin-bottom:24px}.dhero-roleline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:-4px 0 24px;color:var(--ink-soft);font-size:14px}.dhero-roleline span:first-child{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.dhero-roleline strong{color:var(--ink);font-family:var(--display);font-size:16px}.dtags{display:flex;flex-wrap:wrap;gap:10px}.dtags span{font-family:var(--mono);font-size:12.5px;color:var(--depth);border:1px solid color-mix(in srgb,var(--depth) 35%,transparent);padding:7px 14px;border-radius:20px;background:color-mix(in srgb,var(--depth) 8%,transparent)}.result-line{display:flex;align-items:center;gap:8px;margin-top:22px;font-family:var(--mono);font-size:12px;color:var(--ink)}.result-line svg{width:15px;height:15px;flex-shrink:0;stroke:var(--ink);fill:none}
+.vaultbreak-opening{
+  position:relative; isolation:isolate; display:grid; align-content:end; overflow:clip;
+  min-height:clamp(640px,94svh,940px);
+  padding:calc(var(--project-header) + 64px) var(--pad) clamp(46px,10svh,100px);
+}
+.vaultbreak-scene{ position:absolute; z-index:-2; inset:0; overflow:hidden; }
+.vaultbreak-scene img{ display:block; width:100%; height:100%; object-fit:cover; object-position:73% 57%; }
+.vaultbreak-opening::after{
+  content:''; position:absolute; z-index:-1; inset:0; pointer-events:none;
+  background:linear-gradient(90deg,#0d0b10ed,#0d0b10b0 35%,transparent 72%),
+             linear-gradient(0deg,var(--mist),#0d0b1038 30%,transparent 60%);
+}
+.vaultbreak-scan{
+  position:absolute; inset:0 0 0 auto; width:100%; opacity:0; pointer-events:none;
+  background:linear-gradient(90deg,transparent 87%,color-mix(in srgb,var(--signal) 18%,transparent));
+  border-right:2px solid var(--signal);
+}
+.backbar{ position:absolute; top:calc(var(--project-header) + 12px); left:var(--pad); }
+.back-link{
+  display:inline-flex; align-items:center; gap:8px; min-height:44px;
+  color:var(--ink); font-family:var(--mono); font-size:12.5px; text-decoration:none;
+  transition:color .2s,transform .2s;
+}
+.back-link:hover{ color:var(--signal-text); transform:translateX(-3px); }
+.dhero{ min-width:0; max-width:720px; }
+.dhero h1{
+  width:fit-content; max-width:100%; margin-bottom:20px;
+  font-family:var(--display); font-size:clamp(3.4rem,8vw,7.5rem); font-weight:900;
+  letter-spacing:-.045em; line-height:.94;
+}
+.dhero h1 span{ color:var(--signal); font-size:.57em; letter-spacing:-.025em; }
+.dpitch{
+  max-width:45ch; margin-bottom:20px; color:var(--ink-soft);
+  font-size:clamp(1rem,1.55vw,1.1875rem);
+}
+.dhero-roleline{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 12px;
+  margin-bottom:16px; color:var(--ink-soft); font-size:14px;
+}
+.dhero-roleline strong{ color:var(--ink); font-weight:600; }
+.dstatus{ color:var(--signal-text); }
+.dtags{ display:flex; flex-wrap:wrap; gap:6px 8px; }
+.dtags span{
+  padding:4px 10px; border:1px solid var(--line-light); border-radius:4px;
+  background:var(--card); color:var(--ink-soft); font-family:var(--mono); font-size:12px;
+}
+.result-line{
+  display:flex; align-items:center; gap:8px; margin-top:18px;
+  color:var(--signal-text); font-family:var(--mono); font-size:12px;
+}
+.result-line svg{ width:15px; height:15px; flex-shrink:0; stroke:currentColor; fill:none; }
+.project-detail.vaultbreak-page{ --project-accent:var(--signal); }
+.vaultbreak-page .project-hero-actions a:first-child{ background:var(--project-accent); color:var(--mist); }
+.vaultbreak-page .project-hero-actions a:is(:hover,:focus-visible,:active){ color:var(--mist); }
+.vaultbreak-page .project-skip{ background:var(--project-accent); color:var(--mist); }
+.vaultbreak-page .project-preview{ background:var(--card); border:1px solid var(--line-light); }
+.vaultbreak-page .project-contents a[aria-current]{ color:var(--signal-text); }
+.vaultbreak-page .fact strong{ color:var(--signal-text); }
+.vaultbreak-gallery-frame{ position:relative; overflow:hidden; border-radius:4px; }
+.vaultbreak-gallery .is-scroll-tour figcaption{ min-height:calc(3lh + 20px); }
+@media(prefers-reduced-motion:no-preference){
+  .vaultbreak-gallery [data-tour-stage]{
+    --gallery-reveal:1;
+    --gallery-zoom:.3;
+  }
+  .vaultbreak-gallery-frame img{
+    scale:calc(1 + (1 - var(--gallery-reveal)) * var(--gallery-zoom));
+    translate:0 calc((1 - var(--gallery-reveal)) * 6%);
+  }
+  .vaultbreak-gallery-frame::after{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    border-inline-end:2px solid var(--signal);
+    background:linear-gradient(90deg,transparent 72%,color-mix(in srgb,var(--signal) 32%,transparent));
+    transform:translateX(calc((var(--gallery-reveal) - 1) * 100%));
+    opacity:min(.85, calc(var(--gallery-reveal) * 5), calc((1 - var(--gallery-reveal)) * 5));
+  }
+}
+@media(max-width:740px) and (prefers-reduced-motion:no-preference){
+  .vaultbreak-gallery [data-tour-stage]{ --gallery-zoom:.22; }
+}
+::selection{ background:var(--signal-text); color:var(--mist); }
+@media(max-width:740px){
+  .vaultbreak-opening{
+    min-height:0;
+    padding-top:calc(var(--project-header) + clamp(214px,54vw,350px));
+    padding-bottom:42px;
+  }
+  .vaultbreak-scene{
+    top:var(--project-header); height:clamp(275px,65vw,430px);
+    mask-image:linear-gradient(#000 0 67%,transparent);
+  }
+  .vaultbreak-scene img{ object-position:81% 62%; }
+  .vaultbreak-opening::after{
+    background:linear-gradient(0deg,var(--mist) 0 47%,transparent 77%),
+               linear-gradient(170deg,#0d0b10a8,transparent 38%);
+  }
+  .dhero h1{ font-size:clamp(2.75rem,10.7vw,4.6rem); margin-bottom:14px; }
+}
 .video-slot{max-width:1240px;margin:0 auto;padding:0 var(--pad) 60px}.video-slot-inner{position:relative;overflow:hidden;border-radius:8px;border:1px solid var(--line-light);background:#090B0F;display:flex;align-items:center;justify-content:center}.video-slot-badge{position:absolute;top:14px;left:14px;z-index:1;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:2px;border:1px solid rgba(255,255,255,.26);color:var(--on-dark);background:rgba(9,11,15,.82)}.video-slot-inner video{width:100%;height:auto;aspect-ratio:16/9;display:block;object-fit:contain;background:#090B0F}
 .sec{max-width:1240px;margin:0 auto;padding:72px var(--pad);border-top:1px solid var(--line-light)}.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:36px}.sec-head h2{font-family:var(--display);font-weight:800;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.03em}.sec p{color:var(--ink-soft);font-size:17px;max-width:70ch;margin-bottom:16px}.sec p:last-child{margin-bottom:0}.sec p strong{color:var(--ink);font-weight:500}
 .fact-strip{display:grid;grid-template-columns:repeat(3,1fr);margin-top:34px;border-top:1px solid var(--line-light);border-bottom:1px solid var(--line-light)}.fact{padding:22px 22px 22px 0}.fact+.fact{padding-left:22px;border-left:1px solid var(--line-light)}.fact strong{display:block;font-family:var(--display);font-size:28px;line-height:1;letter-spacing:-.03em;margin-bottom:7px}.fact span{font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em}
 .hardware-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;margin-top:34px}.hardware-device{display:grid;grid-template-rows:minmax(320px,1fr) auto;min-width:0;overflow:hidden;border:1px solid var(--line-light);border-radius:10px;background:var(--card)}.hardware-visual{display:flex;align-items:center;justify-content:center;min-height:320px;padding:28px;background:#FFF;border-bottom:1px solid var(--line-light);overflow:hidden}.hardware-visual img{display:block;width:100%;height:100%;max-height:360px;object-fit:contain}.hardware-device:first-child .hardware-visual img{transform:scale(1.28)}.hardware-device:nth-child(2) .hardware-visual img{transform:scale(1.08)}.hardware-copy{padding:22px 24px 25px}.hardware-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}.hardware-title h3{font-family:var(--display);font-size:22px;letter-spacing:-.02em}.hardware-title span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--signal-text)}.hardware-copy p{margin:0;font-size:15px;max-width:54ch}.hardware-note{display:flex;align-items:center;gap:12px;margin-top:20px;color:var(--ink-soft);font-size:14px}.hardware-note::before{content:'';width:34px;height:1px;background:var(--signal);flex:0 0 auto}
 .role-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-light)}.role{padding:24px 24px 0 0}.role+.role{padding-left:24px;border-left:1px solid var(--line-light)}.role h3{font-family:var(--display);font-size:20px;margin-bottom:10px}.role ul{list-style:none;display:grid;gap:8px}.role li{color:var(--ink-soft);font-size:15px;padding-left:15px;position:relative}.role li::before{content:'';position:absolute;left:0;top:.72em;width:5px;height:1px;background:var(--signal)}.note-band{margin-top:34px;padding:26px 28px;border:1px solid var(--line-light);border-radius:8px;background:var(--card)}.note-band h3{font-family:var(--display);font-size:18px;margin-bottom:8px}.note-band p{margin:0;font-size:16px}
-.dynamic-gallery{--gallery-rows:1fr 1fr;--gallery-cols:1fr 1.22fr 1fr;display:grid;grid-template-rows:var(--gallery-rows);grid-template-columns:var(--gallery-cols);gap:6px;height:clamp(440px,62vw,680px);padding:6px;overflow:hidden;border-radius:10px;background:#090B0F;transition:grid-template-rows .45s cubic-bezier(.16,1,.3,1),grid-template-columns .45s cubic-bezier(.16,1,.3,1)}.gallery-cell{position:relative;min-width:0;min-height:0;overflow:hidden;background:#11151C;isolation:isolate}.gallery-cell img{width:100%;height:100%;display:block;object-fit:cover;transform:scale(1.01);transition:transform .55s cubic-bezier(.16,1,.3,1),filter .35s ease}.gallery-cell.contain img{object-fit:contain;background:#242830}.gallery-cell:hover img,.gallery-cell:focus-visible img{transform:scale(1.045)}.gallery-cell::after{content:'';position:absolute;inset:38% 0 0;z-index:1;pointer-events:none;background:linear-gradient(to bottom,transparent,rgba(4,6,9,.82))}.gallery-cell figcaption{position:absolute;left:14px;right:14px;bottom:12px;z-index:2;color:#F4F4F6;font-size:13px;line-height:1.35;text-shadow:0 2px 14px rgba(0,0,0,.75)}.gallery-cell figcaption strong{display:block;font-family:var(--display);font-size:14px;margin-bottom:2px}.gallery-cell figcaption span{color:rgba(244,244,246,.76)}.gallery-cell:focus-visible{outline:2px solid var(--signal);outline-offset:-3px}
 footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;max-width:1240px;margin:0 auto}
 @media(max-width:820px){.hardware-grid,.role-grid{grid-template-columns:1fr}.role{padding:22px 0;border-bottom:1px solid var(--line-light)}.role+.role{padding-left:0;border-left:0}}
-@media(max-width:640px){.navlinks{display:none}.fact-strip{grid-template-columns:1fr}.fact{padding:18px 0}.fact+.fact{padding-left:0;border-left:0;border-top:1px solid var(--line-light)}.dynamic-gallery{height:auto;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none}.gallery-cell{aspect-ratio:4/3}.gallery-cell figcaption span{display:none}}
-@media(max-width:420px){.dynamic-gallery{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+@media(max-width:640px){.navlinks{display:none}.fact-strip{grid-template-columns:1fr}.fact{padding:18px 0}.fact+.fact{padding-left:0;border-left:0;border-top:1px solid var(--line-light)}}
+@media(prefers-reduced-motion:reduce){
+  *{ animation:none!important; transition:none!important; }
+  html{ scroll-behavior:auto; }
+  .vaultbreak-scene, .vaultbreak-scene img, .vaultbreak-opening h1, .video-slot-inner{ transform:none!important; }
+  .vaultbreak-opening h1{ clip-path:none!important; }
+  .vaultbreak-scan{ visibility:hidden; }
+}
 </style>
 <link rel="stylesheet" href="../assets/css/project-detail.css">
 <script src="../assets/js/project-detail.js" defer></script>
-<link rel="stylesheet" href="../assets/css/circular-gallery.css">
-<script src="../assets/js/circular-gallery.js" defer></script>
+<script src="../assets/js/motion.vendor.js" defer></script>
+<script src="../assets/js/vaultbreak-motion.js" defer></script>
+<link rel="stylesheet" href="../assets/css/project-tour.css">
+<script src="../assets/js/project-tour.js" defer></script>
 </head>
-<body class="project-detail">
+<body class="project-detail vaultbreak-page">
 <a class="project-skip" href="#project-main">Skip to project content</a>
 <header class="topbar"><span class="mark">IKHWANUDDIN</span><nav class="navlinks" aria-label="Portfolio navigation"><a href="../index.html#about">About</a><a href="../index.html#projects">Projects</a><a href="../index.html#skills">Skills</a><a href="../index.html#education">Education</a><a href="../index.html#contact">Contact</a></nav></header>
 <main id="project-main" tabindex="-1">
-<div class="backbar"><a class="back-link" href="../index.html#projects"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back to portfolio</a></div>
+<div class="vaultbreak-opening">
+  <div class="vaultbreak-scene" aria-hidden="true">
+    <img src="../assets/img/projects/vaultbreak/laser-grid-vault-heist.jpg" width="1672" height="941" alt="" fetchpriority="high">
+    <div class="vaultbreak-scan"></div>
+  </div>
+  <div class="backbar"><a class="back-link" href="../index.html#projects"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back to portfolio</a></div>
 
-<section class="dhero">
-  <div class="dhero-top"><span class="dstatus caption"><span class="dot"></span>Completed</span></div>
-  <h1>VaultBreak MR</h1>
-  <p class="dpitch">A room-scale mixed reality system built in Unreal Engine and C++ that connects Quest passthrough, Sony Mocopi full-body tracking, procedural security routes, and health-driven gameplay.</p>
-  <div class="dhero-roleline"><span>Role</span><strong>XR Developer</strong><span>Final Year Project</span></div>
-  <div class="dtags"><span>Unreal Engine 5.6.1</span><span>C++</span><span>Meta Quest 3S</span><span>Sony Mocopi</span></div>
-  <div class="result-line"><svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Evaluated with 20 participants</div>
-</section>
+  <section class="dhero">
+    <h1>VaultBreak <span>MR</span></h1>
+    <p class="dpitch">A room-scale mixed reality system built in Unreal Engine and C++ that connects Quest passthrough, Sony Mocopi full-body tracking, procedural security routes, and health-driven gameplay.</p>
+    <div class="dhero-roleline"><strong>XR Developer</strong><span>Final Year Project</span><span class="dstatus caption">Completed</span></div>
+    <div class="dtags"><span>Unreal Engine 5.6.1</span><span>C++</span><span>Meta Quest 3S</span><span>Sony Mocopi</span></div>
+    <div class="result-line"><svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Evaluated with 20 participants</div>
+  </section>
+</div>
 
 <div class="video-slot project-demo" id="project-demo" tabindex="-1">
   <div class="video-slot-inner">
@@ -113,15 +236,49 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
   <div class="note-band"><h3>Project scope</h3><p>I designed, developed, tested, and documented VaultBreak MR as my Final Year Project.</p></div>
 </section>
 
-<section class="sec" id="project-gallery" tabindex="-1">
+<section class="sec project-tour-gallery vaultbreak-gallery" id="project-gallery" tabindex="-1">
   <div class="sec-head"><h2>Project gallery</h2></div>
-  <div data-circular-gallery class="dynamic-gallery" aria-label="VaultBreak MR project gallery">
-    <figure class="gallery-cell" tabindex="0" data-row="0" data-col="0"><img src="../assets/img/projects/vaultbreak/passthrough-gameplay.png" alt="VaultBreak MR passthrough gameplay with red laser obstacles" width="617" height="358" loading="lazy"><figcaption><strong>Passthrough gameplay</strong><span>Laser security placed inside the player's real room.</span></figcaption></figure>
-    <figure class="gallery-cell contain" tabindex="0" data-row="0" data-col="1"><img src="../assets/img/projects/vaultbreak/body-hitboxes.png" alt="Mocopi avatar with seven body collision regions" width="937" height="647" loading="lazy"><figcaption><strong>Body collision</strong><span>Seven tracked regions detect laser contact.</span></figcaption></figure>
-    <figure class="gallery-cell" tabindex="0" data-row="0" data-col="2"><img src="../assets/img/projects/vaultbreak/room-check.png" alt="VaultBreak MR room check interface" width="626" height="361" loading="lazy"><figcaption><strong>Room check</strong><span>The available play space is checked before setup.</span></figcaption></figure>
-    <figure class="gallery-cell" tabindex="0" data-row="1" data-col="0"><img src="../assets/img/projects/vaultbreak/marker-selection.png" alt="Player selecting a route marker in mixed reality" width="998" height="524" loading="lazy"><figcaption><strong>Marker selection</strong><span>The player chooses the route start and endpoint.</span></figcaption></figure>
-    <figure class="gallery-cell" tabindex="0" data-row="1" data-col="1"><img src="../assets/img/projects/vaultbreak/generated-route.png" alt="Generated mixed reality security route with red lasers" width="1030" height="556" loading="lazy"><figcaption><strong>Generated route</strong><span>Laser gates and control boxes form the challenge.</span></figcaption></figure>
-    <figure class="gallery-cell" tabindex="0" data-row="1" data-col="2"><img src="../assets/img/projects/vaultbreak/safebox-pearl.png" alt="Virtual safebox containing the pearl objective" width="834" height="409" loading="lazy"><figcaption><strong>Final objective</strong><span>Grabbing the pearl completes the mission.</span></figcaption></figure>
+  <div data-project-tour>
+    <div data-tour-stage>
+      <div data-tour-scenes>
+        <figure>
+          <div class="vaultbreak-gallery-frame">
+            <img src="../assets/img/projects/vaultbreak/passthrough-gameplay.png" alt="VaultBreak MR passthrough gameplay with red laser obstacles" width="617" height="358" loading="lazy" decoding="async">
+          </div>
+          <figcaption><strong>Passthrough gameplay</strong><span>Laser security placed inside the player's real room.</span></figcaption>
+        </figure>
+        <figure>
+          <div class="vaultbreak-gallery-frame">
+            <img src="../assets/img/projects/vaultbreak/body-hitboxes.png" alt="Mocopi avatar with seven body collision regions" width="937" height="647" loading="lazy" decoding="async">
+          </div>
+          <figcaption><strong>Body collision</strong><span>Seven tracked regions detect laser contact.</span></figcaption>
+        </figure>
+        <figure>
+          <div class="vaultbreak-gallery-frame">
+            <img src="../assets/img/projects/vaultbreak/room-check.png" alt="VaultBreak MR room check interface" width="626" height="361" loading="lazy" decoding="async">
+          </div>
+          <figcaption><strong>Room check</strong><span>The available play space is checked before setup.</span></figcaption>
+        </figure>
+        <figure>
+          <div class="vaultbreak-gallery-frame">
+            <img src="../assets/img/projects/vaultbreak/marker-selection.png" alt="Player selecting a route marker in mixed reality" width="998" height="524" loading="lazy" decoding="async">
+          </div>
+          <figcaption><strong>Marker selection</strong><span>The player chooses the route start and endpoint.</span></figcaption>
+        </figure>
+        <figure>
+          <div class="vaultbreak-gallery-frame">
+            <img src="../assets/img/projects/vaultbreak/generated-route.png" alt="Generated mixed reality security route with red lasers" width="1030" height="556" loading="lazy" decoding="async">
+          </div>
+          <figcaption><strong>Generated route</strong><span>Laser gates and control boxes form the challenge.</span></figcaption>
+        </figure>
+        <figure>
+          <div class="vaultbreak-gallery-frame">
+            <img src="../assets/img/projects/vaultbreak/safebox-pearl.png" alt="Virtual safebox containing the pearl objective" width="834" height="409" loading="lazy" decoding="async">
+          </div>
+          <figcaption><strong>Final objective</strong><span>Grabbing the pearl completes the mission.</span></figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -130,8 +287,5 @@ footer{padding:26px var(--pad);border-top:1px solid var(--line-light);display:fl
 </div>
 </main>
 <footer><span class="caption">© 2026 Ikhwanuddin</span><span class="caption">Final Year Project</span></footer>
-<script>
-(()=>{const gallery=document.querySelector('.dynamic-gallery');if(!gallery)return;const cells=[...gallery.querySelectorAll('.gallery-cell')];const canHover=window.matchMedia('(hover: hover) and (pointer: fine)').matches;const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;const restingRows=['1fr','1fr'];const restingCols=['1fr','1.22fr','1fr'];const setAxis=(sizes,active)=>sizes.map((size,index)=>index===active?'1.8fr':'.72fr').join(' ');const reset=()=>{gallery.style.setProperty('--gallery-rows',restingRows.join(' '));gallery.style.setProperty('--gallery-cols',restingCols.join(' '))};const expand=cell=>{if(window.innerWidth<=640||reduceMotion)return;gallery.style.setProperty('--gallery-rows',setAxis(restingRows,Number(cell.dataset.row)));gallery.style.setProperty('--gallery-cols',setAxis(restingCols,Number(cell.dataset.col)))};cells.forEach(cell=>{if(canHover){cell.addEventListener('pointerenter',()=>expand(cell));cell.addEventListener('pointerleave',reset)}cell.addEventListener('focus',()=>expand(cell));cell.addEventListener('blur',reset)})})();
-</script>
 </body>
 </html>

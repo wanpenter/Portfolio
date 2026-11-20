@@ -460,11 +460,11 @@ html:has(.pencak-viewer[open]){ overflow:hidden; }
 .pencak-tour-meter span{ display:block; height:100%; background:#f8d698; transform:scaleX(0); transform-origin:left; }
 .pencak-scenes{ position:relative; isolation:isolate; overflow:hidden; }
 .pencak-scenes .pencak-media img,
-.pencak-scenes .pencak-previous-scene{
+.pencak-scenes .project-tour-previous{
   display:block; width:100%; aspect-ratio:16/9; height:auto; object-fit:cover;
 }
 .is-scroll-tour .pencak-scenes img{ max-height:40svh; }
-.pencak-scenes .pencak-previous-scene{
+.pencak-scenes .project-tour-previous{
   position:absolute; inset:0 auto auto 0; pointer-events:none; border-radius:8px;
 }
 .pencak-scenes .pencak-media img{ position:relative; }
@@ -474,7 +474,7 @@ html:has(.pencak-viewer[open]){ overflow:hidden; }
 .pencak-concepts figcaption strong{ display:block; color:#fffaf0; }
 .pencak-concepts .pencak-scenes img,
 .pencak-artwork .pencak-scenes img{ object-fit:contain; background:#090b0f; }
-.pencak-artwork .pencak-scenes :is(.pencak-media img,.pencak-previous-scene){
+.pencak-artwork .pencak-scenes :is(.pencak-media img,.project-tour-previous){
   aspect-ratio:5/3; padding:8px;
 }
 .pencak-artwork .pencak-scene-controls img{
@@ -523,6 +523,7 @@ html:has(.pencak-viewer[open]){ overflow:hidden; }
 <link rel="stylesheet" href="../assets/css/project-detail.css">
 <script src="../assets/js/project-detail.js" defer></script>
 <script src="../assets/js/motion.vendor.js" defer></script>
+<script src="../assets/js/project-tour.js" defer></script>
 <script src="../assets/js/pencak-motion.js" defer></script>
 </head>
 <body class="pencak-page project-detail">
@@ -587,10 +588,10 @@ html:has(.pencak-viewer[open]){ overflow:hidden; }
 <div class="project-sections">
 <section class="sec" id="inside-pencak" tabindex="-1">
   <div class="sec-head"><h2>Inside PENCAK</h2></div>
-  <div class="pencak-tour">
-  <div class="pencak-gallery-stage">
-  <div class="pencak-tour-meter" aria-hidden="true"><span></span></div>
-  <div class="pencak-scenes">
+  <div class="pencak-tour" data-project-tour>
+  <div class="pencak-gallery-stage" data-tour-stage>
+  <div class="pencak-tour-meter" data-tour-meter aria-hidden="true"><span></span></div>
+  <div class="pencak-scenes" data-tour-scenes>
   <figure class="pencak-media" id="pencak-museum">
     <img src="../assets/img/projects/pencak/museum.png" width="1280" height="720" loading="lazy" decoding="async" alt="The museum zone inside the PENCAK gallery">
     <figcaption>Zon Muzium · The museum zone introduces the heritage behind the practice.</figcaption>
@@ -612,7 +613,7 @@ html:has(.pencak-viewer[open]){ overflow:hidden; }
     <figcaption>Uji Ilmu · The arena’s knowledge challenge.</figcaption>
   </figure>
   </div>
-  <div class="pencak-scene-controls" role="group" aria-label="Choose a PENCAK scene" hidden>
+  <div class="pencak-scene-controls" data-tour-controls role="group" aria-label="Choose a PENCAK scene" hidden>
     <button type="button" aria-controls="pencak-museum" aria-pressed="true">Museum</button>
     <button type="button" aria-controls="pencak-hands-on" aria-pressed="false">Hands-on</button>
     <button type="button" aria-controls="pencak-wayang" aria-pressed="false">Wayang</button>
@@ -636,10 +637,10 @@ html:has(.pencak-viewer[open]){ overflow:hidden; }
 <section class="sec" id="how-the-experience-unfolds" tabindex="-1">
   <div class="sec-head"><span class="idx">02</span><h2>How the experience unfolds</h2></div>
   <p>The pitch deck presents a simple learning journey, from exploring the setting to putting new movements into practice.</p>
-  <div class="pencak-tour pencak-concepts">
-    <div class="pencak-gallery-stage">
-      <div class="pencak-tour-meter" aria-hidden="true"><span></span></div>
-      <div class="pencak-scenes">
+  <div class="pencak-tour pencak-concepts" data-project-tour>
+    <div class="pencak-gallery-stage" data-tour-stage>
+      <div class="pencak-tour-meter" data-tour-meter aria-hidden="true"><span></span></div>
+      <div class="pencak-scenes" data-tour-scenes>
         <figure class="pencak-media" id="pencak-concept-explore">
           <a href="../assets/img/projects/pencak/slide-13.jpg" data-pencak-viewer aria-label="View full size: Enter the world of silat">
             <img src="../assets/img/projects/pencak/slide-13.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="Concept slide showing a player exploring silat attire in a preparation area">
@@ -665,7 +666,7 @@ html:has(.pencak-viewer[open]){ overflow:hidden; }
           <figcaption><strong>Put learning into action</strong>A practice stage gives the player a chance to use what they have learned. Feedback helps them see where to improve.</figcaption>
         </figure>
       </div>
-      <div class="pencak-scene-controls" role="group" aria-label="Choose a learning stage" hidden>
+      <div class="pencak-scene-controls" data-tour-controls role="group" aria-label="Choose a learning stage" hidden>
         <button type="button" aria-controls="pencak-concept-explore" aria-pressed="true">Explore</button>
         <button type="button" aria-controls="pencak-concept-guru" aria-pressed="false">Meet the Guru</button>
         <button type="button" aria-controls="pencak-concept-movements" aria-pressed="false">Learn</button>
@@ -683,10 +684,10 @@ html:has(.pencak-viewer[open]){ overflow:hidden; }
 <section class="sec" id="project-artwork" tabindex="-1">
   <div class="sec-head"><span class="idx">05</span><h2>Project artwork</h2></div>
   <p>The poster and bunting bring the PENCAK identity together: silat movement, traditional visual motifs, and a virtual reality setting.</p>
-  <div class="pencak-tour pencak-artwork">
-    <div class="pencak-gallery-stage">
-      <div class="pencak-tour-meter" aria-hidden="true"><span></span></div>
-      <div class="pencak-scenes">
+  <div class="pencak-tour pencak-artwork" data-project-tour>
+    <div class="pencak-gallery-stage" data-tour-stage>
+      <div class="pencak-tour-meter" data-tour-meter aria-hidden="true"><span></span></div>
+      <div class="pencak-scenes" data-tour-scenes>
         <figure class="pencak-media" id="pencak-poster">
           <a href="../assets/img/projects/pencak/pencak-poster.jpg" data-pencak-viewer aria-label="View full size: Project poster">
             <img src="../assets/img/projects/pencak/pencak-poster.jpg" width="1600" height="2296" loading="lazy" decoding="async" alt="PENCAK project poster featuring a silat practitioner in a VR headset">
@@ -700,7 +701,7 @@ html:has(.pencak-viewer[open]){ overflow:hidden; }
           <figcaption><span>Project bunting</span> · <a href="../assets/img/projects/pencak/pencak-standee.jpg" data-pencak-viewer aria-label="View full size: Project bunting">View full size</a></figcaption>
         </figure>
       </div>
-      <div class="pencak-scene-controls" role="group" aria-label="Choose a project artwork" hidden>
+      <div class="pencak-scene-controls" data-tour-controls role="group" aria-label="Choose a project artwork" hidden>
         <button type="button" aria-controls="pencak-poster" aria-pressed="true">Poster</button>
         <button type="button" aria-controls="pencak-bunting" aria-pressed="false">Bunting</button>
       </div>

@@ -1,6 +1,7 @@
 (() => {
   const sources = document.querySelectorAll('[data-circular-gallery]');
-  if (!sources.length) return;
+  const viewerLinks = document.querySelectorAll('a[data-gallery-viewer]');
+  if (!sources.length && !viewerLinks.length) return;
 
   const viewer = document.createElement('dialog');
   viewer.className = 'gallery-viewer';
@@ -12,6 +13,19 @@
     if (event.target === viewer) viewer.close();
   });
   viewer.addEventListener('close', () => fullImage.removeAttribute('src'));
+
+  function bindViewer(link, alt) {
+    link.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+          typeof viewer.showModal !== 'function') return;
+      event.preventDefault();
+      fullImage.alt = alt;
+      fullImage.src = link.href;
+      viewer.showModal();
+    });
+  }
+
+  viewerLinks.forEach((link) => bindViewer(link, link.querySelector('img').alt));
 
   sources.forEach((source) => {
     const cards = [...source.querySelectorAll(':scope > figure, :scope > article')];
@@ -74,14 +88,7 @@
         link.dataset.artworkTitle = title?.textContent.trim() || image.alt;
         link.dataset.artworkAlt = image.alt;
       } else {
-        link.addEventListener('click', (event) => {
-          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
-              typeof viewer.showModal !== 'function') return;
-          event.preventDefault();
-          fullImage.alt = image.alt;
-          fullImage.src = link.href;
-          viewer.showModal();
-        });
+        bindViewer(link, image.alt);
       }
 
       gallery.append(slide);

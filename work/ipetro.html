@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a100d">
 
 <title>iPETRO | Industrial VR Training Simulation — Ikhwanuddin</title>
 <meta name="description" content="iPETRO is an industrial VR training simulation in Unity for flange-tightening practice, with interactive sequence validation and a guided workflow. Gold Award winner.">
@@ -29,26 +30,17 @@
 
 <style>
 :root{
-  /* ---- specified palette ---- */
-  --mist:     #F2F4F7;
-  --card:     #FFFFFF;
-  --signal:   #00A8B5;
-  --depth:    #5B3EE8;
-  --ink:      #0E1116;
-  --ink-soft: #4A5260;
-  --on-dark:  #E6E9EE;
-
-  /* ---- accessible accent variants (ratios documented in index.html) ---- */
-  --signal-text:   #00747D;
-  --depth-on-dark: #9B8AF2;
-
-  /* ---- derived neutrals ---- */
-  --line-light:  #D8DDE5;
-  --line-dark:   #262B33;
-  --muted-dark:  #9BA3B0;
-  --card-dark:   #171B22;
-  --line-graphic:#AFB8C4;
-  --img-ph:      #E4E7EC;
+  color-scheme: dark;
+  --mist:        #0a100d;
+  --card:        #101a14;
+  --card-dark:   #050907;
+  --signal:      #8dff75;
+  --signal-text: var(--signal);
+  --depth:       #b1e7b4;
+  --ink:         #f2f8f3;
+  --ink-soft:    #b9cbbd;
+  --line-light:  #364e3e;
+  --line-graphic:#7e9683;
 
   --display: 'Archivo', system-ui, sans-serif;
   --body:    'IBM Plex Sans', system-ui, sans-serif;
@@ -70,6 +62,7 @@ body{
 }
 a{ color:inherit; }
 :focus-visible{ outline:2px solid var(--signal); outline-offset:3px; }
+::selection{ background:var(--signal); color:var(--mist); }
 
 body::before{
   content:'';
@@ -165,19 +158,19 @@ body::before{
 .video-slot-inner{
   position:relative; overflow:hidden;
   border-radius:8px; border:1px solid var(--line-light);
-  background:#090B0F;
+  background:var(--card-dark);
   display:flex; align-items:center; justify-content:center;
 }
 .video-slot-badge{
   position:absolute; top:14px; left:14px; z-index:1;
   font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase;
   padding:3px 8px; border-radius:2px;
-  border:1px solid rgba(255,255,255,.26); color:var(--on-dark);
-  background:rgba(9,11,15,.82);
+  border:1px solid var(--line-graphic); color:var(--signal);
+  background:var(--mist);
 }
 .video-slot-inner video{
   width:100%; height:auto; aspect-ratio:16/9;
-  display:block; object-fit:contain; background:#090B0F;
+  display:block; object-fit:contain; background:var(--card-dark);
 }
 
 /* sections */
@@ -197,7 +190,7 @@ body::before{
 .fact + .fact{ padding-left:22px; border-left:1px solid var(--line-light); }
 .fact strong{
   display:block; font-family:var(--display); font-size:28px; line-height:1;
-  letter-spacing:-.03em; margin-bottom:7px;
+  letter-spacing:-.03em; margin-bottom:7px; color:var(--signal);
 }
 .fact span{ font-family:var(--mono); font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.08em; }
 
@@ -231,52 +224,6 @@ body::before{
 .media-card figcaption{ padding-top:12px; }
 .media-card figcaption strong{ display:block; font-family:var(--display); font-size:16px; margin-bottom:3px; }
 .media-card figcaption span{ color:var(--ink-soft); font-size:14px; }
-
-.dynamic-gallery{
-  --gallery-rows:1fr 1.22fr 1fr;
-  --gallery-cols:1fr 1.22fr 1fr;
-  display:grid;
-  grid-template-rows:var(--gallery-rows);
-  grid-template-columns:var(--gallery-cols);
-  gap:6px;
-  height:clamp(560px, 72vw, 780px);
-  padding:6px;
-  overflow:hidden;
-  border-radius:10px;
-  background:#090B0F;
-  transition:grid-template-rows .45s cubic-bezier(.16,1,.3,1), grid-template-columns .45s cubic-bezier(.16,1,.3,1);
-}
-.gallery-cell{
-  position:relative;
-  min-width:0; min-height:0;
-  overflow:hidden;
-  background:#11151C;
-  isolation:isolate;
-}
-.gallery-cell img{
-  width:100%; height:100%; display:block;
-  object-fit:cover;
-  transform:scale(1.01);
-  transition:transform .55s cubic-bezier(.16,1,.3,1), filter .35s ease;
-}
-.gallery-cell:hover img,
-.gallery-cell:focus-visible img{ transform:scale(1.045); }
-.gallery-cell::after{
-  content:''; position:absolute; inset:38% 0 0; z-index:1; pointer-events:none;
-  background:linear-gradient(to bottom, transparent, rgba(4,6,9,.82));
-}
-.gallery-cell figcaption{
-  position:absolute; left:14px; right:14px; bottom:12px; z-index:2;
-  color:#F4F4F6; font-family:var(--body); font-size:13px; line-height:1.35;
-  text-shadow:0 2px 14px rgba(0,0,0,.75);
-}
-.gallery-cell figcaption strong{ display:block; font-family:var(--display); font-size:14px; margin-bottom:2px; }
-.gallery-cell figcaption span{ color:rgba(244,244,246,.76); }
-.gallery-cell.poster{ background:#07090D; }
-.gallery-cell.poster img{ object-fit:contain; transform:none; }
-.gallery-cell.poster:hover img,
-.gallery-cell.poster:focus-visible img{ transform:scale(1.018); }
-.gallery-cell:focus-visible{ outline:2px solid var(--signal); outline-offset:-3px; }
 
 .schema-list{ border-top:1px solid var(--line-light); }
 .schema-row{
@@ -333,6 +280,7 @@ footer{
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
   max-width:1240px; margin:0 auto;
 }
+.ipetro-page footer .caption:last-child{ color:var(--signal); }
 
 @media(max-width:820px){
   .role-grid{ grid-template-columns:1fr; }
@@ -347,31 +295,23 @@ footer{
   .media-card.wide, .code-grid .media-card.wide{ grid-column:auto; }
   .media-frame{ min-height:160px; padding:10px; }
   .schema-row{ grid-template-columns:1fr; gap:6px; }
-  .dynamic-gallery{
-    display:grid; height:auto; grid-template-columns:repeat(2,minmax(0,1fr));
-    grid-template-rows:none; gap:6px;
-  }
-  .gallery-cell{ aspect-ratio:4/3; }
-  .gallery-cell.poster{ grid-column:1 / -1; aspect-ratio:3/4; max-height:640px; }
-  .gallery-cell figcaption span{ display:none; }
-}
-@media(max-width:420px){
-  .dynamic-gallery{ grid-template-columns:1fr; }
-  .gallery-cell.poster{ grid-column:auto; }
 }
 
 @media(prefers-reduced-motion:reduce){
   *{ animation:none !important; transition:none !important; }
   html{ scroll-behavior:auto; }
 }
-.ipetro-page .topbar{ background:#111820; color:#fff; border-color:#364250; }
-.ipetro-page .topbar a{ color:#eff3f7; }
+.ipetro-page .project-hero-actions a:first-child{ background:var(--signal); color:var(--mist); }
+.ipetro-page .project-hero-actions a:is(:hover,:focus-visible,:active){ color:var(--mist); }
+.ipetro-page .project-skip{ background:var(--signal); color:var(--mist); }
+.ipetro-page .project-preview{ background:var(--card); border:1px solid var(--line-light); }
+.ipetro-page .project-contents a[aria-current="location"]{ color:var(--signal); }
+
 .ipetro-opening{
   position:relative; isolation:isolate; display:grid; align-items:end; overflow:clip;
   min-height:100svh; padding:clamp(105px,16svh,155px) var(--pad) 32px;
-  background:#101820; color:#fff; touch-action:pan-y;
+  background:var(--mist); touch-action:pan-y;
 }
-.ipetro-opening :focus-visible{ outline-color:#ffdb95; }
 .ipetro-panorama{ position:absolute; z-index:-1; inset:0; }
 .ipetro-panorama :is(img,canvas){ position:absolute; inset:0; width:100%; height:100%; display:block; }
 .ipetro-panorama img{ object-fit:cover; }
@@ -382,47 +322,44 @@ footer{
 .ipetro-opening[data-dragging]{ cursor:grabbing; user-select:none; }
 .ipetro-panorama::after{
   content:''; position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(90deg,#101820f5 0%,#101820bb 40%,transparent 83%),
-             linear-gradient(0deg,#101820 0%,#10182051 54%,transparent 82%);
+  background:linear-gradient(90deg,#0a100df5 0%,#0a100dc4 40%,transparent 83%),
+             linear-gradient(0deg,var(--mist) 0%,#0a100d66 54%,transparent 82%);
 }
 .ipetro-opening .back-link{
   position:absolute; left:var(--pad); top:calc(var(--project-header) + 12px);
-  min-height:44px; color:#eff3f7;
+  min-height:44px; color:var(--ink);
 }
+.ipetro-opening .back-link:is(:hover,:focus-visible){ color:var(--signal); }
 .ipetro-opening .dhero{ max-width:640px; margin:0; padding:0; }
 .ipetro-opening h1{
   font-size:clamp(2rem,5vw,4.45rem); text-wrap:balance;
   line-height:1.03; letter-spacing:-.04em;
 }
-.ipetro-opening h1 span{
+.ipetro-opening h1 .ipetro-wordmark{
   display:block; font-size:clamp(4.35rem,12vw,10rem); line-height:.88; margin-bottom:14px;
+  color:var(--signal);
 }
-.ipetro-opening :is(.dpitch,.dhero-roleline,.dhero-roleline strong){ color:#eff3f7; }
 .ipetro-opening .dpitch{ max-width:48ch; }
 .ipetro-opening .dhero-roleline{ margin-bottom:16px; }
-.ipetro-opening .dtags span{ color:#eff3f7; border-color:#a0a9b4; background:#101820b8; }
-.ipetro-opening .award-line{ color:#ffdb95; }
+.ipetro-opening .dtags span{ border-color:var(--line-graphic); background:var(--card); }
+.ipetro-opening .award-line{ color:var(--signal); }
 .ipetro-opening .award-line svg{ stroke:currentColor; }
-.ipetro-opening .project-hero-actions a{
-  --project-accent:#ffdb95; background:#18222c; color:#fff;
-}
-.ipetro-opening .project-hero-actions a:is(:hover,:focus-visible){ color:#161b20; }
 .ipetro-view-controls:not([hidden]){
   display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:24px;
   justify-self:end;
 }
-.ipetro-view-controls span{ color:#eff3f7; font-size:.875rem; margin-right:6px; }
+.ipetro-view-controls span{ color:var(--ink); font-size:.875rem; margin-right:6px; }
 .ipetro-view-controls .ipetro-mobile-view-label{ display:none; }
 .ipetro-view-controls button{
   display:grid; place-items:center; width:44px; height:44px; border-radius:50%;
-  border:1px solid #a0a9b4; background:#101820e6; color:#fff; cursor:pointer;
+  border:1px solid var(--line-graphic); background:var(--card); color:var(--ink); cursor:pointer;
 }
-.ipetro-view-controls button:hover{ border-color:#ffdb95; color:#ffdb95; }
+.ipetro-view-controls button:is(:hover,:focus-visible){ border-color:var(--signal); color:var(--signal); }
 .ipetro-view-controls svg{ width:18px; height:18px; }
 @media(max-width:740px){
   .ipetro-opening{ padding-top:clamp(136px,17svh,184px); }
   .ipetro-panorama::after{
-    background:linear-gradient(0deg,#101820 2%,#101820dc 44%,#10182030 82%);
+    background:linear-gradient(0deg,var(--mist) 2%,#0a100dee 48%,#0a100d66 100%);
   }
   .ipetro-view-controls:not([hidden]){
     position:absolute; top:calc(var(--project-header) + 12px); right:var(--pad); margin-top:0;
@@ -436,7 +373,10 @@ footer{
 <script src="../assets/js/project-detail.js" defer></script>
 <script src="../assets/js/motion.vendor.js" defer></script>
 <script src="../assets/js/ipetro-panorama.js" defer></script>
+<script src="../assets/js/ipetro-motion.js" defer></script>
+<script src="../assets/js/project-tour.js" defer></script>
 <link rel="stylesheet" href="../assets/css/circular-gallery.css">
+<link rel="stylesheet" href="../assets/css/project-tour.css">
 <script src="../assets/js/circular-gallery.js" defer></script>
 </head>
 
@@ -465,7 +405,7 @@ footer{
     Back to portfolio
   </a>
 <section class="dhero">
-  <h1><span>iPETRO</span> Zero Leak Challenge</h1>
+  <h1><span class="ipetro-wordmark">iPETRO</span> Zero Leak Challenge</h1>
   <p class="dpitch">An industrial VR training simulation for practising flange-tightening
     procedures through a guided workflow and validated interactions. Timed survival
     challenges test the same procedure under pressure.</p>
@@ -540,45 +480,79 @@ footer{
     and project management were completed across Team DEADLOCK.</p></div>
 </section>
 
-<section class="sec" id="project-gallery" tabindex="-1">
+<section class="sec project-tour-gallery" id="project-gallery" tabindex="-1">
   <div class="sec-head"><h2>Project gallery</h2></div>
-  <div data-circular-gallery class="dynamic-gallery" aria-label="iPETRO project gallery">
-    <figure class="gallery-cell" tabindex="0" data-row="0" data-col="0">
-      <img src="../assets/img/projects/ipetro/gallery/team-5693.webp" alt="Team DEADLOCK presenting the iPETRO VR project during the Workshop II showcase" width="1600" height="900" loading="lazy">
-      <figcaption><strong>Workshop II showcase</strong><span>Live project presentation and VR demonstration.</span></figcaption>
-    </figure>
-    <figure class="gallery-cell" tabindex="0" data-row="0" data-col="1">
-      <img src="../assets/img/projects/ipetro/spatial-timer.jpg" alt="iPETRO Unity scene with a spatial remaining-time display" width="1286" height="685" loading="lazy">
-      <figcaption><strong>Mission timer</strong><span>Diegetic guidance inside the industrial scene.</span></figcaption>
-    </figure>
-    <figure class="gallery-cell" tabindex="0" data-row="0" data-col="2">
-      <img src="../assets/img/projects/ipetro/wave-task-ui.jpg" alt="iPETRO in-game interface showing bolt counts, wave status, and task time" width="697" height="368" loading="lazy">
-      <figcaption><strong>Task tracking</strong><span>Bolts, nuts, wave status, and remaining time.</span></figcaption>
-    </figure>
-    <figure class="gallery-cell" tabindex="0" data-row="1" data-col="0">
-      <img src="../assets/img/projects/ipetro/xr-grab-physics.jpg" alt="Unity editor showing the flange workspace and XR Grab Interactable configuration" width="1334" height="709" loading="lazy">
-      <figcaption><strong>Flange interaction</strong><span>XR grab and rotation setup for the maintenance task.</span></figcaption>
-    </figure>
-    <figure class="gallery-cell poster" tabindex="0" data-row="1" data-col="1">
-      <img src="../assets/img/projects/ipetro/gallery/ipetro-poster.webp" alt="Official iPETRO Zero Leak Challenge poster featuring a flange, repair tools, and zombie survival theme" width="1600" height="2265" loading="lazy">
-      <figcaption><strong>Official iPETRO poster</strong><span>The Undead Shutdown.</span></figcaption>
-    </figure>
-    <figure class="gallery-cell" tabindex="0" data-row="1" data-col="2">
-      <img src="../assets/img/projects/ipetro/zombie-ai-navmesh.jpg" alt="Unity editor showing zombie navigation inside the iPETRO industrial environment" width="1336" height="693" loading="lazy">
-      <figcaption><strong>Zombie encounter</strong><span>NavMesh-driven pressure during the repair task.</span></figcaption>
-    </figure>
-    <figure class="gallery-cell" tabindex="0" data-row="2" data-col="0">
-      <img src="../assets/img/projects/ipetro/gallery/team-5732.webp" alt="Team DEADLOCK holding medals and the iPETRO Gold Award certificate" width="1600" height="900" loading="lazy">
-      <figcaption><strong>Gold Award</strong><span>Team DEADLOCK at the Workshop II competition.</span></figcaption>
-    </figure>
-    <figure class="gallery-cell" tabindex="0" data-row="2" data-col="1">
-      <img src="../assets/img/projects/ipetro/gallery/team-2238.webp" alt="Close-up of the iPETRO Gold Award certificate" width="1200" height="1600" loading="lazy">
-      <figcaption><strong>Certificate of Excellence</strong><span>Gold Award recognition for iPETRO.</span></figcaption>
-    </figure>
-    <figure class="gallery-cell" tabindex="0" data-row="2" data-col="2">
-      <img src="../assets/img/projects/ipetro/gallery/unity-2022.webp" alt="Unity Hub showing the Unity 2022.3 LTS environment used for iPETRO" width="1604" height="895" loading="lazy">
-      <figcaption><strong>Unity 2022.3 LTS</strong><span>The project's documented development environment.</span></figcaption>
-    </figure>
+  <div data-project-tour>
+    <div data-tour-stage>
+      <div data-tour-meter aria-hidden="true"><span></span></div>
+      <div data-tour-scenes>
+        <figure id="ipetro-scene-1">
+          <a href="../assets/img/projects/ipetro/gallery/team-5693.webp" data-gallery-viewer aria-label="View full size: Workshop II showcase">
+            <img src="../assets/img/projects/ipetro/gallery/team-5693.webp" alt="Team DEADLOCK presenting the iPETRO VR project during the Workshop II showcase" width="1600" height="900" loading="lazy" decoding="async">
+          </a>
+          <figcaption><strong>Workshop II showcase</strong><span>Live project presentation and VR demonstration.</span></figcaption>
+        </figure>
+        <figure id="ipetro-scene-2">
+          <a href="../assets/img/projects/ipetro/spatial-timer.jpg" data-gallery-viewer aria-label="View full size: Mission timer">
+            <img src="../assets/img/projects/ipetro/spatial-timer.jpg" alt="iPETRO Unity scene with a spatial remaining-time display" width="1286" height="685" loading="lazy" decoding="async">
+          </a>
+          <figcaption><strong>Mission timer</strong><span>Diegetic guidance inside the industrial scene.</span></figcaption>
+        </figure>
+        <figure id="ipetro-scene-3">
+          <a href="../assets/img/projects/ipetro/wave-task-ui.jpg" data-gallery-viewer aria-label="View full size: Task tracking">
+            <img src="../assets/img/projects/ipetro/wave-task-ui.jpg" alt="iPETRO in-game interface showing bolt counts, wave status, and task time" width="697" height="368" loading="lazy" decoding="async">
+          </a>
+          <figcaption><strong>Task tracking</strong><span>Bolts, nuts, wave status, and remaining time.</span></figcaption>
+        </figure>
+        <figure id="ipetro-scene-4">
+          <a href="../assets/img/projects/ipetro/xr-grab-physics.jpg" data-gallery-viewer aria-label="View full size: Flange interaction">
+            <img src="../assets/img/projects/ipetro/xr-grab-physics.jpg" alt="Unity editor showing the flange workspace and XR Grab Interactable configuration" width="1334" height="709" loading="lazy" decoding="async">
+          </a>
+          <figcaption><strong>Flange interaction</strong><span>XR grab and rotation setup for the maintenance task.</span></figcaption>
+        </figure>
+        <figure id="ipetro-scene-5">
+          <a href="../assets/img/projects/ipetro/gallery/ipetro-poster.webp" data-gallery-viewer aria-label="View full size: Official iPETRO poster">
+            <img src="../assets/img/projects/ipetro/gallery/ipetro-poster.webp" alt="Official iPETRO Zero Leak Challenge poster featuring a flange, repair tools, and zombie survival theme" width="1600" height="2265" loading="lazy" decoding="async">
+          </a>
+          <figcaption><strong>Official iPETRO poster</strong><span>The Undead Shutdown.</span></figcaption>
+        </figure>
+        <figure id="ipetro-scene-6">
+          <a href="../assets/img/projects/ipetro/zombie-ai-navmesh.jpg" data-gallery-viewer aria-label="View full size: Zombie encounter">
+            <img src="../assets/img/projects/ipetro/zombie-ai-navmesh.jpg" alt="Unity editor showing zombie navigation inside the iPETRO industrial environment" width="1336" height="693" loading="lazy" decoding="async">
+          </a>
+          <figcaption><strong>Zombie encounter</strong><span>NavMesh-driven pressure during the repair task.</span></figcaption>
+        </figure>
+        <figure id="ipetro-scene-7">
+          <a href="../assets/img/projects/ipetro/gallery/team-5732.webp" data-gallery-viewer aria-label="View full size: Gold Award">
+            <img src="../assets/img/projects/ipetro/gallery/team-5732.webp" alt="Team DEADLOCK holding medals and the iPETRO Gold Award certificate" width="1600" height="900" loading="lazy" decoding="async">
+          </a>
+          <figcaption><strong>Gold Award</strong><span>Team DEADLOCK at the Workshop II competition.</span></figcaption>
+        </figure>
+        <figure id="ipetro-scene-8">
+          <a href="../assets/img/projects/ipetro/gallery/team-2238.webp" data-gallery-viewer aria-label="View full size: Certificate of Excellence">
+            <img src="../assets/img/projects/ipetro/gallery/team-2238.webp" alt="Close-up of the iPETRO Gold Award certificate" width="1200" height="1600" loading="lazy" decoding="async">
+          </a>
+          <figcaption><strong>Certificate of Excellence</strong><span>Gold Award recognition for iPETRO.</span></figcaption>
+        </figure>
+        <figure id="ipetro-scene-9">
+          <a href="../assets/img/projects/ipetro/gallery/unity-2022.webp" data-gallery-viewer aria-label="View full size: Unity 2022.3 LTS">
+            <img src="../assets/img/projects/ipetro/gallery/unity-2022.webp" alt="Unity Hub showing the Unity 2022.3 LTS environment used for iPETRO" width="1604" height="895" loading="lazy" decoding="async">
+          </a>
+          <figcaption><strong>Unity 2022.3 LTS</strong><span>The project's documented development environment.</span></figcaption>
+        </figure>
+      </div>
+      <div data-tour-controls role="group" aria-label="Choose an iPETRO gallery image" hidden>
+        <button type="button" aria-controls="ipetro-scene-1" aria-pressed="true">Showcase</button>
+        <button type="button" aria-controls="ipetro-scene-2" aria-pressed="false">Timer</button>
+        <button type="button" aria-controls="ipetro-scene-3" aria-pressed="false">Task UI</button>
+        <button type="button" aria-controls="ipetro-scene-4" aria-pressed="false">Flange</button>
+        <button type="button" aria-controls="ipetro-scene-5" aria-pressed="false">Poster</button>
+        <button type="button" aria-controls="ipetro-scene-6" aria-pressed="false">Zombie AI</button>
+        <button type="button" aria-controls="ipetro-scene-7" aria-pressed="false">Gold Award</button>
+        <button type="button" aria-controls="ipetro-scene-8" aria-pressed="false">Certificate</button>
+        <button type="button" aria-controls="ipetro-scene-9" aria-pressed="false">Unity</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -596,38 +570,6 @@ footer{
   <span class="caption">© 2026 Ikhwanuddin</span>
   <span class="caption">Team DEADLOCK</span>
 </footer>
-
-<script>
-(() => {
-  const gallery = document.querySelector('.dynamic-gallery');
-  if (!gallery) return;
-
-  const cells = [...gallery.querySelectorAll('.gallery-cell')];
-  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const resting = ['1fr', '1.22fr', '1fr'];
-
-  const setAxis = (active) => resting.map((size, index) => index === active ? '1.8fr' : '.72fr').join(' ');
-  const reset = () => {
-    gallery.style.setProperty('--gallery-rows', resting.join(' '));
-    gallery.style.setProperty('--gallery-cols', resting.join(' '));
-  };
-  const expand = (cell) => {
-    if (window.innerWidth <= 640 || reduceMotion) return;
-    gallery.style.setProperty('--gallery-rows', setAxis(Number(cell.dataset.row)));
-    gallery.style.setProperty('--gallery-cols', setAxis(Number(cell.dataset.col)));
-  };
-
-  cells.forEach((cell) => {
-    if (canHover) {
-      cell.addEventListener('pointerenter', () => expand(cell));
-      cell.addEventListener('pointerleave', reset);
-    }
-    cell.addEventListener('focus', () => expand(cell));
-    cell.addEventListener('blur', reset);
-  });
-})();
-</script>
 
 </body>
 </html>

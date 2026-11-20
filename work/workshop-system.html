@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#edf1f3">
 
 <title>Car Workshop Appointment System | Business Application — Ikhwanuddin</title>
 <meta name="description" content="A database-driven C++ and MySQL workshop application with role-based access, appointment management, CRUD operations, receipts and annual reporting.">
@@ -25,32 +26,29 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" href="../assets/fonts/barlow-condensed/barlow-condensed-bold-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&amp;family=IBM+Plex+Mono:wght@400&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 
 <style>
+@font-face{
+  font-family:'Barlow Condensed';
+  src:url('../assets/fonts/barlow-condensed/barlow-condensed-bold-latin.woff2') format('woff2');
+  font-style:normal; font-weight:700; font-display:swap;
+}
 :root{
-  /* ---- specified palette ---- */
-  --mist:     #F2F4F7;
-  --card:     #FFFFFF;
-  --signal:   #00A8B5;
-  --depth:    #5B3EE8;
-  --ink:      #0E1116;
-  --ink-soft: #4A5260;
-  --on-dark:  #E6E9EE;
+  --mist:        #edf1f3;
+  --card:        #f8fafb;
+  --card-dark:   #101e2a;
+  --signal:      #174f74;
+  --signal-text: var(--signal);
+  --amber:       #f4b544;
+  --depth:       #775019;
+  --ink:         #142330;
+  --ink-soft:    #3d5261;
+  --on-dark:     #f8fafb;
+  --line-light:  #b7c7d2;
 
-  /* ---- accessible accent variants (ratios documented in index.html) ---- */
-  --signal-text:   #00747D;
-  --depth-on-dark: #9B8AF2;
-
-  /* ---- derived neutrals ---- */
-  --line-light:  #D8DDE5;
-  --line-dark:   #262B33;
-  --muted-dark:  #9BA3B0;
-  --card-dark:   #171B22;
-  --line-graphic:#AFB8C4;
-  --img-ph:      #E4E7EC;
-
-  --display: 'Archivo', system-ui, sans-serif;
+  --display: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
   --body:    'IBM Plex Sans', system-ui, sans-serif;
   --mono:    'IBM Plex Mono', ui-monospace, monospace;
 
@@ -70,6 +68,7 @@ body{
 }
 a{ color:inherit; }
 :focus-visible{ outline:2px solid var(--signal); outline-offset:3px; }
+::selection{ background:var(--signal); color:var(--on-dark); }
 
 body::before{
   content:'';
@@ -92,7 +91,7 @@ body::before{
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line-light);
 }
-.topbar .mark{ font-family:var(--display); font-weight:800; letter-spacing:-.02em; font-size:15px; }
+.topbar .mark{ font-family:'Archivo', system-ui, sans-serif; font-weight:800; letter-spacing:-.02em; font-size:15px; }
 .navlinks{ margin-left:auto; display:flex; gap:26px; }
 .navlinks a{
   position:relative;
@@ -110,40 +109,115 @@ body::before{
 @media(max-width:640px){ .navlinks{ display:none; } }
 
 /* back link */
-.backbar{ padding:130px var(--pad) 0; max-width:1240px; margin:0 auto; }
+.backbar{ position:absolute; top:calc(var(--project-header) + 12px); left:var(--pad); }
 .back-link{
   display:inline-flex; align-items:center; gap:8px;
+  min-height:44px;
   font-family:var(--mono); font-size:12.5px; color:var(--ink-soft);
   text-decoration:none; transition:color .2s, transform .2s;
 }
 .back-link:hover{ color:var(--signal-text); transform:translateX(-3px); }
 
 /* detail hero */
-.dhero{ max-width:1240px; margin:0 auto; padding:28px var(--pad) 60px; }
+.workshop-opening{
+  position:relative; isolation:isolate; display:grid; align-content:end; overflow:clip;
+  min-height:clamp(650px,92svh,900px);
+  padding:calc(var(--project-header) + 70px) var(--pad) clamp(48px,9svh,96px);
+  margin-bottom:clamp(18px,4vw,48px);
+}
+.workshop-scene{ position:absolute; z-index:-2; inset:0; overflow:hidden; }
+.workshop-scene img{
+  display:block; width:100%; height:100%; object-fit:cover; object-position:74% center;
+}
+.workshop-opening::after{
+  content:''; position:absolute; z-index:-1; inset:0; pointer-events:none;
+  background:linear-gradient(90deg,var(--mist) 2%,#edf1f3f7 22%,#edf1f3da 35%,#edf1f396 48%,transparent 74%),
+             linear-gradient(0deg,var(--mist),transparent 17%);
+}
+.dhero{ min-width:0; max-width:720px; }
 .dhero-top{
-  display:flex; justify-content:space-between; align-items:flex-start;
-  flex-wrap:wrap; gap:16px; margin-bottom:28px;
+  display:flex; align-items:center; flex-wrap:wrap; gap:4px 12px;
+  margin-bottom:12px;
 }
 .dhero-role{
-  font-family:var(--body); font-size:11.5px; font-weight:600; letter-spacing:.1em;
-  text-transform:uppercase; color:var(--signal-text);
+  font-size:14px; font-weight:600; color:var(--depth);
 }
-.dstatus{
-  display:flex; align-items:center; gap:7px; color:var(--ink-soft);
-}
-.dstatus .dot{ width:6px; height:6px; border-radius:50%; background:var(--signal); box-shadow:0 0 0 3px color-mix(in srgb, var(--signal) 20%, transparent); }
 .dhero h1{
-  font-family:var(--display); font-weight:800;
-  font-size:clamp(38px, 6vw, 68px); letter-spacing:-.03em; line-height:1.02;
-  margin-bottom:16px;
+  width:fit-content; max-width:100%; margin-bottom:20px;
+  font-family:var(--display); font-weight:700;
+  font-size:clamp(4rem,7.6vw,7.5rem); letter-spacing:-.026em; line-height:.84;
 }
-.dpitch{ max-width:60ch; color:var(--ink-soft); font-size:18px; margin-bottom:24px; }
-.dtags{ display:flex; flex-wrap:wrap; gap:10px; }
-/* tech tag pills — one of --depth's two jobs */
-.dtags span{
-  font-family:var(--mono); font-size:12.5px; color:var(--depth);
-  border:1px solid color-mix(in srgb, var(--depth) 35%, transparent); padding:7px 14px; border-radius:20px;
-  background:color-mix(in srgb, var(--depth) 8%, transparent);
+.dhero h1 span{
+  display:block; margin-top:.18em; font-size:.61em; letter-spacing:0; line-height:.98;
+  color:var(--signal);
+}
+.dpitch{ max-width:47ch; color:var(--ink); font-size:clamp(1rem,1.5vw,1.16rem); margin-bottom:16px; }
+.workshop-stack{ color:var(--ink-soft); font-family:var(--mono); font-size:.75rem; }
+.workshop-page .project-hero-actions a:first-child,
+.workshop-page .project-skip{ background:var(--signal); color:var(--on-dark); }
+.workshop-page .project-preview{ background:var(--card-dark); border:1px solid var(--line-light); }
+.workshop-page .project-contents a[aria-current="location"]{ color:var(--signal); }
+.workshop-page .fact strong{ color:var(--signal); }
+.workshop-page footer .caption:last-child{ color:var(--signal); }
+
+@media(max-width:820px){
+  .workshop-opening{
+    min-height:0;
+    padding-top:calc(var(--project-header) + clamp(251px,56vw,370px));
+    padding-bottom:26px;
+  }
+  .workshop-scene{
+    top:var(--project-header); height:clamp(275px,60vw,400px);
+    mask-image:linear-gradient(#000 0 70%,transparent);
+  }
+  .workshop-scene img{ object-position:79% 48%; }
+  .workshop-opening::after{ content:none; }
+  .back-link{ padding-inline:12px; background:var(--card); border:1px solid var(--line-light); border-radius:4px; }
+  .dhero h1{ font-size:clamp(3.45rem,11.5vw,5.75rem); margin-bottom:16px; }
+}
+
+@media(prefers-reduced-motion:no-preference){
+  .workshop-scene{
+    transform:translateY(calc(var(--bay-scroll,0) * 8%)) scale(calc(1 + var(--bay-scroll,0) * .08));
+  }
+  .workshop-page .video-slot-inner{
+    transform:translateY(calc((1 - var(--preview-scroll,1)) * 30px))
+              scale(calc(.83 + var(--preview-scroll,1) * .17));
+  }
+  .workshop-opening.is-entering .workshop-scene img{
+    animation:workshop-photo-lift 1s cubic-bezier(.16,1,.3,1) both;
+  }
+  .workshop-opening.is-entering h1{
+    animation:workshop-title-lift .85s cubic-bezier(.16,1,.3,1) .04s both;
+  }
+  .workshop-opening.is-entering .workshop-scene::after{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    border-top:2px solid var(--amber);
+    background:linear-gradient(180deg,#f4b54438,transparent 15%);
+    animation:workshop-service-sweep .94s ease-in-out both;
+  }
+  @keyframes workshop-photo-lift{
+    from{ transform:translateY(6%) scale(1.13); }
+    to{ transform:translateY(0) scale(1); }
+  }
+  @keyframes workshop-title-lift{
+    from{ transform:translateY(24px); clip-path:inset(-10% 0 38% 0); }
+    to{ transform:translateY(0); clip-path:inset(-10% 0 -10% 0); }
+  }
+  @keyframes workshop-service-sweep{
+    from{ transform:translateY(100%); opacity:0; }
+    20%,72%{ opacity:.82; }
+    to{ transform:translateY(0); opacity:0; }
+  }
+}
+@media(max-width:820px) and (prefers-reduced-motion:no-preference){
+  .workshop-scene{
+    transform:translateY(calc(var(--bay-scroll,0) * 3%)) scale(calc(1 + var(--bay-scroll,0) * .04));
+  }
+  .workshop-page .video-slot-inner{
+    transform:translateY(calc((1 - var(--preview-scroll,1)) * 12px))
+              scale(calc(.94 + var(--preview-scroll,1) * .06));
+  }
 }
 
 /* lead project evidence */
@@ -153,9 +227,9 @@ body::before{
 .video-slot-inner{
   position:relative; overflow:hidden;
   border-radius:8px; border:1px solid var(--line-light);
-  background:#090B0F;
+  background:var(--card-dark);
   display:flex; align-items:center; justify-content:center;
-  padding:clamp(18px, 4vw, 48px);
+  padding:clamp(14px, 2.7vw, 36px);
 }
 .video-slot-badge{
   position:absolute; top:14px; left:14px; z-index:1;
@@ -170,7 +244,7 @@ body::before{
 .sec{ max-width:1240px; margin:0 auto; padding:72px var(--pad); border-top:1px solid var(--line-light); }
 .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:36px; }
 .sec-head .idx{ font-family:var(--mono); font-size:13px; color:var(--depth); }
-.sec-head h2{ font-family:var(--display); font-weight:800; font-size:clamp(26px,3.6vw,38px); letter-spacing:-.03em; }
+.sec-head h2{ font-family:var(--display); font-weight:700; font-size:clamp(30px,4vw,46px); line-height:1.05; letter-spacing:-.015em; }
 .sec p{ color:var(--ink-soft); font-size:17px; max-width:70ch; margin-bottom:16px; }
 .sec p:last-child{ margin-bottom:0; }
 .sec p strong{ color:var(--ink); font-weight:500; }
@@ -208,9 +282,7 @@ body::before{
 .role li{ color:var(--ink-soft); font-size:15px; padding-left:15px; position:relative; }
 .role li::before{ content:''; position:absolute; left:0; top:.72em; width:5px; height:1px; background:var(--signal); }
 
-.media-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:28px; }
 .media-card{ min-width:0; }
-.media-card.wide{ grid-column:1 / -1; }
 .media-frame{
   display:flex; align-items:center; justify-content:center;
   min-height:220px; padding:18px; overflow:hidden;
@@ -221,6 +293,8 @@ body::before{
 .media-card figcaption{ padding-top:12px; }
 .media-card figcaption strong{ display:block; font-family:var(--display); font-size:16px; margin-bottom:3px; }
 .media-card figcaption span{ color:var(--ink-soft); font-size:14px; }
+.workshop-page #system-design [data-tour-scenes] img{ background:#fff; }
+.workshop-page .is-scroll-tour figcaption{ min-height:calc(4lh + 20px); }
 
 .schema-list{ border-top:1px solid var(--line-light); }
 .schema-row{
@@ -229,10 +303,6 @@ body::before{
 }
 .schema-row strong{ font-family:var(--display); font-size:17px; }
 .schema-row span{ color:var(--ink-soft); }
-
-.code-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
-.code-grid .media-frame{ min-height:180px; padding:12px; }
-.code-grid .media-card.wide{ grid-column:span 2; }
 
 .note-band{
   margin-top:34px; padding:26px 28px; border:1px solid var(--line-light); border-radius:8px;
@@ -282,13 +352,12 @@ footer{
   .role-grid{ grid-template-columns:1fr; }
   .role{ padding:22px 0; border-bottom:1px solid var(--line-light); }
   .role + .role{ padding-left:0; border-left:0; }
-  .code-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
 @media(max-width:640px){
-  .fact-strip, .media-grid, .code-grid{ grid-template-columns:1fr; }
+  .sec{ padding-block:44px; }
+  .fact-strip{ grid-template-columns:1fr; }
   .fact{ padding:18px 0; }
   .fact + .fact{ padding-left:0; border-left:0; border-top:1px solid var(--line-light); }
-  .media-card.wide, .code-grid .media-card.wide{ grid-column:auto; }
   .media-frame{ min-height:160px; padding:10px; }
   .schema-row{ grid-template-columns:1fr; gap:6px; }
 }
@@ -299,12 +368,14 @@ footer{
 }
 </style>
 <link rel="stylesheet" href="../assets/css/project-detail.css">
+<link rel="stylesheet" href="../assets/css/project-tour.css">
 <script src="../assets/js/project-detail.js" defer></script>
-<link rel="stylesheet" href="../assets/css/circular-gallery.css">
-<script src="../assets/js/circular-gallery.js" defer></script>
+<script src="../assets/js/motion.vendor.js" defer></script>
+<script src="../assets/js/workshop-motion.js" defer></script>
+<script src="../assets/js/project-tour.js" defer></script>
 </head>
 
-<body class="project-detail">
+<body class="project-detail workshop-page">
 <a class="project-skip" href="#project-main">Skip to project content</a>
 
 <header class="topbar">
@@ -319,35 +390,29 @@ footer{
 </header>
 <main id="project-main" tabindex="-1">
 
-<div class="backbar">
-  <a class="back-link" href="../index.html#projects">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    Back to portfolio
-  </a>
+<div class="workshop-opening">
+  <div class="workshop-scene" aria-hidden="true">
+    <img src="../assets/img/projects/workshop-system/industrial-garage.jpg" width="1672" height="941"
+         alt="" fetchpriority="high">
+  </div>
+  <div class="backbar">
+    <a class="back-link" href="../index.html#projects">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to portfolio
+    </a>
+  </div>
+  <section class="dhero">
+    <h1>Car Workshop <span>Appointment System</span></h1>
+    <div class="dhero-top">
+      <span class="dhero-role">Workshop I</span>
+      <span class="caption">Completed</span>
+    </div>
+    <p class="dpitch">A C++ and MySQL business application for workshop bookings,
+      with role-based access for customers, administrators, and mechanics. It manages
+      appointments from booking through service completion, receipts, and reporting.</p>
+    <p class="workshop-stack">C++ · MySQL · phpMyAdmin · XAMPP · Console application</p>
+  </section>
 </div>
-
-<section class="dhero">
-  <div class="dhero-top">
-    <span class="dhero-role">Database-Driven Business Application · Workshop I</span>
-    <span class="dstatus caption"><span class="dot"></span>Completed</span>
-  </div>
-  <h1>Car Workshop Appointment System</h1>
-  <p class="dpitch">A C++ and MySQL business application for workshop bookings,
-    with role-based access for customers, administrators, and mechanics. It manages
-    appointments from booking through service completion, receipts, and reporting.</p>
-  <div class="dtags">
-    <span>C++</span>
-    <span>MySQL</span>
-    <span>phpMyAdmin</span>
-    <span>XAMPP</span>
-    <span>Console application</span>
-  </div>
-  <div class="fact-strip" aria-label="Project facts">
-    <div class="fact"><strong>3</strong><span>User roles</span></div>
-    <div class="fact"><strong>5</strong><span>Database tables</span></div>
-    <div class="fact"><strong>CRUD</strong><span>Core data operations</span></div>
-  </div>
-</section>
 
 <div class="video-slot project-demo" id="project-demo" tabindex="-1">
   <div class="video-slot-inner">
@@ -370,6 +435,11 @@ footer{
     Customers can browse services and manage appointments, mechanics can view
     assigned work and update completion status, and administrators can manage the
     workshop's records and generate an annual summary.</p>
+  <div class="fact-strip" aria-label="Project facts">
+    <div class="fact"><strong>3</strong><span>User roles</span></div>
+    <div class="fact"><strong>5</strong><span>Database tables</span></div>
+    <div class="fact"><strong>CRUD</strong><span>Core data operations</span></div>
+  </div>
   <div class="note-band">
     <h3>Project scope</h3>
     <p>This is a console-based database application, not a website. XAMPP and
@@ -427,21 +497,25 @@ footer{
   </div>
 </section>
 
-<section class="sec" id="system-design" tabindex="-1">
+<section class="sec project-tour-gallery" id="system-design" tabindex="-1">
   <div class="sec-head"><span class="idx">04</span><h2>System design</h2></div>
-  <div data-circular-gallery class="media-grid">
-    <figure class="media-card">
-      <div class="media-frame diagram"><img src="../assets/img/projects/workshop-system/structure-chart.png" width="1011" height="502" loading="lazy" alt="Structure chart showing customer and administrator modules"></div>
-      <figcaption><strong>Structure chart</strong><span>Role-based modules and the operations available to each user.</span></figcaption>
-    </figure>
-    <figure class="media-card">
-      <div class="media-frame diagram"><img src="../assets/img/projects/workshop-system/system-flowchart.png" width="1407" height="998" loading="lazy" alt="Flowchart for login, administrator, mechanic, and customer actions"></div>
-      <figcaption><strong>System flowchart</strong><span>The application flow from login through each role's tasks and logout.</span></figcaption>
-    </figure>
-    <figure class="media-card wide">
-      <div class="media-frame diagram"><img src="../assets/img/projects/workshop-system/database-erd.png" width="983" height="536" loading="lazy" alt="Entity relationship diagram linking admin, service, appointment, customer, and mechanic tables"></div>
-      <figcaption><strong>Entity relationship diagram</strong><span>Five MySQL tables connected through the central appointment record.</span></figcaption>
-    </figure>
+  <div data-project-tour>
+    <div data-tour-stage>
+      <div data-tour-scenes>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/structure-chart.png" width="1011" height="502" loading="lazy" decoding="async" alt="Structure chart showing customer and administrator modules">
+          <figcaption><strong>Structure chart</strong><span>Role-based modules and the operations available to each user.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/system-flowchart.png" width="1407" height="998" loading="lazy" decoding="async" alt="Flowchart for login, administrator, mechanic, and customer actions">
+          <figcaption><strong>System flowchart</strong><span>The application flow from login through each role's tasks and logout.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/database-erd.png" width="983" height="536" loading="lazy" decoding="async" alt="Entity relationship diagram linking admin, service, appointment, customer, and mechanic tables">
+          <figcaption><strong>Entity relationship diagram</strong><span>Five MySQL tables connected through the central appointment record.</span></figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -456,59 +530,148 @@ footer{
   </div>
 </section>
 
-<section class="sec" id="administrator-workflow" tabindex="-1">
+<section class="sec project-tour-gallery" id="administrator-workflow" tabindex="-1">
   <div class="sec-head"><span class="idx">06</span><h2>Administrator workflow</h2></div>
-  <div data-circular-gallery class="media-grid">
-    <figure class="media-card wide"><div class="media-frame"><img src="../assets/img/projects/workshop-system/admin-menu.png" width="1363" height="814" loading="lazy" alt="Administrator menu with mechanic, service, customer, appointment, and reporting options"></div><figcaption><strong>Administrator menu</strong><span>Central access to mechanics, services, customers, appointments, and reports.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/customer-list.png" width="1662" height="372" loading="lazy" alt="Customer records displayed without passwords"></div><figcaption><strong>Customer records</strong><span>Registered customer data is displayed while passwords remain hidden.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/annual-summary.png" width="1252" height="761" loading="lazy" alt="Annual summary showing appointments, sales, customers, popular services, completion rate, and monthly revenue"></div><figcaption><strong>Annual summary</strong><span>Appointments, sales, customer count, popular services, completion rate, and monthly revenue.</span></figcaption></figure>
+  <div data-project-tour>
+    <div data-tour-stage>
+      <div data-tour-scenes>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/admin-menu.png" width="1363" height="814" loading="lazy" decoding="async" alt="Administrator menu with mechanic, service, customer, appointment, and reporting options">
+          <figcaption><strong>Administrator menu</strong><span>Central access to mechanics, services, customers, appointments, and reports.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/customer-list.png" width="1662" height="372" loading="lazy" decoding="async" alt="Customer records displayed without passwords">
+          <figcaption><strong>Customer records</strong><span>Registered customer data is displayed while passwords remain hidden.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/annual-summary.png" width="1252" height="761" loading="lazy" decoding="async" alt="Annual summary showing appointments, sales, customers, popular services, completion rate, and monthly revenue">
+          <figcaption><strong>Annual summary</strong><span>Appointments, sales, customer count, popular services, completion rate, and monthly revenue.</span></figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="sec" id="staff-and-mechanic-workflow" tabindex="-1">
+<section class="sec project-tour-gallery" id="staff-and-mechanic-workflow" tabindex="-1">
   <div class="sec-head"><span class="idx">07</span><h2>Staff and mechanic workflow</h2></div>
-  <div data-circular-gallery class="media-grid">
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/staff-login.png" width="1128" height="205" loading="lazy" alt="Staff login screen offering administrator and mechanic roles"></div><figcaption><strong>Staff role selection</strong><span>Staff continue as either an administrator or mechanic.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/mechanic-menu.png" width="411" height="298" loading="lazy" alt="Mechanic menu with appointment information and profile options"></div><figcaption><strong>Mechanic menu</strong><span>Access to assigned appointment information and mechanic profile details.</span></figcaption></figure>
-    <figure class="media-card wide"><div class="media-frame"><img src="../assets/img/projects/workshop-system/mechanic-appointments.png" width="1578" height="441" loading="lazy" alt="Mechanic appointment list with status update controls"></div><figcaption><strong>Appointment status update</strong><span>Mechanics review assigned jobs and mark completed appointments by ID.</span></figcaption></figure>
+  <div data-project-tour>
+    <div data-tour-stage>
+      <div data-tour-scenes>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/staff-login.png" width="1128" height="205" loading="lazy" decoding="async" alt="Staff login screen offering administrator and mechanic roles">
+          <figcaption><strong>Staff role selection</strong><span>Staff continue as either an administrator or mechanic.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/mechanic-menu.png" width="411" height="298" loading="lazy" decoding="async" alt="Mechanic menu with appointment information and profile options">
+          <figcaption><strong>Mechanic menu</strong><span>Access to assigned appointment information and mechanic profile details.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/mechanic-appointments.png" width="1578" height="441" loading="lazy" decoding="async" alt="Mechanic appointment list with status update controls">
+          <figcaption><strong>Appointment status update</strong><span>Mechanics review assigned jobs and mark completed appointments by ID.</span></figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="sec" id="customer-booking-workflow" tabindex="-1">
+<section class="sec project-tour-gallery" id="customer-booking-workflow" tabindex="-1">
   <div class="sec-head"><span class="idx">08</span><h2>Customer booking workflow</h2></div>
-  <div data-circular-gallery class="media-grid">
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/customer-login.png" width="1265" height="275" loading="lazy" alt="Customer login screen with registration and back options"></div><figcaption><strong>Customer access</strong><span>Existing customers log in; new customers can begin registration.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/customer-menu.png" width="457" height="336" loading="lazy" alt="Customer menu with booking, appointment details, cancellation, and profile options"></div><figcaption><strong>Customer menu</strong><span>Booking, appointment details, cancellation, and profile management.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/service-selection.png" width="588" height="335" loading="lazy" alt="Service selection menu listing engine, tire, brake, electrical, and cooling system services"></div><figcaption><strong>Service selection</strong><span>Customers choose from engine, tire, brake, electrical, and cooling system services.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/engine-service-booking.png" width="1133" height="910" loading="lazy" alt="Engine service booking flow showing services, mechanics, date, time, and confirmation"></div><figcaption><strong>Booking flow</strong><span>Select a service and mechanic, enter a date and time, then confirm the appointment.</span></figcaption></figure>
+  <div data-project-tour>
+    <div data-tour-stage>
+      <div data-tour-scenes>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/customer-login.png" width="1265" height="275" loading="lazy" decoding="async" alt="Customer login screen with registration and back options">
+          <figcaption><strong>Customer access</strong><span>Existing customers log in; new customers can begin registration.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/customer-menu.png" width="457" height="336" loading="lazy" decoding="async" alt="Customer menu with booking, appointment details, cancellation, and profile options">
+          <figcaption><strong>Customer menu</strong><span>Booking, appointment details, cancellation, and profile management.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/service-selection.png" width="588" height="335" loading="lazy" decoding="async" alt="Service selection menu listing engine, tire, brake, electrical, and cooling system services">
+          <figcaption><strong>Service selection</strong><span>Customers choose from engine, tire, brake, electrical, and cooling system services.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/engine-service-booking.png" width="1133" height="910" loading="lazy" decoding="async" alt="Engine service booking flow showing services, mechanics, date, time, and confirmation">
+          <figcaption><strong>Booking flow</strong><span>Select a service and mechanic, enter a date and time, then confirm the appointment.</span></figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="sec" id="appointments-receipts-and-profiles" tabindex="-1">
+<section class="sec project-tour-gallery" id="appointments-receipts-and-profiles" tabindex="-1">
   <div class="sec-head"><span class="idx">09</span><h2>Appointments, receipts, and profiles</h2></div>
-  <div data-circular-gallery class="media-grid">
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/appointment-date.png" width="916" height="301" loading="lazy" alt="List of dates with booked appointments"></div><figcaption><strong>Appointment dates</strong><span>Customers choose a booked date to inspect its appointment details.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/appointment-details-receipt.png" width="1312" height="597" loading="lazy" alt="Completed appointment details and generated receipt with price, tax, and total"></div><figcaption><strong>Details and receipt</strong><span>A completed appointment produces a receipt with price, tax, and total payment.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/customer-profile.png" width="1007" height="627" loading="lazy" alt="Customer profile with editable personal and vehicle details"></div><figcaption><strong>Customer profile</strong><span>Customers can review and update their personal and vehicle information.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/exit-screen.png" width="1798" height="236" loading="lazy" alt="Exit screen thanking the user for using the system"></div><figcaption><strong>Session close</strong><span>A clear confirmation marks the end of the application session.</span></figcaption></figure>
+  <div data-project-tour>
+    <div data-tour-stage>
+      <div data-tour-scenes>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/appointment-date.png" width="916" height="301" loading="lazy" decoding="async" alt="List of dates with booked appointments">
+          <figcaption><strong>Appointment dates</strong><span>Customers choose a booked date to inspect its appointment details.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/appointment-details-receipt.png" width="1312" height="597" loading="lazy" decoding="async" alt="Completed appointment details and generated receipt with price, tax, and total">
+          <figcaption><strong>Details and receipt</strong><span>A completed appointment produces a receipt with price, tax, and total payment.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/customer-profile.png" width="1007" height="627" loading="lazy" decoding="async" alt="Customer profile with editable personal and vehicle details">
+          <figcaption><strong>Customer profile</strong><span>Customers can review and update their personal and vehicle information.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/exit-screen.png" width="1798" height="236" loading="lazy" decoding="async" alt="Exit screen thanking the user for using the system">
+          <figcaption><strong>Session close</strong><span>A clear confirmation marks the end of the application session.</span></figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="sec" id="c-implementation" tabindex="-1">
+<section class="sec project-tour-gallery" id="c-implementation" tabindex="-1">
   <div class="sec-head"><span class="idx">10</span><h2>C++ implementation</h2></div>
   <p>The implementation uses modular functions, global login state, MySQL result
     rows, control structures, and C-style query pointers. Input validation checks
     values such as vehicle registration numbers before records are accepted.</p>
-  <div data-circular-gallery class="code-grid">
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/global-variables.png" width="707" height="114" loading="lazy" alt="C++ global variables for MySQL results and logged-in user IDs"></div><figcaption><strong>Application state</strong><span>MySQL handles and logged-in role identifiers.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/functions-list.png" width="254" height="300" loading="lazy" alt="C++ function declarations for administrator, service, customer, and login operations"></div><figcaption><strong>Modular functions</strong><span>Operations are separated by entity and user role.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/mysql-array-query.png" width="648" height="269" loading="lazy" alt="C++ MySQL query result processed as rows to build a monthly sales chart"></div><figcaption><strong>Result processing</strong><span>Database rows feed the annual summary calculation.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/mechanic-menu-selection.png" width="446" height="227" loading="lazy" alt="C++ do-while selection logic for adding another mechanic"></div><figcaption><strong>Selection logic</strong><span>Validated choices control repeated administrator actions.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/do-while-loop.png" width="412" height="37" loading="lazy" alt="C++ do-while loop continuation condition"></div><figcaption><strong>Loop control</strong><span>A do-while condition keeps repeated tasks active until the user chooses to stop.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/switch-statement.png" width="443" height="584" loading="lazy" alt="C++ switch statement routing administrator menu choices"></div><figcaption><strong>Menu routing</strong><span>A switch statement maps administrator choices to functions.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/mysql-query-pointer.png" width="1203" height="376" loading="lazy" alt="C++ pointer and mysql_query code used to verify administrator credentials"></div><figcaption><strong>Database query pointer</strong><span>A C-style string is passed to mysql_query for authentication.</span></figcaption></figure>
-    <figure class="media-card wide"><div class="media-frame"><img src="../assets/img/projects/workshop-system/registration-validation-code.png" width="1206" height="500" loading="lazy" alt="C++ vehicle registration validation code"></div><figcaption><strong>Registration validation</strong><span>Vehicle plate input is checked for empty, overlong, or incorrectly formatted values.</span></figcaption></figure>
-    <figure class="media-card"><div class="media-frame"><img src="../assets/img/projects/workshop-system/registration-validation-output.png" width="1087" height="135" loading="lazy" alt="Console output showing invalid vehicle registration input and retry messages"></div><figcaption><strong>Error feedback</strong><span>Invalid values produce specific messages and a chance to retry.</span></figcaption></figure>
+  <div data-project-tour>
+    <div data-tour-stage>
+      <div data-tour-scenes>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/global-variables.png" width="707" height="114" loading="lazy" decoding="async" alt="C++ global variables for MySQL results and logged-in user IDs">
+          <figcaption><strong>Application state</strong><span>MySQL handles and logged-in role identifiers.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/functions-list.png" width="254" height="300" loading="lazy" decoding="async" alt="C++ function declarations for administrator, service, customer, and login operations">
+          <figcaption><strong>Modular functions</strong><span>Operations are separated by entity and user role.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/mysql-array-query.png" width="648" height="269" loading="lazy" decoding="async" alt="C++ MySQL query result processed as rows to build a monthly sales chart">
+          <figcaption><strong>Result processing</strong><span>Database rows feed the annual summary calculation.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/mechanic-menu-selection.png" width="446" height="227" loading="lazy" decoding="async" alt="C++ do-while selection logic for adding another mechanic">
+          <figcaption><strong>Selection logic</strong><span>Validated choices control repeated administrator actions.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/do-while-loop.png" width="412" height="37" loading="lazy" decoding="async" alt="C++ do-while loop continuation condition">
+          <figcaption><strong>Loop control</strong><span>A do-while condition keeps repeated tasks active until the user chooses to stop.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/switch-statement.png" width="443" height="584" loading="lazy" decoding="async" alt="C++ switch statement routing administrator menu choices">
+          <figcaption><strong>Menu routing</strong><span>A switch statement maps administrator choices to functions.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/mysql-query-pointer.png" width="1203" height="376" loading="lazy" decoding="async" alt="C++ pointer and mysql_query code used to verify administrator credentials">
+          <figcaption><strong>Database query pointer</strong><span>A C-style string is passed to mysql_query for authentication.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/registration-validation-code.png" width="1206" height="500" loading="lazy" decoding="async" alt="C++ vehicle registration validation code">
+          <figcaption><strong>Registration validation</strong><span>Vehicle plate input is checked for empty, overlong, or incorrectly formatted values.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/projects/workshop-system/registration-validation-output.png" width="1087" height="135" loading="lazy" decoding="async" alt="Console output showing invalid vehicle registration input and retry messages">
+          <figcaption><strong>Error feedback</strong><span>Invalid values produce specific messages and a chance to retry.</span></figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 </section>
 
